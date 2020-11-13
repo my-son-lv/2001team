@@ -8,6 +8,7 @@ use App\Models\Brand_Model;
 class BrandController extends Controller
 {
     public function brand(){
+        echo 123;
         $max = 100;
         $num = 10;
         $sum = 0;
