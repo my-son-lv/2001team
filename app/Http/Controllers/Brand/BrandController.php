@@ -55,7 +55,6 @@ class BrandController extends Controller
             ];
         }
         return json_encode($arr);
-
     }
 
 
