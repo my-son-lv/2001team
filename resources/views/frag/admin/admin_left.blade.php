@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="specification.html" target="iframe">
+                        <a href="/admin/specs" target="iframe">
                             <i class="fa fa-circle-o"></i>规格管理
                         </a>
                     </li>
@@ -93,6 +93,29 @@
                     <li id="admin-login">
                         <a href="seller.html" target="iframe">
                             <i class="fa fa-circle-o"></i>商家管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {{--商品--}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>商品管理</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li id="admin-login">
+                        <a href="seller_1.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>商品添加
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="seller.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>商品展示
                         </a>
                     </li>
                 </ul>

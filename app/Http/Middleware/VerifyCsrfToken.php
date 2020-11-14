@@ -8,7 +8,6 @@ class VerifyCsrfToken extends Middleware
 {
     /**
      * Indicates whether the XSRF-TOKEN cookie should be set on the response.
-     *
      * @var bool
      */
     protected $addHttpCookie = true;
@@ -19,6 +18,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        "/admin/brand_do"
+        "/admin/brand_do",
+        "/admin/specs/create"
     ];
 }
