@@ -90,16 +90,14 @@
 								  <th class="sorting">操作</th>
 								</thead>
 								<tbody>
-
 								  <tr class="specs">
 										<td>
-											<input  class="form-control" name="specs_val" placeholder="规格选项">
+											<input  class="form-control specs_val" placeholder="规格选项">
 										</td>
 										<td>
 											<button type="button" class="btn btn-default btn-del" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
 										</td>
 								  </tr>
-
 								</tbody>
 						  </table>
 					</div>
@@ -115,8 +113,8 @@
 	$(document).on('click','.btn-success',function(){
 		var specs_name = $("input[name='specs_name']").val();
 		var specs_val = "";
-		$("input[name='specs_val']").each(function(){
-			specs_val+=$("input[name='specs_val']").val()+',';
+		$(".specs_val").each(function(){
+			specs_val+=$(this).val()+',';
 		});
 		if(specs_name==""){
 			alert('不能为空');return ;
