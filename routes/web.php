@@ -22,8 +22,12 @@
 
 Route::any('/admin','Admin\AdminController@home');
 
-/**
-    后台品牌
- */
-Route::any('/admin/brand','Brand\BrandController@brand');
-Route::any('/admin/brand_do','Brand\BrandController@brand_do');
+   # 后台品牌
+Route::prefix("admin")->group(function(){
+    Route::any('brand', 'Brand\BrandController@brand');
+    Route::any('brand/store', 'Brand\BrandController@store');
+    Route::any('brand/del', 'Brand\BrandController@del');
+    Route::any('brand/upd', 'Brand\BrandController@upd');
+    Route::any('brand/update_do', 'Brand\BrandController@update_do');
+
+});
