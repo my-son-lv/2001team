@@ -33,21 +33,6 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
-                    <li id="admin-login">
-                        <a href="/admin/brand" target="iframe">
-                            <i class="fa fa-circle-o"></i>品牌管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="specification.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>规格管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="item_cat.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>分类管理
-                        </a>
-                    </li>
                 </ul>
             </li>
             {{--广告--}}
@@ -60,15 +45,14 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
-
                     <li id="admin-login">
-                        <a href="content_category.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>广告类型管理
+                        <a href="/admin/advert" target="iframe">
+                            <i class="fa fa-circle-o"></i>广告管理
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="content.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>广告管理
+                        <a href="content_category.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>广告类型管理
                         </a>
                     </li>
                 </ul>
