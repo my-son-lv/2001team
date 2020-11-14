@@ -33,6 +33,24 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
+<<<<<<< HEAD
+=======
+                    <li id="admin-login">
+                        <a href="/admin/brand" target="iframe">
+                            <i class="fa fa-circle-o"></i>品牌管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="/admin/specs" target="iframe">
+                            <i class="fa fa-circle-o"></i>规格管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="item_cat.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>分类管理
+                        </a>
+                    </li>
+>>>>>>> 4aa7872bef3c8d213417941cd93bdc46d9c443b5
                 </ul>
             </li>
             {{--广告--}}
@@ -77,6 +95,29 @@
                     <li id="admin-login">
                         <a href="seller.html" target="iframe">
                             <i class="fa fa-circle-o"></i>商家管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {{--商品--}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>商品管理</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li id="admin-login">
+                        <a href="seller_1.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>商品添加
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="seller.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>商品展示
                         </a>
                     </li>
                 </ul>

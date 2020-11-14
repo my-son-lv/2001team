@@ -8,7 +8,6 @@ class VerifyCsrfToken extends Middleware
 {
     /**
      * Indicates whether the XSRF-TOKEN cookie should be set on the response.
-     *
      * @var bool
      */
     protected $addHttpCookie = true;
@@ -22,6 +21,7 @@ class VerifyCsrfToken extends Middleware
         "/admin/brand_do",
         "/admin/advert_do",
         "/admin/advert_del",
-        "/admin/advert_upd_do"
+        "/admin/advert_upd_do",
+        "/admin/specs/create"
     ];
 }
