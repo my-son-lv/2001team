@@ -33,7 +33,10 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
+<<<<<<< HEAD
+=======
 
+>>>>>>> b6a7113eec1b723d0c8f916cff52aef5b1dc9a1f
                     <li id="admin-login">
                         <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
