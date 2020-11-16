@@ -29,12 +29,10 @@
                 </a>
                 <ul class="treeview-menu">
                     <li id="admin-login">
-                        <a href="/admin/brand" target="iframe">
+                        <a href="" target="iframe">
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
-<<<<<<< HEAD
-=======
                     <li id="admin-login">
                         <a href="/admin/brand" target="iframe">
                             <i class="fa fa-circle-o"></i>品牌管理
@@ -46,11 +44,15 @@
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="item_cat.html" target="iframe">
+                        <a href="{{url("/admin/cate/create")}}" target="iframe">
                             <i class="fa fa-circle-o"></i>分类管理
                         </a>
                     </li>
->>>>>>> 4aa7872bef3c8d213417941cd93bdc46d9c443b5
+                    <li id="admin-login">
+                        <a href="{{url('/admin/create')}}" >
+                            <i class="fa fa-circle-o"></i>快报管理
+                        </a>
+                    </li>
                 </ul>
             </li>
             {{--广告--}}
@@ -75,6 +77,9 @@
                     </li>
                 </ul>
             </li>
+
+
+
 
             {{--商家--}}
             <li class="treeview">

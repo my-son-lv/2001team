@@ -31,12 +31,23 @@ Route::prefix("admin")->group(function(){
     Route::any('brand/update_do', 'Brand\BrandController@update_do');
 
 });
-/**
-    后台品牌
- */
-Route::any('/admin/brand','Brand\BrandController@brand');
-Route::any('/admin/brand_do','Brand\BrandController@brand_do');
 
+    #后台快报
+Route::prefix("admin")->group(function(){
+    Route::any('create', 'Butti\ButtiController@create');
+    Route::post('store', 'Butti\ButtiController@store');
+    Route::post('del', 'Butti\ButtiController@del');
+    Route::get('upd', 'Butti\ButtiController@upd');
+    Route::post('update_do', 'Butti\ButtiController@update_do');
+});
+
+#后台分类
+Route::prefix("admin")->group(function(){
+    Route::any('/cate/create', 'Cate\CatrController@create');//分类视图
+    Route::any('/cate/store', 'Cate\CatrController@store');#分类添加
+    Route::post('/cate/check_cateshows', 'Cate\CatrController@check_cateshows');#√ x
+    Route::get('/cate/del','Cate\CatrController@del');#删除
+});
 /**
     后台广告
  */
