@@ -25,7 +25,6 @@ class SpecsController extends Controller
     public function specs_create(){
         $specs_val = request()->specs_val;
         $specs_name = request()->specs_name;
-
         $specs_name_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
         $specs_id = $specs_name_model->specs_name_id($specs_name);
@@ -38,8 +37,9 @@ class SpecsController extends Controller
         }
         if(strpos($specs_val,',')){
             $specs_val = explode(',',$specs_val);
+//            dd($specs_val);
             foreach($specs_val as $k=>$v){
-                $str = $specs_val_model->specs_value_id($specs_id,$specs_val);
+                $str = $specs_val_model->specs_value_id($specs_id,$v);
                 if(!$str){
                     $specs_val_model->specs_value_create(['specs_id'=>$specs_id,'specs_val'=>$v,'add_time'=>time()]);
                 }
@@ -53,6 +53,10 @@ class SpecsController extends Controller
         return ['code'=>0000,'msg'=>'成功','data'=>[]];
 
     }
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 修改
+     */
     public function specs_upd(){
         $specs_id = request()->specs_id;
         $specs_name_model = new Specsname_Model();

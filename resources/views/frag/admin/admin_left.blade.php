@@ -33,8 +33,13 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
+                        <a href="/admin/brand" >
+                            <i class="fa fa-circle-o"></i>商品管理
+                        </a>
+                    </li>
+
                     <li id="admin-login">
-                        <a href="/admin/brand" target="iframe">
+                        <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
                     </li>
@@ -53,6 +58,10 @@
                             <i class="fa fa-circle-o"></i>快报管理
                         </a>
                     </li>
+                        <a href="item_cat.html" >
+                            <i class="fa fa-circle-o"></i>分类管理
+                        </a>
+                    </li>
                 </ul>
             </li>
             {{--广告--}}
@@ -66,6 +75,13 @@
                 </a>
                 <ul class="treeview-menu">
                     <li id="admin-login">
+                        <a href="content_category.html" >
+                            <i class="fa fa-circle-o"></i>广告类型管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="content.html" >
+                            <i class="fa fa-circle-o"></i>广告管理
                         <a href="/admin/advert" target="iframe">
                             <i class="fa fa-circle-o"></i>广告管理
                         </a>
@@ -93,13 +109,51 @@
                 <ul class="treeview-menu">
 
                     <li id="admin-login">
-                        <a href="seller_1.html" target="iframe">
+                        <a href="seller_1.html" >
                             <i class="fa fa-circle-o"></i>商家审核
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="seller.html" target="iframe">
+                        <a href="seller.html" >
                             <i class="fa fa-circle-o"></i>商家管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {{--权限--}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>控制管理</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li id="admin-login">
+                        <a href="{{url('admin/admin/index')}}">
+                            <i class="fa fa-circle-o"></i>管理员管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="{{url('admin/role/index')}}">
+                            <i class="fa fa-circle-o"></i>角色管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="{{url('admin/right/index')}}">
+                            <i class="fa fa-circle-o"></i>权限管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="{{url('admin/admin_role/index')}}" >
+                            <i class="fa fa-circle-o"></i>用户角色管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="{{url('admin/role_right/index')}}" >
+                            <i class="fa fa-circle-o"></i>角色权限管理
                         </a>
                     </li>
                 </ul>
@@ -113,19 +167,6 @@
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                 </a>
-                <ul class="treeview-menu">
-
-                    <li id="admin-login">
-                        <a href="seller_1.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>商品添加
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="seller.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>商品展示
-                        </a>
-                    </li>
-                </ul>
             </li>
             <!-- 菜单 /-->
 
