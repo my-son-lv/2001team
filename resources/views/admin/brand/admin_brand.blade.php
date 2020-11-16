@@ -43,37 +43,27 @@
                         <th class="sorting_asc">品牌ID</th>
                         <th class="sorting">品牌名称</th>
                         <th class="sorting">品牌首字母</th>
+                        <th class="sorting">品牌url</th>
+                        <th class="sorting">品牌logo</th>
                         <th class="text-center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    @foreach($brand_info as $v)
+                    <tr brand_id="{{$v->brand_id}}">
                         <td><input  type="checkbox" ></td>
-                        <td>1</td>
-                        <td>联想</td>
-                        <td>L</td>
+                        <td>{{$v->brand_id}}</td>
+                        <td>{{$v->brand_name}}</td>
+                        <td>{{$v->brand_first_letter}}</td>
+                        <td>{{$v->brand_url}}</td>
+                        <td><img src="{{env("JUSTME_URL")}}{{$v->brand_logo}}" width="50px" height="50px"></td>
                         <td class="text-center">
-                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>
+                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"  >
+                                <a href="{{url('/admin/brand/upd?brand_id='.$v->brand_id)}}">修改</a></button>
+                            <button type="button" class="btn bg-olive btn-xs del" data-target="#editModal"  >删除</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td><input  type="checkbox"></td>
-                        <td>2</td>
-                        <td>华为</td>
-                        <td>H</td>
-                        <td class="text-center">
-                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input  type="checkbox"></td>
-                        <td>3</td>
-                        <td>三星</td>
-                        <td>S</td>
-                        <td class="text-center">
-                            <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>
-                        </td>
-                    </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <!--数据列表/-->
@@ -82,7 +72,7 @@
         </div>
         <!-- /.box-body -->
         <!-- 编辑窗口 -->
-        <form id="brandform" action="">
+        <form id="brandform">
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
@@ -96,22 +86,14 @@
                                 <td>品牌名称</td>
                                 <td><input id="brand_name" name="brand_name" type="text" class="form-control" placeholder="品牌名称" >  </td>
                             </tr>
-
                             <tr>
                                 <td>品牌图片</td>
-                                <td><input id="brand_logo" name="brand_logo" class="form-control" type="file">  </td>
+                                <td><input id="brand_logo" name="brand_logo" class="form-control" type="file"></td>
                             </tr>
-
                             <tr>
                                 <td>品牌url</td>
                                 <td><input id="brand_url" name="brand_url" class="form-control" type="text" placeholder="品牌URL" >  </td>
                             </tr>
-
-                            <tr>
-                                <td>品牌大图</td>
-                                <td><input id="brand_big_prc" name="brand_big_prc" class="form-control" type="file" placeholder="品牌名称" >  </td>
-                            </tr>
-
                             <tr>
                                 <td>首字母</td>
                                 <td><input id="brand_first_letter"  name="brand_first_letter" class="form-control" type="text" placeholder="首字母">  </td>
@@ -130,24 +112,52 @@
         </html>
     </div>
     <!-- 内容区域 /-->
+</div>
 
 <script>
     $(document).on("click","#but",function(){
         var formData = new FormData($("#brandform")[0]);
-        var Data = $("#brandform").serialize();
-        formData.append('data',Data);
         $.ajax({
-            url : "/admin/brand_do",
-            data : formData,
-            dataType : "json",
-            processData : false,
-            contentType : false,
-            type : "post",
+            url:'/admin/brand/store',
+            dataType:'json',
+            type:'POST',
+            async: false,
+            data: formData,
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success: function(data){
+               if(data.code=="0000"){
+                   alert(data.msg);
+                   window.location.href=data.url;
+               }else{
+                   alert(data.msg);
+               }
+            },
+            error:function(response){
+                console.log(response);
+            }
+        });
+    })
+
+    //单删
+    $(document).on("click",".del",function(){
+        var brand_id=$(this).parents("tr").attr("brand_id");
+        $.ajax({
+            url:"/admin/brand/del",
+            data:{brand_id:brand_id},
+            type:"post",
+            dataType:"json",
             success:function(res){
-                console.log(res);
+                if(res.code=="0000"){
+                    alert(res.msg);
+                    window.location.href=res.url;
+                }else{
+                    alert(res.msg);
+                }
             }
         })
     })
 </script>
-
 @include("frag.admin.admin_foot")
+</body>
+</html>

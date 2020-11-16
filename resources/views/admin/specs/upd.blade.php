@@ -57,9 +57,10 @@
         var specs_name = $("input[name='specs_name']").val();
         var specs_val = "";
         $("input[name='specs_val']").each(function(){
-            specs_val+=$("input[name='specs_val']").val()+',';
+            specs_val+=$(this).val()+',';
         });
         specs_val=specs_val.slice(0,specs_val.length-1)
+
         $.ajax({
             url:"/admin/specs/create",
             data:{specs_name:specs_name,specs_val:specs_val},
