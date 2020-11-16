@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
 <<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/.idea/2001.iml" filepath="$PROJECT_DIR$/.idea/2001.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/2001team.iml" filepath="$PROJECT_DIR$/.idea/2001team.iml" />
 =======
       <module fileurl="file://$PROJECT_DIR$/.idea/2001shop.iml" filepath="$PROJECT_DIR$/.idea/2001shop.iml" />
->>>>>>> b3368990057c9a281ed908d595e549c30a834202
+>>>>>>> a69ee2e3f77eadc02bb6439439892237ddf65468
     </modules>
   </component>
 </project>

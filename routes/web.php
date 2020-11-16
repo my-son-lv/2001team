@@ -60,4 +60,33 @@ Route::prefix('/admin')->group(function(){
     Route::any('/role_right/edit/{role_right_id}','Admin\Role_rightController@edit');
     Route::any('/role_right/upd','Admin\Role_rightController@upd');
     Route::any('/role_right/del','Admin\Role_rightController@del');
+
+    Route::any('brand', 'Brand\BrandController@brand');
+    Route::any('brand/store', 'Brand\BrandController@store');
+    Route::any('brand/del', 'Brand\BrandController@del');
+    Route::any('brand/upd', 'Brand\BrandController@upd');
+    Route::any('brand/update_do', 'Brand\BrandController@update_do');
+
+    Route::any('advert','Advert\AdvertController@advert');//后台广告添加
+    Route::any('advert_do','Advert\AdvertController@advert_do');//后台广告添加执行
+    Route::any('advert_del','Advert\AdvertController@advert_del');//后台广告删除执行
+    Route::any('advert_upd/{advert_id}','Advert\AdvertController@advert_upd');//后台广告修改
+    Route::any('advert_upd_do','Advert\AdvertController@advert_upd_do');//后台广告修改
+
+    //后台 规格添加
+    Route::any('specs','Specs\SpecsController@specs');
+    Route::any('specs/create','Specs\SpecsController@specs_create');
+    Route::any('specs/upd','Specs\SpecsController@specs_upd');
+
+    //后台商品添加
+    Route::any('goods/create','Goods\GoodsController@create');
+    Route::any('goods','Goods\GoodsController@goods');
 });
+
+/**
+    后台广告
+ */
+
+
+
+

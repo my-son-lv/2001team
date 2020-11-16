@@ -33,13 +33,14 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
+
                     <li id="admin-login">
                         <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="specification.html" >
+                        <a href="/admin/specs" target="iframe">
                             <i class="fa fa-circle-o"></i>规格管理
                         </a>
                     </li>
@@ -60,7 +61,6 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
-
                     <li id="admin-login">
                         <a href="content_category.html" >
                             <i class="fa fa-circle-o"></i>广告类型管理
@@ -69,6 +69,13 @@
                     <li id="admin-login">
                         <a href="content.html" >
                             <i class="fa fa-circle-o"></i>广告管理
+                        <a href="/admin/advert" target="iframe">
+                            <i class="fa fa-circle-o"></i>广告管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="content_category.html" target="iframe">
+                            <i class="fa fa-circle-o"></i>广告类型管理
                         </a>
                     </li>
                 </ul>
@@ -135,7 +142,16 @@
                     </li>
                 </ul>
             </li>
-
+            {{--商品--}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>商品管理</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                </a>
+            </li>
             <!-- 菜单 /-->
 
         </ul>
