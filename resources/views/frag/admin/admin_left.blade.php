@@ -33,8 +33,6 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
-<<<<<<< HEAD
-=======
                     <li id="admin-login">
                         <a href="/admin/brand" target="iframe">
                             <i class="fa fa-circle-o"></i>品牌管理
@@ -49,8 +47,6 @@
                         <a href="item_cat.html" target="iframe">
                             <i class="fa fa-circle-o"></i>分类管理
                         </a>
-                    </li>
->>>>>>> 4aa7872bef3c8d213417941cd93bdc46d9c443b5
                 </ul>
             </li>
             {{--广告--}}
@@ -111,12 +107,12 @@
                 <ul class="treeview-menu">
 
                     <li id="admin-login">
-                        <a href="seller_1.html" target="iframe">
+                        <a href="/admin/goods/create" target="iframe">
                             <i class="fa fa-circle-o"></i>商品添加
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="seller.html" target="iframe">
+                        <a href="/admin/goods" target="iframe">
                             <i class="fa fa-circle-o"></i>商品展示
                         </a>
                     </li>

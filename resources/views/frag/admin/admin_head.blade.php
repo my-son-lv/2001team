@@ -14,6 +14,13 @@
     <script src="/status/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/status/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/status/plugins/adminLTE/js/app.min.js"></script>
+    <link rel="stylesheet" href="/status/layui/css/layui.css"  media="all">
+    <script src="/status/layui/layui.js" charset="utf-8"></script>
+    <!-- 富文本编辑器 -->
+	<link rel="stylesheet" href="/status/plugins/kindeditor/themes/default/default.css" />
+	<script charset="utf-8" src="/status/plugins/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="/status/plugins/kindeditor/lang/zh_CN.js"></script>
+</head>
 </head>
 <body class="hold-transition skin-green sidebar-mini" >
 <div class="wrapper">
@@ -29,7 +36,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="/admin" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
 

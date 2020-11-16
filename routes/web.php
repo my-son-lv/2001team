@@ -53,4 +53,9 @@ Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
 
 //后台商品添加
 Route::any('/admin/goods/create','Goods\GoodsController@create');
+Route::any('/admin/goods/upload','Goods\GoodsController@upload');
+Route::any('/admin/goods/uploads','Goods\GoodsController@uploads');
 Route::any('/admin/goods','Goods\GoodsController@goods');
+Route::any('/admin/goods/specs','Goods\GoodsController@specs');
+Route::any('/admin/goods/specs_create','Goods\GoodsController@specs_create');
+
