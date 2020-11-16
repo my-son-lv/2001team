@@ -8,12 +8,7 @@ use App\Models\Brand_Model;
 class BrandController extends Controller
 {
     public function brand(){
-<<<<<<< HEAD
         return view("admin.brand.admin_brand");
-=======
-
-return view("admin.brand.admin_brand");
->>>>>>> 4aa7872bef3c8d213417941cd93bdc46d9c443b5
     }
 
     public function brand_do(){

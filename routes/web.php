@@ -45,3 +45,33 @@ Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
 //后台商品添加
 Route::any('/admin/goods/create','Goods\GoodsController@create');
 Route::any('/admin/goods','Goods\GoodsController@goods');
+
+//======================================================================================================================
+/**
+    前台
+ */
+Route::any('/','Index\IndexController@index');//首页
+Route::any('/login','Index\loginController@login');//登录
+Route::any('/reg','Index\loginController@reg');//注册
+Route::any('/index/index_list','Index\IndexController@index_list');//列表
+Route::any('/index/index_show','Index\IndexController@index_show');//详情
+
+
+Route::any('/index/cart','Index\CartController@cart');//购物车
+Route::any('/index/order','Index\CartController@order');//订单
+Route::any('/index/settl','Index\CartController@settl');//结算页
+
+
+
+
+Route::any('/index/home','Index\HomeController@home');//个人中心
+Route::any('/index/home_paid','Index\HomeController@paid');//待付款
+Route::any('/index/home_send','Index\HomeController@home_send');//待发货
+Route::any('/index/home_receive','Index\HomeController@home_receive');//待收货
+Route::any('/index/home_eva','Index\HomeController@home_eva');//待评价
+Route::any('/index/home_person','Index\HomeController@home_person');//我的收藏
+Route::any('/index/home_foot','Index\HomeController@home_foot');//我的足迹
+Route::any('/index/home_info','Index\HomeController@home_info');//个人信息
+Route::any('/index/home_address','Index\HomeController@home_address');//地址管理
+
+
