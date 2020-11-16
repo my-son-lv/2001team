@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Role;
+use App\Models\Admin_role;
 
 class AdminController extends Controller
 {
@@ -14,7 +16,7 @@ class AdminController extends Controller
     }
     //列表展示
     public function index(){
-        $admininfo=Admin::where('is_del',1)->get();
+        $admininfo=Admin::where('is_del',1)->paginate(3);
         // dd($admininfo);
         return view("admin/admin/index",['admininfo'=>$admininfo]);
     }
@@ -60,6 +62,26 @@ class AdminController extends Controller
             return json_encode($arr=['code'=>0000,'msg'=>'删除成功']);
         }else{
             return json_encode($arr=['code'=>0000,'msg'=>'删除失败']);
+        }
+    }
+    //赋予角色
+    public function role($admin_id){
+        $admin=Admin::where('admin_id',$admin_id)->first();
+        $data=Role::where('is_del',1)->get();
+        // dd($data);
+        return view('admin.admin.role',['data'=>$data,'admin'=>$admin]);
+    }
+    //执行赋予
+    public function rolestore(){
+        $all=request()->except('admin_name');
+        // dd($all);
+        $all['add_time']=time();
+        // dd($all);
+        $res=Admin_role::insert($all);
+        if($res){
+            return json_encode($arr=['code'=>0000,'msg'=>'赋予成功']);
+        }else{
+            return json_encode($arr=['code'=>0001,'msg'=>'赋予失败']);
         }
     }
 }

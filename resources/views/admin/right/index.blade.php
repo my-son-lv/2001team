@@ -29,13 +29,13 @@
         <head>
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title>管理员管理</title>
+            <title>权限管理</title>
             <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
         </head>
         <body class="hold-transition skin-red sidebar-mini">
         <!-- .box-body -->
         <div class="box-header with-border">
-            <h3 class="box-title">管理员管理</h3>
+            <h3 class="box-title">权限管理</h3>
         </div>
         <div class="box-body">
             <!-- 数据表格 -->
@@ -58,35 +58,28 @@
                     <thead>
                     <tr>
                         
-                        <th class="sorting_asc">管理员ID</th>
-                        <th class="sorting">管理员昵称</th>
-                        <th class="sorting">真实名称</th>
-                        <th class="sorting">联系方式</th>
+                        <th class="sorting_asc">权限ID</th>
+                        <th class="sorting">权限名称</th>
                         <th class="sorting">添加时间</th>
                         <th class="text-center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($admininfo as $v)
+                    @foreach($rightinfo as $v)
                     <tr>
                         
-                        <td>{{$v->admin_id}}</td>
-                        <td>{{$v->admin_name}}</td>
-                        <td>{{$v->admin_real_name}}</td>
-                        <td>{{$v->admin_tel}}</td>
+                        <td>{{$v->right_id}}</td>
+                        <td>{{$v->right_name}}</td>
                         <td>{{date("Y-m-d H:i:s",$v->add_time)}}</td>
                         <td class="text-center">
-                            <a href="{{url('/admin/admin/edit',['admin_id'=>$v->admin_id])}}">
+                            <a href="{{url('/admin/right/edit',['right_id'=>$v->right_id])}}">
                             <button type="button" class="btn btn-primary">编辑</button>
                             </a>
-                            <button type="button" class="btn btn-danger" value="{{$v->admin_id}}" id="del">删除</button>
-                            <a href="{{url('/admin/admin/role',['admin_id'=>$v->admin_id])}}">
-                            <button type="button" class="btn btn-primary">赋予角色</button>
-                            </a>
+                            <button type="button" class="btn btn-danger" value="{{$v->right_id}}" id="del">删除</button>
                         </td>
                     </tr>
                     @endforeach
-                    <td>{{$admininfo->links()}}</td>
+                    <td>{{$rightinfo->links()}}</td>
 
                     </tbody>
                     
@@ -97,35 +90,21 @@
         </div>
         <!-- /.box-body -->
         <!-- 编辑窗口 -->
-        <form id="brandform" action="{{url('admin/admin/store')}}" method="post">
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <form id="brandform" action="" >
+        <div class="modal fade" id="editModal" tabindex="-1" right="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="myModalLabel">管理员添加</h3>
+                        <h3 id="myModalLabel">权限添加</h3>
                     </div>
                     <div class="modal-body">
                         <table class="table table-bordered table-striped"  width="800px">
                             <tr>
-                                <td>管理员昵称</td>
-                                <td><input id="admin_name" name="admin_name" type="text" class="form-control" placeholder="管理员昵称" >  </td>
+                                <td>权限名称</td>
+                                <td><input  name="right_name" type="text" class="form-control" placeholder="权限名称" >  </td>
                             </tr>
 
-                            <tr>
-                                <td>管理员密码</td>
-                                <td><input id="admin_pwd" name="admin_pwd" type="password" class="form-control" placeholder="管理员密码" >  </td>
-                            </tr>
-
-                            <tr>
-                                <td>真实名称</td>
-                                <td><input id="admin_real_name" name="admin_real_name" type="text" class="form-control" placeholder="真实名称" >  </td>
-                            </tr>
-
-                            <tr>
-                                <td>联系方式</td>
-                                <td><input id="admin_tel" name="admin_tel" type="tel" class="form-control" placeholder="联系方式" >  </td>
-                            </tr>
                         </table>
                     </div>
                     <div class="modal-footer">
@@ -146,11 +125,9 @@
 <script>
     $(document).on("click","#but",function(){
         var formData = new FormData($("#brandform")[0]);
-        var Data = $("#brandform").serialize();
-        formData.append('data',Data);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
-            url : "/admin/admin/store",
+            url : "/admin/right/store",
             data : formData,
             dataType : "json",
             processData : false,
@@ -172,10 +149,10 @@
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         // alert(admin_id);
         if(confirm('是否删除')){
-        var admin_id = $(this).val();
+        var right_id = $(this).val();
             $.ajax({
-                url : "/admin/admin/del",
-                data: {admin_id:admin_id},
+                url : "/admin/right/del",
+                data: {right_id:right_id},
                 dataType : 'json',
                 type : "post",
                 success:function(res){

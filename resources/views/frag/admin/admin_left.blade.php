@@ -119,17 +119,17 @@
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="{{url('admin/prev/index')}}">
+                        <a href="{{url('admin/right/index')}}">
                             <i class="fa fa-circle-o"></i>权限管理
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="seller.html" >
+                        <a href="{{url('admin/admin_role/index')}}" >
                             <i class="fa fa-circle-o"></i>用户角色管理
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="seller.html" >
+                        <a href="{{url('admin/role_right/index')}}" >
                             <i class="fa fa-circle-o"></i>角色权限管理
                         </a>
                     </li>

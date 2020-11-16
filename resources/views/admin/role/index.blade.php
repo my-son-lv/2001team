@@ -29,13 +29,13 @@
         <head>
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title>管理员管理</title>
+            <title>角色管理</title>
             <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
         </head>
         <body class="hold-transition skin-red sidebar-mini">
         <!-- .box-body -->
         <div class="box-header with-border">
-            <h3 class="box-title">管理员管理</h3>
+            <h3 class="box-title">角色管理</h3>
         </div>
         <div class="box-body">
             <!-- 数据表格 -->
@@ -58,35 +58,33 @@
                     <thead>
                     <tr>
                         
-                        <th class="sorting_asc">管理员ID</th>
-                        <th class="sorting">管理员昵称</th>
-                        <th class="sorting">真实名称</th>
-                        <th class="sorting">联系方式</th>
+                        <th class="sorting_asc">角色ID</th>
+                        <th class="sorting">角色名称</th>
+                        <th class="sorting">角色内容</th>
                         <th class="sorting">添加时间</th>
                         <th class="text-center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($admininfo as $v)
+                    @foreach($roleinfo as $v)
                     <tr>
                         
-                        <td>{{$v->admin_id}}</td>
-                        <td>{{$v->admin_name}}</td>
-                        <td>{{$v->admin_real_name}}</td>
-                        <td>{{$v->admin_tel}}</td>
+                        <td>{{$v->role_id}}</td>
+                        <td>{{$v->role_name}}</td>
+                        <td>{{$v->role_desc}}</td>
                         <td>{{date("Y-m-d H:i:s",$v->add_time)}}</td>
                         <td class="text-center">
-                            <a href="{{url('/admin/admin/edit',['admin_id'=>$v->admin_id])}}">
+                            <a href="{{url('/admin/role/edit',['role_id'=>$v->role_id])}}">
                             <button type="button" class="btn btn-primary">编辑</button>
                             </a>
-                            <button type="button" class="btn btn-danger" value="{{$v->admin_id}}" id="del">删除</button>
-                            <a href="{{url('/admin/admin/role',['admin_id'=>$v->admin_id])}}">
-                            <button type="button" class="btn btn-primary">赋予角色</button>
+                            <button type="button" class="btn btn-danger" value="{{$v->role_id}}" id="del">删除</button>
+                            <a href="{{url('/admin/role/right',['role_id'=>$v->role_id])}}">
+                            <button type="button" class="btn btn-primary">赋予权限</button>
                             </a>
                         </td>
                     </tr>
                     @endforeach
-                    <td>{{$admininfo->links()}}</td>
+                    <td>{{$roleinfo->links()}}</td>
 
                     </tbody>
                     
@@ -103,29 +101,20 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="myModalLabel">管理员添加</h3>
+                        <h3 id="myModalLabel">角色添加</h3>
                     </div>
                     <div class="modal-body">
                         <table class="table table-bordered table-striped"  width="800px">
                             <tr>
-                                <td>管理员昵称</td>
-                                <td><input id="admin_name" name="admin_name" type="text" class="form-control" placeholder="管理员昵称" >  </td>
+                                <td>角色名称</td>
+                                <td><input  name="role_name" type="text" class="form-control" placeholder="角色名称" >  </td>
                             </tr>
 
                             <tr>
-                                <td>管理员密码</td>
-                                <td><input id="admin_pwd" name="admin_pwd" type="password" class="form-control" placeholder="管理员密码" >  </td>
+                                <td>角色内容</td>
+                                <td><input name="role_desc" type="text" class="form-control" placeholder="角色内容" >  </td>
                             </tr>
 
-                            <tr>
-                                <td>真实名称</td>
-                                <td><input id="admin_real_name" name="admin_real_name" type="text" class="form-control" placeholder="真实名称" >  </td>
-                            </tr>
-
-                            <tr>
-                                <td>联系方式</td>
-                                <td><input id="admin_tel" name="admin_tel" type="tel" class="form-control" placeholder="联系方式" >  </td>
-                            </tr>
                         </table>
                     </div>
                     <div class="modal-footer">
@@ -150,7 +139,7 @@
         formData.append('data',Data);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
-            url : "/admin/admin/store",
+            url : "/admin/role/store",
             data : formData,
             dataType : "json",
             processData : false,
@@ -172,10 +161,10 @@
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         // alert(admin_id);
         if(confirm('是否删除')){
-        var admin_id = $(this).val();
+        var role_id = $(this).val();
             $.ajax({
-                url : "/admin/admin/del",
-                data: {admin_id:admin_id},
+                url : "/admin/role/del",
+                data: {role_id:role_id},
                 dataType : 'json',
                 type : "post",
                 success:function(res){
