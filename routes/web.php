@@ -19,9 +19,7 @@
 /**
     后台首页
  */
-
 Route::any('/admin','Admin\AdminController@home');
-
 /**
     后台
     brand品牌、admin管理员、role角色、right权限
@@ -67,16 +65,8 @@ Route::prefix('/admin')->group(function(){
     Route::any('brand/upd', 'Brand\BrandController@upd');
     Route::any('brand/update_do', 'Brand\BrandController@update_do');
 
-    Route::any('advert','Advert\AdvertController@advert');//后台广告添加
-    Route::any('advert_do','Advert\AdvertController@advert_do');//后台广告添加执行
-    Route::any('advert_del','Advert\AdvertController@advert_del');//后台广告删除执行
-    Route::any('advert_upd/{advert_id}','Advert\AdvertController@advert_upd');//后台广告修改
-    Route::any('advert_upd_do','Advert\AdvertController@advert_upd_do');//后台广告修改
 
-    //后台 规格添加
-    Route::any('specs','Specs\SpecsController@specs');
-    Route::any('specs/create','Specs\SpecsController@specs_create');
-    Route::any('specs/upd','Specs\SpecsController@specs_upd');
+
 
     //后台商品添加
     Route::any('goods/create','Goods\GoodsController@create');
