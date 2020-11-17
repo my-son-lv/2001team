@@ -30,15 +30,6 @@
                 <ul class="treeview-menu">
                     <li id="admin-login">
                         <a href="/admin/brand" >
-                            <i class="fa fa-circle-o"></i>商品管理
-                        </a>
-                    </li>
-<<<<<<< HEAD
-=======
-
->>>>>>> b6a7113eec1b723d0c8f916cff52aef5b1dc9a1f
-                    <li id="admin-login">
-                        <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
                     </li>
@@ -61,24 +52,34 @@
                     <span>广告管理</span>
 				            <span class="pull-right-container">
 				       			<i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="admin-login">
+                        <a href="/admin/position">
+                            <i class="fa fa-circle-o"></i>广告位置
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="/admin/advert" >
+                            <i class="fa fa-circle-o"></i>广告管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>促销</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
                     <li id="admin-login">
-                        <a href="content_category.html" >
-                            <i class="fa fa-circle-o"></i>广告类型管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="content.html" >
-                            <i class="fa fa-circle-o"></i>广告管理
-                        <a href="/admin/advert" target="iframe">
-                            <i class="fa fa-circle-o"></i>广告管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="content_category.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>广告类型管理
+                        <a href="" >
+                            <i class="fa fa-circle-o"></i>秒杀
                         </a>
                     </li>
                 </ul>

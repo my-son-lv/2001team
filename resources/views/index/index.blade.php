@@ -696,7 +696,7 @@
         <div class="clearfix yui3-g Interest">
             <span class="x-line"></span>
             <div class="yui3-u row-405 Interest-conver">
-                <img src="/status/img/interest01.png" />
+                @include("advert.1_1")
             </div>
             <div class="yui3-u row-225 Interest-conver-split">
                 <h5>好东西</h5>

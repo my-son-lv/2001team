@@ -27,8 +27,13 @@ Route::any('/admin','Admin\AdminController@home');
     brand品牌、admin管理员、role角色、right权限
  */
 Route::prefix('/admin')->group(function(){
-    Route::any('/brand','Brand\BrandController@brand');
-    Route::any('/brand_do','Brand\BrandController@brand_do');
+
+    Route::any('/kill','Kill\KillController@kill');//后台促销秒杀
+    Route::any('/position','Advert\AdvertController@position');//后台广告位置
+    Route::any('/position_do','Advert\AdvertController@position_do');//后台广告位置添加
+    Route::any('/position_advert/{position_id}','Advert\AdvertController@position_advert');//后台广告位置生成广告
+    Route::any('/position_advert_do','Advert\AdvertController@position_advert_do');//后台广告位置生成广告执行
+
     Route::any('/admin/index','Admin\AdminController@index');
     Route::any('/admin/store','Admin\AdminController@store');
     Route::any('/admin/edit/{admin_id}','Admin\AdminController@edit');
@@ -82,24 +87,6 @@ Route::prefix('/admin')->group(function(){
     Route::any('goods/create','Goods\GoodsController@create');
     Route::any('goods','Goods\GoodsController@goods');
 });
-
-/**
-    后台广告
- */
-Route::any('/admin/advert','Advert\AdvertController@advert');//后台广告添加
-Route::any('/admin/advert_do','Advert\AdvertController@advert_do');//后台广告添加执行
-Route::any('/admin/advert_del','Advert\AdvertController@advert_del');//后台广告删除执行
-Route::any('/admin/advert_upd/{advert_id}','Advert\AdvertController@advert_upd');//后台广告修改
-Route::any('/admin/advert_upd_do','Advert\AdvertController@advert_upd_do');//后台广告修改
-
-//后台 规格添加
-Route::any('/admin/specs','Specs\SpecsController@specs');
-Route::any('/admin/specs/create','Specs\SpecsController@specs_create');
-Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
-
-//后台商品添加
-Route::any('/admin/goods/create','Goods\GoodsController@create');
-Route::any('/admin/goods','Goods\GoodsController@goods');
 
 //======================================================================================================================
 /**
