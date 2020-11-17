@@ -121,9 +121,11 @@ Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
 
 //后台商品添加
 Route::any('/admin/goods/create','Goods\GoodsController@create');
+Route::any('/admin/goods/upload','Goods\GoodsController@upload');
+Route::any('/admin/goods/uploads','Goods\GoodsController@uploads');
 Route::any('/admin/goods','Goods\GoodsController@goods');
-
-//======================================================================================================================
+Route::any('/admin/goods/specs','Goods\GoodsController@specs');
+Route::any('/admin/goods/specs_create','Goods\GoodsController@specs_create');
 /**
     前台
  */
@@ -150,5 +152,4 @@ Route::any('/index/home_person','Index\HomeController@home_person');//我的收�
 Route::any('/index/home_foot','Index\HomeController@home_foot');//我的足迹
 Route::any('/index/home_info','Index\HomeController@home_info');//个人信息
 Route::any('/index/home_address','Index\HomeController@home_address');//地址管理
-
 

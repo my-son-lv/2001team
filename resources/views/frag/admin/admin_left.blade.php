@@ -119,7 +119,6 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
-
                     <li id="admin-login">
                         <a href="{{url('admin/admin/index')}}">
                             <i class="fa fa-circle-o"></i>管理员管理
@@ -156,10 +155,23 @@
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                 </a>
-            </li>
-            <!-- 菜单 /-->
+                <ul class="treeview-menu">
 
-        </ul>
+                    <li id="admin-login">
+                        <a href="/admin/goods/create" >
+                            <i class="fa fa-circle-o"></i>商品添加
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="/admin/goods" >
+                            <i class="fa fa-circle-o"></i>商品展示
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            </ul>
+            <!-- 菜单 /-->
     </section>
     <!-- /.sidebar -->
 </aside>
