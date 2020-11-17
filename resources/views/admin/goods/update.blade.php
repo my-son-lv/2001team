@@ -30,7 +30,7 @@
                             <div class="tab-pane active" id="home">
                                 <div class="row data-type">                                  
 								   <div class="col-md-2 title">商品分类</div>
-		                          
+									<input type="hidden" name="goods_id" value="{{$goods_info->goods_id}}">
 		                           	  <div class="col-md-10 data">
 		                           	  	<table>
 		                           	  		<tr>
@@ -38,7 +38,7 @@
 		                           	  				<select class="form-control cate_id" name="cate_id">
 														<option value="0">父级分类</option>
 														@foreach($cateinfo as $v)
-															<option value="{{$v->cate_id}}">{{str_repeat('|——',$v->level)}}{{$v->cate_name}}</option>
+															<option value="{{$v->cate_id}}" @if($goods_info->cate_id==$v->cate_id) checked @endif>{{str_repeat('|——',$v->level)}}{{$v->cate_name}}</option>
 														@endforeach
 		                           	  				</select>
 		                              			</td>
@@ -50,14 +50,14 @@
 									
 		                           <div class="col-md-2 title">商品名称</div>
 		                           <div class="col-md-10 data">
-		                               <input type="text" class="form-control" name="goods_name"   placeholder="商品名称" value="">
+		                               <input type="text" class="form-control" name="goods_name"   placeholder="商品名称" value="{{$goods_info->goods_name}}">
 		                           </div>
 		                           
 		                           <div class="col-md-2 title">品牌</div>
 		                           <div class="col-md-10 data">
 		                              <select class="form-control brand_id" name="brand_id">
                                           @foreach($brand_info as $v)
-                                          <option value="{{$v->brand_id}}">{{$v->brand_name}}</option>
+                                          <option value="{{$v->brand_id}}" @if($v->brand_id==$goods_info->brand_id) selected @endif>{{$v->brand_name}}</option>
                                           @endforeach
                                       </select>
 		                           </div>
@@ -66,53 +66,53 @@
 		                           <div class="col-md-10 data">
 		                           	   <div class="input-group">
 			                          	   <span class="input-group-addon">¥</span>
-			                               <input type="text" class="form-control" name="goods_price"  placeholder="价格" value="">
+			                               <input type="text" class="form-control" name="goods_price"  placeholder="价格" value="{{$goods_info->goods_price}}">
 		                           	   </div>
                                    </div>
                                    <div class="col-md-2 title">库存</div>
 		                           <div class="col-md-10 data">
 		                           	   <div class="input-group">
 										   <span class="input-group-addon"> </span>
-			                               <input type="text" class="form-control" name="goods_number"  placeholder="库存" value="">
+			                               <input type="text" class="form-control" name="goods_number"  placeholder="库存" value="{{$goods_info->goods_number}}">
 		                           	   </div>
 		                           </div>
 									<div class="col-md-2 title">商品积分</div>
 									<div class="col-md-10 data">
 										<div class="input-group">
 											<span class="input-group-addon"> </span>
-											<input type="text" class="form-control" name="goods_points"  placeholder="商品积分" value="">
+											<input type="text" class="form-control" name="goods_points"  placeholder="商品积分" value="{{$goods_info->goods_points}}">
 										</div>
 									</div>
 		                           <div class="col-md-2 title">是否热卖</div>
                                    <div class="col-md-10 data">
-                                       <input type="radio" name="is_hot" value="1" checked>是
-                                       <input type="radio" name="is_hot" value="2">否
+                                       <input type="radio" name="is_hot" value="1" @if($goods_info->is_hot==1) checked @endif>是
+                                       <input type="radio" name="is_hot" value="2" @if($goods_info->is_hot==2) checked @endif>否
                                    </div>
                                    <div class="col-md-2 title">是否新品</div>
                                    <div class="col-md-10 data">
-                                        <input type="radio" name="is_new" value="1" checked>是
-                                       <input type="radio" name="is_new" value="2">否
+                                        <input type="radio" name="is_new" value="1" @if($goods_info->is_new==1) checked @endif>是
+                                       <input type="radio" name="is_new" value="2" @if($goods_info->is_new==2) checked @endif>否
                                    </div>
                                    <div class="col-md-2 title">是否上下架</div>
                                    <div class="col-md-10 data">
-                                        <input type="radio" name="is_shelf" value="1" checked>是
-                                       <input type="radio" name="is_shelf" value="2">否
+                                        <input type="radio" name="is_shelf" value="1" @if($goods_info->is_shelf==1) checked @endif>是
+                                       <input type="radio" name="is_shelf" value="2" @if($goods_info->is_shelf==2) checked @endif>否
                                    </div>
 		                           <div class="col-md-2 title editer">商品介绍</div>
                                    <div class="col-md-10 data editer">
-                                       <textarea id="content" style="width:800px;height:400px;" ></textarea>{{--visibility:hidden;--}}
+                                       <textarea id="content" style="width:800px;height:400px;" >{{$goods_info->content}}</textarea>{{--visibility:hidden;--}}
                                    </div>
                                    <div class="col-md-2 title editer">图片</div>
                                    <div class="col-md-10 data editer">
                                    <div class="layui-upload-drag" id="test10">
                                         <i class="layui-icon"></i>
                                         <p>点击上传，或将文件拖拽到此处</p>
-                                        <div class="layui-hide" id="uploadDemoView">
+                                        <div class="layui" id="uploadDemoView">
                                             <hr>
-                                            <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                                            <img src="{{env('JUSTME_URL')}}{{$goods_info->goods_img}}" alt="上传成功后渲染" style="max-width: 196px">
                                         </div>
                                         </div>
-                                        <input type="hidden" name="goods_img">
+                                        <input type="hidden" name="goods_img" value="{{$goods_info->goods_img}}">
                                    </div>
                                    <div class="col-md-2 title editer">相册</div>
                                    <div class="col-md-10 data editer">
@@ -386,6 +386,7 @@
 		});
 		//点击保存把保存的数据 传到控制器 进行MySQL添加
 		$(document).on('click','#ti',function(){
+			var goods_id = $("input[name='goods_id']").val();
 			var content = $("#content").val();
 			var cate_id = $(".cate_id").val();
 			var brand_id = $(".brand_id").val();
@@ -412,6 +413,7 @@
 			str = str.slice(0,str.length-1);
 			// alert(str);return false;
 			data.sku = str;
+			data.goods_id = goods_id;
 			data.content = content;
 			data.cate_id = cate_id;
 			data.brand_id = brand_id;

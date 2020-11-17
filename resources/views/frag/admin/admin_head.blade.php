@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="/status/layui/css/layui.css"  media="all">
     <script src="/status/layui/layui.js" charset="utf-8"></script>
     <!-- 富文本编辑器 -->
-	<link rel="stylesheet" href="/status/plugins/kindeditor/themes/default/default.css" />
-	<script charset="utf-8" src="/status/plugins/kindeditor/kindeditor-min.js"></script>
-	<script charset="utf-8" src="/status/plugins/kindeditor/lang/zh_CN.js"></script>
+	{{--<link rel="stylesheet" href="/status/plugins/kindeditor/themes/default/default.css" />--}}
+	{{--<script charset="utf-8" src="/status/plugins/kindeditor/kindeditor-min.js"></script>--}}
+	{{--<script charset="utf-8" src="/status/plugins/kindeditor/lang/zh_CN.js"></script>--}}
 </head>
 </head>
 <body class="hold-transition skin-green sidebar-mini" >

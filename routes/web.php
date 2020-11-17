@@ -25,8 +25,13 @@ Route::any('/admin','Admin\AdminController@home');
     brand品牌、admin管理员、role角色、right权限
  */
 Route::prefix('/admin')->group(function(){
-    Route::any('/brand','Brand\BrandController@brand');
-    Route::any('/brand_do','Brand\BrandController@brand_do');
+
+    Route::any('/kill','Kill\KillController@kill');//后台促销秒杀
+    Route::any('/position','Advert\AdvertController@position');//后台广告位置
+    Route::any('/position_do','Advert\AdvertController@position_do');//后台广告位置添加
+    Route::any('/position_advert/{position_id}','Advert\AdvertController@position_advert');//后台广告位置生成广告
+    Route::any('/position_advert_do','Advert\AdvertController@position_advert_do');//后台广告位置生成广告执行
+
     Route::any('/admin/index','Admin\AdminController@index');
     Route::any('/admin/store','Admin\AdminController@store');
     Route::any('/admin/edit/{admin_id}','Admin\AdminController@edit');
@@ -69,9 +74,20 @@ Route::prefix('/admin')->group(function(){
 
 
     //后台商品添加
+    //后台 规格添加
+    Route::any('specs','Specs\SpecsController@specs');
+    Route::any('specs/create','Specs\SpecsController@specs_create');
+    Route::any('specs/upd','Specs\SpecsController@specs_upd');
+//后台商品添加
     Route::any('goods/create','Goods\GoodsController@create');
+    Route::any('goods/upload','Goods\GoodsController@upload');
+    Route::any('goods/uploads','Goods\GoodsController@uploads');
     Route::any('goods','Goods\GoodsController@goods');
-
+    Route::any('goods/store','Goods\GoodsController@store');//商品添加的方法
+    Route::any('goods/specs','Goods\GoodsController@specs');
+    Route::any('goods/specs_create','Goods\GoodsController@specs_create');
+    Route::any('goods/del','Goods\GoodsController@del');//商品的批量删除
+    Route::any('goods/update','Goods\GoodsController@update');//商品的修改页面
     #优惠券管理
     Route::any('/coupon/create','Coupon\CouponController@create');
     Route::any('/coupon/store','Coupon\CouponController@store');
@@ -88,34 +104,15 @@ Route::prefix("admin")->group(function(){
     Route::post('update_do', 'Butti\ButtiController@update_do');
 });
 
-#后台分类
 Route::prefix("admin")->group(function(){
     Route::any('/cate/create', 'Cate\CatrController@create');//分类视图
     Route::any('/cate/store', 'Cate\CatrController@store');#分类添加
     Route::post('/cate/check_cateshows', 'Cate\CatrController@check_cateshows');#√ x
     Route::get('/cate/del','Cate\CatrController@del');#删除
 });
-/**
-    后台广告
- */
-Route::any('/admin/advert','Advert\AdvertController@advert');//后台广告添加
-Route::any('/admin/advert_do','Advert\AdvertController@advert_do');//后台广告添加执行
-Route::any('/admin/advert_del','Advert\AdvertController@advert_del');//后台广告删除执行
-Route::any('/admin/advert_upd/{advert_id}','Advert\AdvertController@advert_upd');//后台广告修改
-Route::any('/admin/advert_upd_do','Advert\AdvertController@advert_upd_do');//后台广告修改
 
-//后台 规格添加
-Route::any('/admin/specs','Specs\SpecsController@specs');
-Route::any('/admin/specs/create','Specs\SpecsController@specs_create');
-Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
 
-//后台商品添加
-Route::any('/admin/goods/create','Goods\GoodsController@create');
-Route::any('/admin/goods/upload','Goods\GoodsController@upload');
-Route::any('/admin/goods/uploads','Goods\GoodsController@uploads');
-Route::any('/admin/goods','Goods\GoodsController@goods');
-Route::any('/admin/goods/specs','Goods\GoodsController@specs');
-Route::any('/admin/goods/specs_create','Goods\GoodsController@specs_create');
+
 /**
     前台
  */

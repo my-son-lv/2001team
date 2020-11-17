@@ -28,6 +28,8 @@ class VerifyCsrfToken extends Middleware
         "/admin/advert_del",
         "/admin/advert_upd_do",
         "/admin/specs/create",
+        "/admin/position_do",
+        "/admin/position_advert_do",
         "/admin/goods/upload",
         "/admin/goods/uploads",
         "/admin/goods/specs",
@@ -39,7 +41,9 @@ class VerifyCsrfToken extends Middleware
         "/admin/cate/store",
         "/admin/cate/check_cateshows",
         "/admin/cate/del/",
+        "/admin/goods/store",
         "/admin/coupon/store",
-        "/admin/coupon/del"
+        "/admin/coupon/del",
+        "/admin/goods/del",
     ];
 }

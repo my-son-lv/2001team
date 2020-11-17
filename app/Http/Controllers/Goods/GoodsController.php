@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Goods;
 
 use App\Http\Controllers\Controller;
+use App\Models\CateModel;
+use App\Models\GoodsImgsModel;
+use App\Models\GoodsModel;
+use App\Models\SpecsModel;
 use Illuminate\Http\Request;
 use App\Models\Brand_Model;
 use App\Models\Specsname_Model;
@@ -19,7 +23,184 @@ class GoodsController extends Controller
         $specs_name_info = $specs_name_model->specs_name_info();
         $specs_val_info = $specs_val_model->specs_value_info();
 //        dd($specs_val_info);
-        return view('admin.goods.create',['brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info]);
+        $cateinfo=CateModel::get();
+        $cateinfo=$this->createTree($cateinfo);
+
+        return view('admin.goods.create',['brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
+    }
+    /**
+     * @param $data
+     * @param int $parent_id
+     * @param int $level
+     * @return array|void
+     * 后台商品的添加方法
+     */
+    public function store(){
+        $data = request()->all();
+        $sku = $data['sku'];
+        $goods_model = new GoodsModel();
+        $goods_imgs = $data['goods_imgs'];
+        $img_name = $data['img_name'];
+        unset($data['sku']);
+        unset($data['goods_imgs']);
+        unset($data['img_name']);
+        if(isset($data['goods_id'])){
+            $goods_id = $data['goods_id'];
+            unset($data['goods_id']);
+            $data['upd_time'] = time();
+            $goods_model->goods_update($goods_id,$data);
+        }else{
+            $data['add_time'] = time();
+            $data['goods_article'] = $this->rand(20);
+            $data['saller_id'] = 0;
+            $goods_id = $goods_model->goods_create($data);
+        }
+        if($goods_imgs){
+            $goods_imgs = substr($goods_imgs,0,strlen($goods_imgs)-1);
+            $img_name = substr($img_name,0,strlen($img_name)-1);
+            if(strpos($goods_imgs,',')){
+                $goods_imgs = explode(',',$goods_imgs);
+            }
+            if(strpos($img_name,',')){
+                $img_name = explode(',',$img_name);
+            }
+            $res = count($goods_imgs);
+            $arr = [];
+            for($i=0;$i<$res;$i++){
+                $arr[$i] = ['goods_imgs'=>$goods_imgs[$i],'img_name'=>$img_name[$i]];
+            }
+            $goods_imgs_model = new GoodsImgsModel();
+            foreach($arr as $k=>$v){
+                $str = $goods_imgs_model->goods_imgs_create(['goods_id'=>$goods_id,'goods_imgs'=>$v['goods_imgs'],'goods_title'=>$v['img_name'],'add_time'=>time()]);
+            }
+        }
+        if($sku){
+            $sku = explode('|',$sku);
+            $form = [];
+            foreach($sku as $k=>$v){
+                $form[] = explode('@',$v);
+            }
+            $str = "";
+            foreach($form as $k=>$v){
+                $where = [
+                    ['goods_id','=',$goods_id],
+                    ['specs','=',$v[2]]
+                ];
+                $specs_model = new SpecsModel();
+                $arr = $specs_model->specs_first($where);
+                if($arr){
+                    $dat = [
+                        'goods_number'=>$arr['goods_number']+$v[1],
+                        'goods_price'=>$v[0],
+                        'add_time'=>time()
+                    ];
+                    $str = $specs_model->specs_update(['id'=>$arr['id']],$dat);
+                }else{
+                    $date = [
+                        'goods_id'=>$goods_id,
+                        'specs'=>$v[2],
+                        'goods_number'=>$v[1],
+                        'goods_price'=>$v[0],
+                        'add_time'=>time()
+                    ];
+                    $str = $specs_model->specs_select($date);
+                }
+            }
+            if($str){
+                $datae = ['success'=>true,'msg'=>'成功','data'=>[]];
+            }else{
+                $datae = ['success'=>false,'msg'=>'失败','data'=>[]];
+            }
+
+        }else{
+            $datae = ['success'=>true,'msg'=>'成功','data'=>[]];
+        }
+        return json_encode($datae,true);
+    }
+    /*
+     * 后台商品的展示
+     */
+    public function goods(){
+        $goods_model = new GoodsModel();
+        $goods_imgs_model = new GoodsImgsModel();
+        $goods_info = $goods_model->goods_infos();
+        foreach($goods_info as $k=>$v){
+            $goods_info[$k]['goods_imgs'] = $goods_imgs_model->goods_imgs_get($v->goods_id);
+        }
+        return view('admin.goods.index',['goods_info'=>$goods_info]);
+    }
+    /**
+     * 后台商品的批量删除
+     */
+    public function del(){
+        $goods_id = request()->goods_id;
+        $goods_model = new GoodsModel();
+        if(strpos($goods_id,',') !== false){
+            $goods_id = explode($goods_id,',');
+            foreach($goods_id as $v){
+                $goods_model->goods_del($v);
+            }
+        }else{
+            $goods_model->goods_del($goods_id);
+        }
+        $data = [
+            'success'=>true,
+            'msg'=>'删除成功',
+            'data'=>[]
+        ];
+        return json_encode($data,true);
+    }
+    /**
+     * 后台商品的修改页面
+     */
+    public function update(){
+        $goods_id = request()->goods_id;
+        $goods_model = new GoodsModel();
+        $goods_info = $goods_model->goods_first($goods_id);
+        $brand_info= Brand_Model::where('is_del',1)->get();
+        $specs_name_model = new Specsname_Model();
+        $specs_val_model = new Specsval_Model();
+        $specs_name_info = $specs_name_model->specs_name_info();
+        $specs_val_info = $specs_val_model->specs_value_info();
+//        dd($specs_val_info);
+        $cateinfo=CateModel::get();
+        $cateinfo=$this->createTree($cateinfo);
+        return view('admin.goods.update',['goods_info'=>$goods_info,'brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
+    }
+    /**
+     * @param $len
+     * @return int|mixed
+     * 生成随机字符串
+     */
+    public function rand($len)
+    {
+        $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+        $string=time();
+        for(;$len>=1;$len--)
+        {
+            $position=rand()%strlen($chars);
+            $position2=rand()%strlen($string);
+            $string=substr_replace($string,substr($chars,$position,1),$position2,0);
+        }
+        return $string;
+    }
+    //分类无限极分类
+    function createTree($data,$parent_id=0,$level=0){
+        if(!$data){
+            return;
+        }
+        static $newArray=[];
+
+        foreach($data as $v){
+            if($v->pid==$parent_id){
+                $v->level=$level;
+                $newArray[]=$v;
+                $this->createTree($data,$v->cate_id,$level+1);
+
+            }
+        }
+        return $newArray;
+
     }
     /**
      * 后台商品图片的添加方法
@@ -156,6 +337,12 @@ class GoodsController extends Controller
         }
         return $arr5;
     }
+
+    /**
+     * @param $arr
+     * @return array|mixed
+     * SKU的运算
+     */
     public function loop($arr){
         $arr1 = array();
         $sku = array_shift($arr);
