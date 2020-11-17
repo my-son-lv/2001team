@@ -29,6 +29,20 @@ class VerifyCsrfToken extends Middleware
         "/admin/advert_upd_do",
         "/admin/specs/create",
         "/admin/position_do",
-        "/admin/position_advert_do"
+        "/admin/position_advert_do",
+        "/admin/goods/upload",
+        "/admin/goods/uploads",
+        "/admin/goods/specs",
+        "/admin/goods/specs_create",
+        "/admin/store",
+        "/admin/del",
+        "/admin/upd",
+        "/admin/update_do",
+        "/admin/cate/store",
+        "/admin/cate/check_cateshows",
+        "/admin/cate/del/",
+        "/admin/goods/store",
+        "/admin/coupon/store",
+        "/admin/coupon/del"
     ];
 }

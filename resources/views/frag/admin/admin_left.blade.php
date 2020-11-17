@@ -39,8 +39,20 @@
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="item_cat.html" >
+                        <a href="{{url("/admin/cate/create")}}" target="iframe">
                             <i class="fa fa-circle-o"></i>分类管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="{{url('/admin/create')}}" >
+                            <i class="fa fa-circle-o"></i>快报管理
+                        </a>
+                    </li>
+
+
+                    <li id="admin-login">
+                        <a href="{{url('/admin/coupon/create')}}" >
+                            <i class="fa fa-circle-o"></i>优惠券管理
                         </a>
                     </li>
                 </ul>
@@ -55,13 +67,19 @@
                             </span>
                 </a>
                 <ul class="treeview-menu">
+
                     <li id="admin-login">
+<<<<<<< HEAD
                         <a href="/admin/position">
                             <i class="fa fa-circle-o"></i>广告位置
                         </a>
                     </li>
                     <li id="admin-login">
                         <a href="/admin/advert" >
+=======
+
+                        <a href="/admin/advert" target="iframe">
+>>>>>>> 330567152cf7d21a9f615ae41ec77190a4d5685e
                             <i class="fa fa-circle-o"></i>广告管理
                         </a>
                     </li>
@@ -83,7 +101,11 @@
                         </a>
                     </li>
                 </ul>
+
             </li>
+
+
+
 
             {{--商家--}}
             <li class="treeview">
@@ -118,7 +140,6 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
-
                     <li id="admin-login">
                         <a href="{{url('admin/admin/index')}}">
                             <i class="fa fa-circle-o"></i>管理员管理
@@ -155,10 +176,23 @@
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                 </a>
-            </li>
-            <!-- 菜单 /-->
+                <ul class="treeview-menu">
 
-        </ul>
+                    <li id="admin-login">
+                        <a href="/admin/goods/create" >
+                            <i class="fa fa-circle-o"></i>商品添加
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="/admin/goods" >
+                            <i class="fa fa-circle-o"></i>商品展示
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            </ul>
+            <!-- 菜单 /-->
     </section>
     <!-- /.sidebar -->
 </aside>

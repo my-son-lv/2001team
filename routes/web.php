@@ -85,10 +85,44 @@ Route::prefix('/admin')->group(function(){
 
     //后台商品添加
     Route::any('goods/create','Goods\GoodsController@create');
+    Route::any('goods/store','Goods\GoodsController@store');
     Route::any('goods','Goods\GoodsController@goods');
+
+    #优惠券管理
+    Route::any('/coupon/create','Coupon\CouponController@create');
+    Route::any('/coupon/store','Coupon\CouponController@store');
+    Route::any('/coupon/del','Coupon\CouponController@del');
+
 });
 
-//======================================================================================================================
+    #后台快报
+Route::prefix("admin")->group(function(){
+    Route::any('create', 'Butti\ButtiController@create');
+    Route::post('store', 'Butti\ButtiController@store');
+    Route::post('del', 'Butti\ButtiController@del');
+    Route::get('upd', 'Butti\ButtiController@upd');
+    Route::post('update_do', 'Butti\ButtiController@update_do');
+});
+
+Route::prefix("admin")->group(function(){
+    Route::any('/cate/create', 'Cate\CatrController@create');//分类视图
+    Route::any('/cate/store', 'Cate\CatrController@store');#分类添加
+    Route::post('/cate/check_cateshows', 'Cate\CatrController@check_cateshows');#√ x
+    Route::get('/cate/del','Cate\CatrController@del');#删除
+});
+
+//后台 规格添加
+Route::any('/admin/specs','Specs\SpecsController@specs');
+Route::any('/admin/specs/create','Specs\SpecsController@specs_create');
+Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
+
+//后台商品添加
+Route::any('/admin/goods/create','Goods\GoodsController@create');
+Route::any('/admin/goods/upload','Goods\GoodsController@upload');
+Route::any('/admin/goods/uploads','Goods\GoodsController@uploads');
+Route::any('/admin/goods','Goods\GoodsController@goods');
+Route::any('/admin/goods/specs','Goods\GoodsController@specs');
+Route::any('/admin/goods/specs_create','Goods\GoodsController@specs_create');
 /**
     前台
  */
@@ -115,5 +149,4 @@ Route::any('/index/home_person','Index\HomeController@home_person');//我的收�
 Route::any('/index/home_foot','Index\HomeController@home_foot');//我的足迹
 Route::any('/index/home_info','Index\HomeController@home_info');//个人信息
 Route::any('/index/home_address','Index\HomeController@home_address');//地址管理
-
 
