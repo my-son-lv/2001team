@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Brand_Model;
 class BrandController extends Controller
 {
-
     public  function  brand(){
         $brand_info= Brand_Model::get();
         return view("admin.brand.admin_brand",['brand_info'=>$brand_info]);

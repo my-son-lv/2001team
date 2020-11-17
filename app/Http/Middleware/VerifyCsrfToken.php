@@ -28,6 +28,8 @@ class VerifyCsrfToken extends Middleware
         "/admin/advert_del",
         "/admin/advert_upd_do",
         "/admin/specs/create",
+        "/admin/position_do",
+        "/admin/position_advert_do",
         "/admin/goods/upload",
         "/admin/goods/uploads",
         "/admin/goods/specs",

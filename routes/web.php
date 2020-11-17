@@ -27,8 +27,13 @@ Route::any('/admin','Admin\AdminController@home');
     brand品牌、admin管理员、role角色、right权限
  */
 Route::prefix('/admin')->group(function(){
-    Route::any('/brand','Brand\BrandController@brand');
-    Route::any('/brand_do','Brand\BrandController@brand_do');
+
+    Route::any('/kill','Kill\KillController@kill');//后台促销秒杀
+    Route::any('/position','Advert\AdvertController@position');//后台广告位置
+    Route::any('/position_do','Advert\AdvertController@position_do');//后台广告位置添加
+    Route::any('/position_advert/{position_id}','Advert\AdvertController@position_advert');//后台广告位置生成广告
+    Route::any('/position_advert_do','Advert\AdvertController@position_advert_do');//后台广告位置生成广告执行
+
     Route::any('/admin/index','Admin\AdminController@index');
     Route::any('/admin/store','Admin\AdminController@store');
     Route::any('/admin/edit/{admin_id}','Admin\AdminController@edit');
@@ -103,21 +108,12 @@ Route::prefix("admin")->group(function(){
     Route::post('update_do', 'Butti\ButtiController@update_do');
 });
 
-#后台分类
 Route::prefix("admin")->group(function(){
     Route::any('/cate/create', 'Cate\CatrController@create');//分类视图
     Route::any('/cate/store', 'Cate\CatrController@store');#分类添加
     Route::post('/cate/check_cateshows', 'Cate\CatrController@check_cateshows');#√ x
     Route::get('/cate/del','Cate\CatrController@del');#删除
 });
-/**
-    后台广告
- */
-Route::any('/admin/advert','Advert\AdvertController@advert');//后台广告添加
-Route::any('/admin/advert_do','Advert\AdvertController@advert_do');//后台广告添加执行
-Route::any('/admin/advert_del','Advert\AdvertController@advert_del');//后台广告删除执行
-Route::any('/admin/advert_upd/{advert_id}','Advert\AdvertController@advert_upd');//后台广告修改
-Route::any('/admin/advert_upd_do','Advert\AdvertController@advert_upd_do');//后台广告修改
 
 
 
