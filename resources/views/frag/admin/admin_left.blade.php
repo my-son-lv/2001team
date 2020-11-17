@@ -69,17 +69,12 @@
                 <ul class="treeview-menu">
 
                     <li id="admin-login">
-<<<<<<< HEAD
                         <a href="/admin/position">
                             <i class="fa fa-circle-o"></i>广告位置
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="/admin/advert" >
-=======
-
                         <a href="/admin/advert" target="iframe">
->>>>>>> 330567152cf7d21a9f615ae41ec77190a4d5685e
                             <i class="fa fa-circle-o"></i>广告管理
                         </a>
                     </li>

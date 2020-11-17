@@ -1,0 +1,1 @@
+<img src='{{env("JUSTME_URL")}}images/4ROHhcdNkU710s6WzY8dnVVujF0D1LAdBGvALJjn.png' style='width: 80;height: 58px'>
