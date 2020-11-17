@@ -38,32 +38,41 @@ class GoodsController extends Controller
     public function store(){
         $data = request()->all();
         $sku = $data['sku'];
+        $goods_model = new GoodsModel();
         $goods_imgs = $data['goods_imgs'];
         $img_name = $data['img_name'];
         unset($data['sku']);
         unset($data['goods_imgs']);
         unset($data['img_name']);
-        $data['add_time'] = time();
-        $data['goods_article'] = $this->rand(20);
-        $data['saller_id'] = 0;
-        $goods_model = new GoodsModel();
-        $goods_id = $goods_model->goods_create($data);
-        $goods_imgs = substr($goods_imgs,0,strlen($goods_imgs)-1);
-        $img_name = substr($img_name,0,strlen($img_name)-1);
-        if(strpos($goods_imgs,',')){
-            $goods_imgs = explode(',',$goods_imgs);
+        if(isset($data['goods_id'])){
+            $goods_id = $data['goods_id'];
+            unset($data['goods_id']);
+            $data['upd_time'] = time();
+            $goods_model->goods_update($goods_id,$data);
+        }else{
+            $data['add_time'] = time();
+            $data['goods_article'] = $this->rand(20);
+            $data['saller_id'] = 0;
+            $goods_id = $goods_model->goods_create($data);
         }
-        if(strpos($img_name,',')){
-            $img_name = explode(',',$img_name);
-        }
-        $res = count($goods_imgs);
-        $arr = [];
-        for($i=0;$i<$res;$i++){
-            $arr[$i] = ['goods_imgs'=>$goods_imgs[$i],'img_name'=>$img_name[$i]];
-        }
-        $goods_imgs_model = new GoodsImgsModel();
-        foreach($arr as $k=>$v){
-            $str = $goods_imgs_model->goods_imgs_create(['goods_id'=>$goods_id,'goods_imgs'=>$v['goods_imgs'],'goods_title'=>$v['img_name'],'add_time'=>time()]);
+        if($goods_imgs){
+            $goods_imgs = substr($goods_imgs,0,strlen($goods_imgs)-1);
+            $img_name = substr($img_name,0,strlen($img_name)-1);
+            if(strpos($goods_imgs,',')){
+                $goods_imgs = explode(',',$goods_imgs);
+            }
+            if(strpos($img_name,',')){
+                $img_name = explode(',',$img_name);
+            }
+            $res = count($goods_imgs);
+            $arr = [];
+            for($i=0;$i<$res;$i++){
+                $arr[$i] = ['goods_imgs'=>$goods_imgs[$i],'img_name'=>$img_name[$i]];
+            }
+            $goods_imgs_model = new GoodsImgsModel();
+            foreach($arr as $k=>$v){
+                $str = $goods_imgs_model->goods_imgs_create(['goods_id'=>$goods_id,'goods_imgs'=>$v['goods_imgs'],'goods_title'=>$v['img_name'],'add_time'=>time()]);
+            }
         }
         if($sku){
             $sku = explode('|',$sku);
@@ -98,19 +107,66 @@ class GoodsController extends Controller
                 }
             }
             if($str){
-                $datae = ['success'=>true,'msg'=>'添加商品成功','data'=>[]];
+                $datae = ['success'=>true,'msg'=>'成功','data'=>[]];
             }else{
-                $datae = ['success'=>false,'msg'=>'添加商品失败','data'=>[]];
+                $datae = ['success'=>false,'msg'=>'失败','data'=>[]];
             }
-            return json_encode($datae,true);
+
+        }else{
+            $datae = ['success'=>true,'msg'=>'成功','data'=>[]];
         }
-
-
-
-
-
+        return json_encode($datae,true);
     }
-
+    /*
+     * 后台商品的展示
+     */
+    public function goods(){
+        $goods_model = new GoodsModel();
+        $goods_imgs_model = new GoodsImgsModel();
+        $goods_info = $goods_model->goods_infos();
+        foreach($goods_info as $k=>$v){
+            $goods_info[$k]['goods_imgs'] = $goods_imgs_model->goods_imgs_get($v->goods_id);
+        }
+        return view('admin.goods.index',['goods_info'=>$goods_info]);
+    }
+    /**
+     * 后台商品的批量删除
+     */
+    public function del(){
+        $goods_id = request()->goods_id;
+        $goods_model = new GoodsModel();
+        if(strpos($goods_id,',') !== false){
+            $goods_id = explode($goods_id,',');
+            foreach($goods_id as $v){
+                $goods_model->goods_del($v);
+            }
+        }else{
+            $goods_model->goods_del($goods_id);
+        }
+        $data = [
+            'success'=>true,
+            'msg'=>'删除成功',
+            'data'=>[]
+        ];
+        return json_encode($data,true);
+    }
+    /**
+     * 后台商品的修改页面
+     */
+    public function update(){
+        $goods_id = request()->goods_id;
+        $goods_model = new GoodsModel();
+        $goods_info = $goods_model->goods_first($goods_id);
+        $brand_info= Brand_Model::where('is_del',1)->get();
+        $specs_name_model = new Specsname_Model();
+        $specs_val_model = new Specsval_Model();
+        $specs_name_info = $specs_name_model->specs_name_info();
+        $specs_val_info = $specs_val_model->specs_value_info();
+//        dd($specs_val_info);
+        $cateinfo=CateModel::get();
+        $cateinfo=$this->createTree($cateinfo);
+        return view('admin.goods.update',['goods_info'=>$goods_info,'brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
+    }
     /**
      * @param $len
      * @return int|mixed
