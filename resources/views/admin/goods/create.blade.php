@@ -10,9 +10,9 @@
                     <div class="nav-tabs-custom">
 
                         <!--tab头-->
-                        <ul class="nav nav-tabs">                       		
+                        <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#home" data-toggle="tab">商品基本信息</a>                                                        
+                                <a href="#home" data-toggle="tab">商品基本信息</a>
                             </li>
                             <!-- <li >
                                 <a href="#customAttribute" data-toggle="tab">扩展属性</a>                                                        
@@ -35,7 +35,11 @@
 		                           	  	<table>
 		                           	  		<tr>
 		                           	  			<td>
-		                           	  				<select class="form-control">
+		                           	  				<select class="form-control cate_id" name="cate_id">
+														<option value="0">父级分类</option>
+														@foreach($cateinfo as $v)
+															<option value="{{$v->cate_id}}">{{str_repeat('|——',$v->level)}}{{$v->cate_name}}</option>
+														@endforeach
 		                           	  				</select>
 		                              			</td>
 		                           	  		</tr>
@@ -51,7 +55,7 @@
 		                           
 		                           <div class="col-md-2 title">品牌</div>
 		                           <div class="col-md-10 data">
-		                              <select class="form-control" name="brand_id" id="brand_id">
+		                              <select class="form-control brand_id" name="brand_id">
                                           @foreach($brand_info as $v)
                                           <option value="{{$v->brand_id}}">{{$v->brand_name}}</option>
                                           @endforeach
@@ -72,24 +76,31 @@
 			                               <input type="text" class="form-control" name="goods_number"  placeholder="库存" value="">
 		                           	   </div>
 		                           </div>
+									<div class="col-md-2 title">商品积分</div>
+									<div class="col-md-10 data">
+										<div class="input-group">
+											<span class="input-group-addon"> </span>
+											<input type="text" class="form-control" name="goods_points"  placeholder="商品积分" value="">
+										</div>
+									</div>
 		                           <div class="col-md-2 title">是否热卖</div>
                                    <div class="col-md-10 data">
-                                       <input type="radio" name="is_hot" value="1">是
+                                       <input type="radio" name="is_hot" value="1" checked>是
                                        <input type="radio" name="is_hot" value="2">否
                                    </div>
                                    <div class="col-md-2 title">是否新品</div>
                                    <div class="col-md-10 data">
-                                        <input type="radio" name="is_new" value="1">是
+                                        <input type="radio" name="is_new" value="1" checked>是
                                        <input type="radio" name="is_new" value="2">否
                                    </div>
                                    <div class="col-md-2 title">是否上下架</div>
                                    <div class="col-md-10 data">
-                                        <input type="radio" name="is_shelf" value="1">是
+                                        <input type="radio" name="is_shelf" value="1" checked>是
                                        <input type="radio" name="is_shelf" value="2">否
                                    </div>
 		                           <div class="col-md-2 title editer">商品介绍</div>
                                    <div class="col-md-10 data editer">
-                                       <textarea name="content" style="width:800px;height:400px;visibility:hidden;" ></textarea>
+                                       <textarea id="content" style="width:800px;height:400px;" ></textarea>{{--visibility:hidden;--}}
                                    </div>
                                    <div class="col-md-2 title editer">图片</div>
                                    <div class="col-md-10 data editer">
@@ -184,7 +195,6 @@
 								            </thead>
 									 	</table>
 										<div class="modal-footer">
-											<button class="btn btn-success" id="ti" data-dismiss="modal" aria-hidden="true">保存</button>
 											<button class="btn btn-default" id="yin" data-dismiss="modal" aria-hidden="true">关闭</button>
 										</div>
 								
@@ -200,8 +210,8 @@
                    </div>
                   <div class="btn-toolbar list-toolbar">
 
-				    		      <button class="btn btn-primary" ng-click="setEditorValue();save()"><i class="fa fa-save"></i>保存</button>
-				      <button class="btn btn-default" ng-click="goListPage()">返回列表</button>
+				      <button class="btn btn-primary" id="ti" ng-click="setEditorValue();save()"><i class="fa fa-save"></i>保存</button>
+					  <button class="btn btn-default" ng-click="goListPage()">返回列表</button>
 				  </div>
             </section>
 <!-- 自定义规格窗口 -->
@@ -235,12 +245,12 @@
 </div>
             <!-- 正文区域 /-->
 <script type="text/javascript">
-	var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="content"]', {
-			allowFileManager : true
-		});
-	});
+//	var editor;
+//	KindEditor.ready(function(K) {
+//		editor = K.create('textarea[name="content"]', {
+//			allowFileManager : true
+//		});
+//	});
 	//文件上传
     layui.use('upload', function(){
         var $ = layui.jquery
@@ -267,7 +277,7 @@
             });
             }
             ,done: function(res){
-                $("#imgs").append("<input type='hidden' value='"+res.data.urls+"'> 备注：<input type='text' name='img_name' >");;
+                $("#imgs").append("<input type='hidden' name='goods_imgs' value='"+res.data.urls+"'> 备注：<input type='text' name='img_name' >");;
             //上传完毕
             }
         });
@@ -376,12 +386,47 @@
 		});
 		//点击保存把保存的数据 传到控制器 进行MySQL添加
 		$(document).on('click','#ti',function(){
+			var content = $("#content").val();
+			var cate_id = $(".cate_id").val();
+			var brand_id = $(".brand_id").val();
+			var goods_name = $("input[name='goods_name']").val();
+			var goods_price = $("input[name='goods_price']").val();
+			var goods_number = $("input[name='goods_number']").val();
+			var goods_points = $("input[name='goods_points']").val();
+			var is_hot = $("input[name='is_hot']").val();
+			var is_new = $("input[name='is_new']").val();
+			var is_shelf = $("input[name='is_shelf']").val();
+			//获取图片和相册
+			var goods_img = $("input[name='goods_img']").val();
+			var goods_imgs = "";
+			$("input[name='goods_imgs']").each(function(){
+				goods_imgs +=$(this).val()+',';
+			});
+			var img_name = "";
+			$("input[name='img_name']").each(function(){
+				img_name +=$(this).val()+',';
+			});
+
+
 			var data = {};
 			str = str.slice(0,str.length-1);
 			// alert(str);return false;
 			data.sku = str;
+			data.content = content;
+			data.cate_id = cate_id;
+			data.brand_id = brand_id;
+			data.goods_name = goods_name;
+			data.goods_price = goods_price;
+			data.goods_number = goods_number;
+			data.goods_points = goods_points;
+			data.is_hot = is_hot;
+			data.is_new = is_new;
+			data.is_shelf = is_shelf;
+			data.goods_img = goods_img;
+			data.goods_imgs = goods_imgs;
+			data.img_name = img_name;
 			$.ajax({
-				url:"",
+				url:"/admin/goods/store",
 				type:'post',
 				dataType:'json',
 				data:data,
@@ -389,7 +434,7 @@
 					// console.log(res);
 					if(res.success){
 						alert(res.msg);
-						window.location.href = "{{url('/admin/attr/goods_attr_list')}}";
+						window.location.href = "{{url('/admin/goods')}}";
 					}else{
 						alert(res.msg);
 					}

@@ -80,6 +80,7 @@ Route::prefix('/admin')->group(function(){
 
     //后台商品添加
     Route::any('goods/create','Goods\GoodsController@create');
+    Route::any('goods/store','Goods\GoodsController@store');
     Route::any('goods','Goods\GoodsController@goods');
 });
 
