@@ -29,16 +29,6 @@
                 </a>
                 <ul class="treeview-menu">
                     <li id="admin-login">
-                        <a href="" target="iframe">
-                            <i class="fa fa-circle-o"></i>商品管理
-                        </a>
-                    </li>
-                        <a href="/admin/brand" >
-                            <i class="fa fa-circle-o"></i>商品管理
-                        </a>
-                    </li>
-
-                    <li id="admin-login">
                         <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
@@ -58,8 +48,11 @@
                             <i class="fa fa-circle-o"></i>快报管理
                         </a>
                     </li>
-                        <a href="item_cat.html" >
-                            <i class="fa fa-circle-o"></i>分类管理
+
+
+                    <li id="admin-login">
+                        <a href="{{url('/admin/coupon/create')}}" >
+                            <i class="fa fa-circle-o"></i>优惠券管理
                         </a>
                     </li>
                 </ul>
@@ -74,14 +67,9 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
+
                     <li id="admin-login">
-                        <a href="content_category.html" >
-                            <i class="fa fa-circle-o"></i>广告类型管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="content.html" >
-                            <i class="fa fa-circle-o"></i>广告管理
+
                         <a href="/admin/advert" target="iframe">
                             <i class="fa fa-circle-o"></i>广告管理
                         </a>
@@ -92,6 +80,7 @@
                         </a>
                     </li>
                 </ul>
+
             </li>
 
 
