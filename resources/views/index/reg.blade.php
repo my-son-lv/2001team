@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>个人注册</title>
@@ -21,38 +22,43 @@
     </div>
     <!--register-->
     <div class="registerArea">
-        <h3>注册新用户<span class="go">我有账号，去<a href="login.html" target="_blank">登陆</a></span></h3>
+        <h3>注册新用户<span class="go">我有账号，去<a href="/login">登录</a></span></h3>
         <div class="info">
-            <form class="sui-form form-horizontal">
+            <form class="sui-form form-horizontal ddform" >
                 <div class="control-group">
                     <label class="control-label">用户名：</label>
                     <div class="controls">
-                        <input type="text" placeholder="请输入你的用户名" class="input-xfat input-xlarge">
+                        <input type="text" name="user_name" placeholder="请输入你的用户名" class="input-xfat input-xlarge">
+                        <span id="user_name_span" style="color:red;"></span>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="inputPassword" class="control-label">登录密码：</label>
                     <div class="controls">
-                        <input type="password" placeholder="设置登录密码" class="input-xfat input-xlarge">
+                        <input type="password" name="user_pwd" placeholder="设置登录密码" class="input-xfat input-xlarge">
+                        <span id="user_pwd_span" style="color:red;"></span>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="inputPassword" class="control-label">确认密码：</label>
                     <div class="controls">
-                        <input type="password" placeholder="再次确认密码" class="input-xfat input-xlarge">
+                        <input type="password" name="user_pwds" placeholder="再次确认密码" class="input-xfat input-xlarge">
+                        <span id="user_pwds_span" style="color:red;"></span>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">手机号：</label>
                     <div class="controls">
-                        <input type="text" placeholder="请输入你的手机号" class="input-xfat input-xlarge">
+                        <input type="text" name="user_tel" placeholder="请输入你的手机号" class="input-xfat input-xlarge">
+                        <button type="button" class="btn btn-primary" id="code">获取验证码</button>
+                        <span id="user_tel_span" style="color:red;"></span>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="inputPassword" class="control-label">短信验证码：</label>
                     <div class="controls">
-                        <input type="text" placeholder="短信验证码" class="input-xfat input-xlarge">  <a href="#">获取短信验证码</a>
+                        <input type="text" name="user_code" placeholder="短信验证码" class="input-xfat input-xlarge">
                     </div>
                 </div>
 
@@ -64,9 +70,9 @@
                 </div>
                 <div class="control-group">
                     <label class="control-label"></label>
-                    <div class="controls btn-reg">
-                        <a class="sui-btn btn-block btn-xlarge btn-danger" href="home.html" target="_blank">完成注册</a>
-                    </div>
+                    <button type="button" class="sui-btn btn-block btn-xlarge btn-danger" id="but">
+                      完成注册
+                    </button>
                 </div>
             </form>
             <div class="clearfix"></div>
@@ -99,3 +105,57 @@
 </body>
 
 </html>
+<script>
+    $(function(){
+        $("input[name='user_name']").blur(function(){
+            var user_name = $("input[name='user_name']").val();
+            if(user_name==''){
+                $("#user_name_span").text('用户名不能为空');
+            }else{
+                $("#user_name_span").text('');
+            }
+        });
+        $("input[name='user_pwd']").blur(function(){
+            var user_pwd = $("input[name='user_pwd']").val();
+            if(user_pwd==''){
+                $("#user_pwd_span").text('密码不能为空');
+            }
+        });
+        $("input[name='user_pwds']").blur(function(){
+            var user_pwds = $("input[name='user_pwds']").val();
+            var user_pwd = $("input[name='user_pwd']").val();
+            if(user_pwds==''){
+                $("#user_pwds_span").text('请输入确认密码');
+            }else if(user_pwd!==user_pwds){
+                $("#user_pwds_span").text('密码与确认密码不一致');
+            }
+        });
+       
+   
+    })
+$(document).on('click','#but',function(){
+    var data = $("form").serialize();
+    var url = "http://www.2001api.com/api/regstore?callback=?";
+
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    $.getJSON(url,data,function(res){
+            if(res.code=='0000'){
+                alert(res.msg);
+            }else{
+                alert(res.msg);
+            }
+        },'json'
+    );
+})
+//获取短信验证码
+$(document).on('click','#code',function(){
+    var user_tel = $("input[name='user_tel']").val();
+    // alert(user_tel);
+    // alert(user_url);return;
+    var url = "http://www.2001api.com/api/sendcode?callback=?";
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    $.getJSON(url,{user_tel:user_tel},function(res){
+            console.log(res);
+        });
+})
+</script>

@@ -33,10 +33,6 @@
                             <i class="fa fa-circle-o"></i>商品管理
                         </a>
                     </li>
-<<<<<<< HEAD
-=======
-
->>>>>>> b6a7113eec1b723d0c8f916cff52aef5b1dc9a1f
                     <li id="admin-login">
                         <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
@@ -143,9 +139,9 @@
                 <a href="#">
                     <i class="fa fa-folder"></i>
                     <span>商品管理</span>
-				            <span class="pull-right-container">
-				       			<i class="fa fa-angle-left pull-right"></i>
-				   		 	</span>
+				        <span class="pull-right-container">
+				       		<i class="fa fa-angle-left pull-right"></i>
+				   		</span>
                 </a>
             </li>
             <!-- 菜单 /-->
