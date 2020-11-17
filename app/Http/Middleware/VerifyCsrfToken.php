@@ -39,6 +39,8 @@ class VerifyCsrfToken extends Middleware
         "/admin/cate/store",
         "/admin/cate/check_cateshows",
         "/admin/cate/del/",
-        "/admin/goods/store"
+        "/admin/goods/store",
+        "/admin/coupon/store",
+        "/admin/coupon/del"
     ];
 }

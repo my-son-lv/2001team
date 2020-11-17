@@ -82,6 +82,12 @@ Route::prefix('/admin')->group(function(){
     Route::any('goods/create','Goods\GoodsController@create');
     Route::any('goods/store','Goods\GoodsController@store');
     Route::any('goods','Goods\GoodsController@goods');
+
+    #优惠券管理
+    Route::any('/coupon/create','Coupon\CouponController@create');
+    Route::any('/coupon/store','Coupon\CouponController@store');
+    Route::any('/coupon/del','Coupon\CouponController@del');
+
 });
 
     #后台快报

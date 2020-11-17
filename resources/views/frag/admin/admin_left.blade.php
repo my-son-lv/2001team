@@ -48,6 +48,13 @@
                             <i class="fa fa-circle-o"></i>快报管理
                         </a>
                     </li>
+
+
+                    <li id="admin-login">
+                        <a href="{{url('/admin/coupon/create')}}" >
+                            <i class="fa fa-circle-o"></i>优惠券管理
+                        </a>
+                    </li>
                 </ul>
             </li>
             {{--广告--}}
@@ -60,14 +67,9 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
+
                     <li id="admin-login">
-                        <a href="content_category.html" >
-                            <i class="fa fa-circle-o"></i>广告类型管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="content.html" >
-                            <i class="fa fa-circle-o"></i>广告管理
+
                         <a href="/admin/advert" target="iframe">
                             <i class="fa fa-circle-o"></i>广告管理
                         </a>
@@ -78,6 +80,7 @@
                         </a>
                     </li>
                 </ul>
+
             </li>
 
 
