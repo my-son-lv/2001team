@@ -36,6 +36,7 @@ Route::prefix('/admin')->group(function(){
     Route::any('/admin/store','Admin\AdminController@store');
     Route::any('/admin/edit/{admin_id}','Admin\AdminController@edit');
     Route::any('/admin/upd','Admin\AdminController@upd');
+
     Route::any('/admin/del','Admin\AdminController@del');
     Route::any('/admin/role/{admin_id}','Admin\AdminController@role');
     Route::any('/admin/rolestore','Admin\AdminController@rolestore');
@@ -73,7 +74,6 @@ Route::prefix('/admin')->group(function(){
 
 
 
-    //后台商品添加
     //后台 规格添加
     Route::any('specs','Specs\SpecsController@specs');
     Route::any('specs/create','Specs\SpecsController@specs_create');

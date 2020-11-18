@@ -19,6 +19,7 @@
 <!--页面顶部-->
 @include("frag.index.index_top")
 
+
 <div class="py-container">
     <div id="item">
         <div class="crumb-wrap">
@@ -42,7 +43,11 @@
                 <div class="zoom">
                     <!--默认第一个预览-->
                     <div id="preview" class="spec-preview">
-                        <span class="jqzoom"><img jqimg="/status/img/_/b1.png" src="/status/img/_/s1.png" /></span>
+                        <span class="jqzoom">
+                            @if($goods_img)
+                                <img jqimg="/status/img/_/b1.png" src="{{env('JUSTME_URL')}}{{$goods_img[0]['goods_imgs']}}" />
+                        @endif
+                        </span>
                     </div>
                     <!--下方的缩略图-->
                     <div class="spec-scroll">
@@ -50,15 +55,13 @@
                         <!--左右按钮-->
                         <div class="items">
                             <ul>
-                                <li><img src="/status/img/_/s1.png" bimg="/status/img/_/b1.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s2.png" bimg="/status/img/_/b2.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s3.png" bimg="/status/img/_/b3.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s1.png" bimg="/status/img/_/b1.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s2.png" bimg="/status/img/_/b2.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s3.png" bimg="/status/img/_/b3.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s1.png" bimg="/status/img/_/b1.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s2.png" bimg="/status/img/_/b2.png" onmousemove="preview(this)" /></li>
-                                <li><img src="/status/img/_/s3.png" bimg="/status/img/_/b3.png" onmousemove="preview(this)" /></li>
+                                @if($goods_img)
+                                @foreach($goods_img as $v)
+                                <li>
+                                    <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" onmousemove="preview(this)" />
+                                </li>
+                                @endforeach
+                                    @endif
                             </ul>
                         </div>
                         <a class="next">&gt;</a>
@@ -67,7 +70,7 @@
             </div>
             <div class="fr itemInfo-wrap">
                 <div class="sku-name">
-                    <h4>Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机</h4>
+                    <h4>{{$goods['goods_name']}}</h4>
                 </div>
                 <div class="news"><span>推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</span></div>
                 <div class="summary">
@@ -77,7 +80,7 @@
                         </div>
                         <div class="fl price">
                             <i>¥</i>
-                            <em>5299.00</em>
+                            <em>{{$goods['goods_price']}}</em>
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
@@ -115,72 +118,22 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
+                        @foreach($specs_info as $v)
                         <dl>
                             <dt>
                             <div class="fl title">
-                                <i>选择颜色</i>
+                                <i>{{$v['specs_name']}}</i>
                             </div>
                             </dt>
-                            <dd><a href="javascript:;" class="selected">金色<span title="点击取消选择">&nbsp;</span>
-                                </a></dd>
-                            <dd><a href="javascript:;">银色</a></dd>
-                            <dd><a href="javascript:;">黑色</a></dd>
+                            @foreach($specs_val_info as  $vv)
+                                @if($v['specs_id']==$vv['specs_id'])
+                                <dd><a href="javascript:;"  class="selected" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
+                                    </a></dd>
+                                @endif
+                            @endforeach
                         </dl>
-                        <dl>
-                            <dt>
-                            <div class="fl title">
-                                <i>内存容量</i>
-                            </div>
-                            </dt>
-                            <dd><a href="javascript:;" class="selected">16G<span title="点击取消选择">&nbsp;</span>
-                                </a></dd>
-                            <dd><a href="javascript:;">64G</a></dd>
-                            <dd><a href="javascript:;" class="locked">128G</a></dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                            <div class="fl title">
-                                <i>选择版本</i>
-                            </div>
-                            </dt>
-                            <dd><a href="javascript:;" class="selected">公开版<span title="点击取消选择">&nbsp;</span>
-                                </a></dd>
-                            <dd><a href="javascript:;">移动版</a></dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                            <div class="fl title">
-                                <i>购买方式</i>
-                            </div>
-                            </dt>
-                            <dd><a href="javascript:;" class="selected">官方标配<span title="点击取消选择">&nbsp;</span>
-                                </a></dd>
-                            <dd><a href="javascript:;">移动优惠版</a></dd>
-                            <dd><a href="javascript:;"  class="locked">电信优惠版</a></dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                            <div class="fl title">
-                                <i>套　　装</i>
-                            </div>
-                            </dt>
-                            <dd><a href="javascript:;" class="selected">保护套装<span title="点击取消选择">&nbsp;</span>
-                                </a></dd>
-                            <dd><a href="javascript:;"  class="locked">充电套装</a></dd>
-
-                        </dl>
-
-
+                        @endforeach
                     </div>
-
-
-
-
-
-
-
-
-
                     <div class="summary-wrap">
                         <div class="fl title">
                             <div class="control-group">
