@@ -44,8 +44,20 @@
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="item_cat.html" >
+                        <a href="{{url('/admin/cate/create')}}" target="iframe">
                             <i class="fa fa-circle-o"></i>分类管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="{{url('/admin/create')}}" >
+                            <i class="fa fa-circle-o"></i>快报管理
+                        </a>
+                    </li>
+
+
+                    <li id="admin-login">
+                        <a href="{{url('/admin/coupon/create')}}" >
+                            <i class="fa fa-circle-o"></i>优惠券管理
                         </a>
                     </li>
                 </ul>
@@ -57,21 +69,43 @@
                     <span>广告管理</span>
 				            <span class="pull-right-container">
 				       			<i class="fa fa-angle-left pull-right"></i>
-				   		 	</span>
+                            </span>
                 </a>
                 <ul class="treeview-menu">
+
+                    <li id="admin-login">
+                        <a href="/admin/position">
+                            <i class="fa fa-circle-o"></i>广告位置
+                        </a>
+                    </li>
                     <li id="admin-login">
                         <a href="/admin/advert" target="iframe">
                             <i class="fa fa-circle-o"></i>广告管理
                         </a>
                     </li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>促销</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                </a>
+                <ul class="treeview-menu">
                     <li id="admin-login">
-                        <a href="content_category.html" target="iframe">
-                            <i class="fa fa-circle-o"></i>广告类型管理
+                        <a href="" >
+                            <i class="fa fa-circle-o"></i>秒杀
                         </a>
                     </li>
                 </ul>
+
             </li>
+
+
+
 
             {{--商家--}}
             <li class="treeview">
@@ -106,7 +140,6 @@
 				   		 	</span>
                 </a>
                 <ul class="treeview-menu">
-
                     <li id="admin-login">
                         <a href="{{url('admin/admin/index')}}">
                             <i class="fa fa-circle-o"></i>管理员管理
@@ -143,10 +176,23 @@
 				       		<i class="fa fa-angle-left pull-right"></i>
 				   		</span>
                 </a>
-            </li>
-            <!-- 菜单 /-->
+                <ul class="treeview-menu">
 
-        </ul>
+                    <li id="admin-login">
+                        <a href="/admin/goods/create" >
+                            <i class="fa fa-circle-o"></i>商品添加
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="/admin/goods" >
+                            <i class="fa fa-circle-o"></i>商品展示
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            </ul>
+            <!-- 菜单 /-->
     </section>
     <!-- /.sidebar -->
 </aside>

@@ -51,7 +51,6 @@ class SpecsController extends Controller
             }
         }
         return ['code'=>0000,'msg'=>'成功','data'=>[]];
-
     }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
