@@ -82,13 +82,13 @@ Route::prefix('/admin')->group(function(){
 
 
     //后台 规格添加
-    Route::any('/admin/specs','Specs\SpecsController@specs');
-    Route::any('/admin/specs/create','Specs\SpecsController@specs_create');
-    Route::any('/admin/specs/upd','Specs\SpecsController@specs_upd');
+    Route::any('/specs','Specs\SpecsController@specs');
+    Route::any('/specs/create','Specs\SpecsController@specs_create');
+    Route::any('/specs/upd','Specs\SpecsController@specs_upd');
 
     //后台商品添加
-    Route::any('/admin/goods/create','Goods\GoodsController@create');
-    Route::any('/admin/goods','Goods\GoodsController@goods');
+    Route::any('/goods/create','Goods\GoodsController@create');
+    Route::any('/goods','Goods\GoodsController@goods');
 
     /**
         
@@ -111,6 +111,7 @@ Route::prefix('/admin')->group(function(){
     Route::any('/coupon/store','Coupon\CouponController@store');
     Route::any('/coupon/del','Coupon\CouponController@del');
 
+
     Route::any('advert','Advert\AdvertController@advert');//后台广告添加
     Route::any('advert_do','Advert\AdvertController@advert_do');//后台广告添加执行
     Route::any('advert_del','Advert\AdvertController@advert_del');//后台广告删除执行
@@ -119,6 +120,16 @@ Route::prefix('/admin')->group(function(){
 
 });
 
+
+
+/**
+ * 商家登录
+ */
+Route::any('/saller/login','Saller\LoginController@login');//商家登录
+Route::any('/saller/logindo','Saller\LoginController@logindo');//商家登录
+Route::any('/saller/reg','Saller\LoginController@reg');//商家入驻
+Route::any('/saller/regdo','Saller\LoginController@regdo');//商家入驻方法
+Route::any('/saller','Saller\SallerController@index');//商家模块首页
     #后台快报
 Route::prefix("admin")->group(function(){
     Route::any('create', 'Butti\ButtiController@create');
