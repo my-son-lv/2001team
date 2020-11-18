@@ -209,7 +209,7 @@
                 <li class="yui3-u-1-6">
                     <dl class="picDl huozhe">
                         <dd>
-                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL'),$v['goods_img']}}" alt="" /></a>
+                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"   /></a>
                             <div class="like-text">
                                 <p>{{$v["goods_name"]}}</p>
                                 <h3>¥{{$v["goods_price"]}}</h3>
