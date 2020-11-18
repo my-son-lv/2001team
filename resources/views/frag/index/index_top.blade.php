@@ -6,12 +6,12 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        <li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+                        <li class="f-item">请<a href="/login">登录</a>　<span><a href="/reg">免费注册</a></span></li>
                     </ul>
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
                         <li class="f-item space"></li>
-                        <li class="f-item"><a href="home.html" target="_blank">我的品优购</a></li>
+                        <li class="f-item"><a href="home.html">我的品优购</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">品优购会员</li>
                         <li class="f-item space"></li>
@@ -88,8 +88,8 @@
                     </div>
                     <div class="yui3-u Center navArea">
                         <ul class="nav">
-                            @foreach($cate as $v)
-                            <li class="f-item" value="{{$v->cate_id}}">{{$v->cate_name}}</li>
+                            @foreach($cate as $k=>$v)
+                            <li class="f-item" value="{{$v['cate_id']}}">{{$v['cate_name']}}</li>
                             @endforeach
                             <li class="f-item"><a href="seckill-index.html" target="_blank">秒杀</a></li>
                         </ul>

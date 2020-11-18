@@ -30,6 +30,11 @@
                 <ul class="treeview-menu">
                     <li id="admin-login">
                         <a href="/admin/brand" >
+                            <i class="fa fa-circle-o"></i>商品管理
+                        </a>
+                    </li>
+                    <li id="admin-login">
+                        <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
                     </li>
@@ -39,7 +44,7 @@
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="{{url("/admin/cate/create")}}" target="iframe">
+                        <a href="{{url('/admin/cate/create')}}" target="iframe">
                             <i class="fa fa-circle-o"></i>分类管理
                         </a>
                     </li>
@@ -167,9 +172,9 @@
                 <a href="#">
                     <i class="fa fa-folder"></i>
                     <span>商品管理</span>
-				            <span class="pull-right-container">
-				       			<i class="fa fa-angle-left pull-right"></i>
-				   		 	</span>
+				        <span class="pull-right-container">
+				       		<i class="fa fa-angle-left pull-right"></i>
+				   		</span>
                 </a>
                 <ul class="treeview-menu">
 
