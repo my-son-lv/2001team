@@ -1,0 +1,20 @@
+
+<!-- 底部导航 -->
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.8
+    </div>
+    <strong>Copyright &copy; 2014-2017 <a href="http://www.itcast.cn">研究院研发部</a>.</strong> All rights reserved.
+</footer>
+<!-- 底部导航 /-->
+
+</div>
+
+
+<script src="/status/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/status/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/status/plugins/adminLTE/js/app.min.js"></script>
+
+</body>
+
+</html>

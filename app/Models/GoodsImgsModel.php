@@ -13,4 +13,7 @@ class GoodsImgsModel extends Model
     public function goods_imgs_create($data){
         return GoodsImgsModel::insertGetId($data);
     }
+    public function goods_imgs_get($goods_id){
+        return GoodsImgsModel::where('goods_id',$goods_id)->get();
+    }
 }
