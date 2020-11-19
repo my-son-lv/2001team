@@ -44,6 +44,7 @@ class VerifyCsrfToken extends Middleware
         "/admin/goods/store",
         "/admin/coupon/store",
         "/admin/coupon/del",
+        "/admin_login_do",
         "/admin/goods/del",
         "/saller/regdo",
         "/saller/logindo",

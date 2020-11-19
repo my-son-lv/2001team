@@ -106,6 +106,7 @@
 
 </html>
 <script>
+//验证
     $(function(){
         $("input[name='user_name']").blur(function(){
             var user_name = $("input[name='user_name']").val();
@@ -133,20 +134,25 @@
        
    
     })
+    //ajax提交
 $(document).on('click','#but',function(){
     var data = $("form").serialize();
     var url = "http://www.2001api.com/api/regstore?callback=?";
 
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $.getJSON(url,data,function(res){
+        // alert(res.msg);
             if(res.code=='0000'){
-                alert(res.msg);
+                alert(res.msg.',请登录');
+                location.href='/login';
             }else{
                 alert(res.msg);
             }
-        },'json'
-    );
+        }
+        }
+    )
 })
+
 //获取短信验证码
 $(document).on('click','#code',function(){
     var user_tel = $("input[name='user_tel']").val();
@@ -156,6 +162,14 @@ $(document).on('click','#code',function(){
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $.getJSON(url,{user_tel:user_tel},function(res){
             console.log(res);
+            // if(res.code=='0000'){
+            //     alert(res.msg);
+            //     location.href="/";
+            // }else if(res.code=='0002'){
+            //     alert('该用户已存在')
+            // }else{
+            //     alert('注册失败')
+            // }
         });
 })
 </script>

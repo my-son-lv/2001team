@@ -7,15 +7,36 @@ use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Console\Auth\Jwt;
 use App\Models\Tel_code;
 use App\Models\User;
+use Illuminate\Support\Facades\Redis;
 
 class LoginController extends Controller
 {
     //前台登录
     public function login(){
         return view("index.login");
+    }
+    //执行登录
+    public function logindo(){
+        $data=request()->all();
+        // dd($data);
+        // dd(Redis::get('token'));
+        $url="http://www.2001api.com/api/logstore";
+        $res=$this->postcurl($url,$data);
+        // dd($res);
+        if($res['code']=='0000'){
+            
+            Redis::setex('token',3600,$res['token']);
+            
+            // dd(Redis::get('token'));
+            return json_encode($res);
+        }else{
+            return json_encode($res);
+        }
+        // print_r($res['token']);
+        // echo 123;
+        
     }
     //前台注册
     public function reg(){
@@ -24,84 +45,96 @@ class LoginController extends Controller
     //注册接口
     public function regstore(){
         $callback=request()->callback;
+       // echo $callback.'(123)';exit;
         $all=request()->all();
+        $user=User::where('user_name',$all['user_name'])->count();
         if($all['user_name']==''){
-            return json_encode($arr=['code'=>'0001','msg'=>'用户名不能为空']);
+            $arr=json_encode(['code'=>'0001','msg'=>'用户名不能为空']);
+            echo $callback.'('.$arr.')';exit;
+        }else if($user>0){
+            $arr=json_encode(['code'=>'0002','msg'=>'用户名已存在']);
+            echo $callback.'('.$arr.')';exit;
         }
         if($all['user_pwd']==''){
-            return json_encode($arr=['code'=>'0001','msg'=>'密码不能为空']);
+            $arr=json_encode(['code'=>'0001','msg'=>'密码不能为空']);
+            echo $callback.'('.$arr.')';exit;
         }
         if($all['user_pwd']!==$all['user_pwds']){
-            return json_encode($arr=['code'=>'0001','msg'=>'密码与确认密码不一致']);
+            $arr=json_encode(['code'=>'0001','msg'=>'密码与确认密码不一致']);
+            echo $callback.'('.$arr.')';exit;
         }
         if($all['user_tel']==''){
-            return json_encode($arr=['code'=>'0001','msg'=>'手机号不能为空']);
+            $arr=json_encode(['code'=>'0001','msg'=>'手机号不能为空']);
+            echo $callback.'('.$arr.')';exit;
         }
+
         $tel_code=Tel_code::where('tel',$all['user_tel'])->orderby('tel_code_id','desc')->first();
         // dd($tel_code);
         if($tel_code){
             if(time()-$tel_code->add_time>300){
-                return json_encode($arr=['code'=>time(),'msg'=>'验证码已过期']);
+                $arr=json_encode(['code'=>time(),'msg'=>'验证码已过期']);
+                echo $callback.'('.$arr.')';exit;
             }
             if($all['user_code']!=$tel_code->code){
-                return json_encode($arr=['code'=>'0001','msg'=>'手机号或验证码不符']);
+                $arr=json_encode(['code'=>'0001','msg'=>'手机号或验证码不符']);
+                echo $callback.'('.$arr.')';exit;
             }
         }else{
-            return json_encode($arr=['code'=>'0001','msg'=>'手机号或验证码不符']);
+            $arr=json_encode(['code'=>'0001','msg'=>'手机号或验证码不符']);
+            echo $callback.'('.$arr.')';exit;
         }
         unset($all['user_code']);
         unset($all['user_pwds']);
         unset($all['m1']);
         unset($all['callback']);
         unset($all['_']);
-        $all['user_pwd']=bcrypt($all['user_pwd']);
+        $all['user_pwd']=encrypt($all['user_pwd']);
         $all['add_time']=time();
         // dd($all);
         $res=User::insert($all);
         if($res){
             // Tel_code::whereIn('user_tel',$all['user_tel'])->delete();
-            return json_encode($arr=['code'=>'0000','msg'=>'注册成功']);
+            $arr=json_encode(['code'=>'0000','msg'=>'注册成功']);
+            echo $callback.'('.$arr.')';exit;
         }else{
-            return json_encode($arr=['code'=>'0001','msg'=>'注册失败']);
+            $arr=json_encode(['code'=>'0001','msg'=>'注册失败']);
+            echo $callback.'('.$arr.')';exit;
 
         }
-
+        // echo $callback.'('.$arr.')';exit;
         // echo $callback.'(123)';die;
     }
   
     //API get curl
-    public function getcurl($url,$header){
-        //初始化
-        $ch = curl_init();
-        //设置
-        curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-        //执行
-        $result = curl_exec($ch);
-        //关闭
-        curl_close($ch);
-        return $result;
+    public function getcurl($url){
+        $headerArray =["Content-type:application/json;","Accept:application/json"];
+        $ch = curl_init();//初始化
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //路径是https请求方式 跳过证书认证
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//数据以字符串形式返回,不是直接输出到浏览器
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);//添加header头信息
+        $output = curl_exec($ch);//执行
+        curl_close($ch);//关闭
+        $output = json_decode($output,true);//将json串转换为数组
+        return $output;
     }
     //API post curl
-    public function postcurl($url,$postfield,$header=[]){
-        //初始化
-        $ch = curl_init();
-        //设置
-        curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
-        curl_setopt($ch,CURLOPT_POST,true);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-        //执行
-        $result = curl_exec($ch);
-        //关闭
-        curl_close($ch);
-        return $result;
+    public function postcurl($url,$data){
+        // $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
+        $headerArray=[];
+        $curl = curl_init();//初始化
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 1);//设置post提交
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);//post提交表单数据
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        // dd($output);
+        curl_close($curl);
+        return json_decode($output,true);
     }
     //发送短信验证码
     public function sendcode(){
@@ -132,7 +165,6 @@ class LoginController extends Controller
         
         echo $callback.'(123)';die;
     }
-    
     //短信发送验证码
     public function sendSms($user_tel,$code){
 
