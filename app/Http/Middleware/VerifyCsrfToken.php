@@ -47,6 +47,7 @@ class VerifyCsrfToken extends Middleware
         "/admin_login_do",
         "/admin/goods/del",
         "/saller/regdo",
-        "/saller/logindo"
+        "/saller/logindo",
+        "/admin/kill_do"
     ];
 }

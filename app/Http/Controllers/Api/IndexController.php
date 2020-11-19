@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\KillModel;
 use App\Models\SpecsModel;
 use Illuminate\Http\Request;
 use App\Models\CateModel;
@@ -30,5 +31,12 @@ class IndexController extends Controller
         $data = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info];
         return $data;
 
+    }
+
+    public function api_kill(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $kill = KillModel::leftjoin("goods","kill.goods_id","=","goods.goods_id")->get();
+        $data = ["cate"=>$cate,"kill"=>$kill];
+        return $data;
     }
 }

@@ -22,5 +22,6 @@ Route::domain('www.2001api.com')->group(function(){ //域名分组
 
     Route::any('/regstore', 'Index\LoginController@regstore'); //注册接口
     Route::any('/sendcode', 'Index\LoginController@sendcode'); //发送短信验证码
+    Route::any('/api_kill', 'Api\IndexController@api_kill'); //发送短信验证码
 });
 
