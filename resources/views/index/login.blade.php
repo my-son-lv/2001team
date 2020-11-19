@@ -111,7 +111,7 @@ $(document).on('click',".butt",function(){
                 alert(res.msg);
                 location.href="/";
             }else{
-                alert('登录失败')
+                alert('账号或密码错误')
             }
         },'json');
 })

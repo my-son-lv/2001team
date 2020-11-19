@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001.com')->group(function(){ //域名分组
+Route::domain('www.2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
