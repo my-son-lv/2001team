@@ -60,6 +60,7 @@
                         
                         <th class="sorting_asc">权限ID</th>
                         <th class="sorting">权限名称</th>
+                        <th class="sorting">地址</th>
                         <th class="sorting">添加时间</th>
                         <th class="text-center">操作</th>
                     </tr>
@@ -70,6 +71,7 @@
                         
                         <td>{{$v->right_id}}</td>
                         <td>{{$v->right_name}}</td>
+                        <td>{{$v->right_url}}<td>
                         <td>{{date("Y-m-d H:i:s",$v->add_time)}}</td>
                         <td class="text-center">
                             <a href="{{url('/admin/right/edit',['right_id'=>$v->right_id])}}">
@@ -104,11 +106,15 @@
                                 <td>权限名称</td>
                                 <td><input  name="right_name" type="text" class="form-control" placeholder="权限名称" >  </td>
                             </tr>
+                            <tr>
+                                <td>地址</td>
+                                <td><input  name="right_url" type="text" class="form-control" placeholder="地址" >  </td>
+                            </tr>
 
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" type="button" id="but" data-dismiss="modal" aria-hidden="true">新增</button>
+                        <button class="btn btn-success" type="button" id="butt" data-dismiss="modal" aria-hidden="true">新增</button>
                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
                     </div>
                 </div>
@@ -123,18 +129,20 @@
 </body>
 </html>
 <script>
-    $(document).on("click","#but",function(){
+    $(document).on("click","#butt",function(){
+        // alert(123);
         var formData = new FormData($("#brandform")[0]);
+        // alert(formData);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $.ajax({
-            url : "/admin/right/store",
+            url : "{{url('/admin/right/store')}}",
             data : formData,
             dataType : "json",
             processData : false,
             contentType : false,
             type : "post",
             success:function(res){
-                // console.log(res);
+                console.log(res);
                 if(res.code==0000){
                     alert('添加成功');
                     location.href='';

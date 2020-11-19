@@ -13,7 +13,12 @@
     <link rel="stylesheet" href="/status/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/status/plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="/status/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/status/layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="/status/css/style.css">
+    <script src="/status/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/status/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/status/plugins/adminLTE/js/app.min.js"></script>
+    <script src="/status/layui/layui.js" charset="utf-8"></script>
 
 
 
@@ -46,7 +51,7 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <a href="/saller" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
 
@@ -54,7 +59,7 @@
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
                     <li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
                             <span class="label label-success">4</span>
                         </a>

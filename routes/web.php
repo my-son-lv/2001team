@@ -16,9 +16,10 @@
 //});
 
 Route::domain('www.2001.com')->group(function(){ //域名分组
-/**
-    后台首页
- */
+
+    /**
+        后台首页
+    */
 
 Route::any('/admin','Admin\AdminController@home')->middleware("login");
 Route::any('/admin_login','Admin\AdminController@admin_login');
@@ -124,6 +125,7 @@ Route::prefix("admin")->group(function(){
  */
     Route::any('/','Index\IndexController@index');//首页
     Route::any('/login','Index\loginController@login');//登录
+    Route::any('/logindo','Index\loginController@logindo');//执行登录
     Route::any('/reg','Index\loginController@reg');//注册
     Route::any('/index/index_list','Index\IndexController@index_list');//列表
     Route::any('/index/index_show','Index\IndexController@index_show');//详情
@@ -144,13 +146,16 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_info','Index\HomeController@home_info');//个人信息
     Route::any('/index/home_address','Index\HomeController@home_address');//地址管理
 
-
     /**
-     * 商家登录
+     * 商家模块
+>>>>>>> 76147fdb337f2771862e64e270d1e62a3fe48b9d
      */
     Route::any('/saller/login','Saller\LoginController@login');//商家登录
     Route::any('/saller/logindo','Saller\LoginController@logindo');//商家登录
     Route::any('/saller/reg','Saller\LoginController@reg');//商家入驻
     Route::any('/saller/regdo','Saller\LoginController@regdo');//商家入驻方法
     Route::any('/saller','Saller\SallerController@index');//商家模块首页
+    Route::any('/saller/saller','Saller\SallerController@saller');//商家模块商家信息
+    Route::any('/saller/sallerdo','Saller\SallerController@sallerdo');//商家模块修改商家信息
+    Route::any('/saller/update_pwd','Saller\SallerController@update_pwd');//商家模块商家修改密码
 });

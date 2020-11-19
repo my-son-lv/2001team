@@ -12,4 +12,10 @@ class SallerInfoModel extends Model
     public function saller_info_create($data){
         return SallerInfoModel::insert($data);
     }
+    public function saller_info_first($where){
+        return SallerInfoModel::where($where)->first();
+    }
+    public function saller_info_update($saller_id,$data){
+        return SallerInfoModel::where('saller_id',$saller_id)->update($data);
+    }
 }
