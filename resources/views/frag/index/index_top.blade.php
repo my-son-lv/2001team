@@ -88,8 +88,8 @@
                     </div>
                     <div class="yui3-u Center navArea">
                         <ul class="nav">
-                            @foreach($cate as $v)
-                            <li class="f-item" value="{{$v->cate_id}}">{{$v->cate_name}}</li>
+                            @foreach($cate as $k=>$v)
+                            <li class="f-item" value="{{$v['cate_id']}}">{{$v['cate_name']}}</li>
                             @endforeach
                             <li class="f-item"><a href="seckill-index.html" target="_blank">秒杀</a></li>
                         </ul>

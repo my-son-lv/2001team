@@ -14,6 +14,24 @@ class AdminController extends Controller
     public function home(){
         return view("admin.admin");
     }
+
+    public function admin_login(){
+        return view("admin_login");
+    }
+
+    public function admin_login_do(){
+        $data = request()->all();
+        $data["admin_pwd"] = bcrypt($data["admin_pwd"]);
+        $info = Admin::where(["admin_name"=>$data["admin_name"]])->first();
+        if(!$info){
+            return json_encode(["code"=>0000,"message"=>"账号密码不存在"]);
+        }else{
+            session(["admin"=>$info]);
+            request()->session()->save();
+            return json_encode(["code"=>0001]);
+        }
+    }
+
     //列表展示
     public function index(){
         $admininfo=Admin::where('is_del',1)->paginate(3);
