@@ -122,14 +122,7 @@ Route::prefix('/admin')->group(function(){
 
 
 
-/**
- * 商家登录
- */
-Route::any('/saller/login','Saller\LoginController@login');//商家登录
-Route::any('/saller/logindo','Saller\LoginController@logindo');//商家登录
-Route::any('/saller/reg','Saller\LoginController@reg');//商家入驻
-Route::any('/saller/regdo','Saller\LoginController@regdo');//商家入驻方法
-Route::any('/saller','Saller\SallerController@index');//商家模块首页
+
     #后台快报
 Route::prefix("admin")->group(function(){
     Route::any('create', 'Butti\ButtiController@create');
@@ -170,6 +163,21 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_foot','Index\HomeController@home_foot');//我的足迹
     Route::any('/index/home_info','Index\HomeController@home_info');//个人信息
     Route::any('/index/home_address','Index\HomeController@home_address');//地址管理
+
+
+
+
+    /**
+     * 商家模块
+     */
+    Route::any('/saller/login','Saller\LoginController@login');//商家登录
+    Route::any('/saller/logindo','Saller\LoginController@logindo');//商家登录
+    Route::any('/saller/reg','Saller\LoginController@reg');//商家入驻
+    Route::any('/saller/regdo','Saller\LoginController@regdo');//商家入驻方法
+    Route::any('/saller','Saller\SallerController@index');//商家模块首页
+    Route::any('/saller/saller','Saller\SallerController@saller');//商家模块商家信息
+    Route::any('/saller/sallerdo','Saller\SallerController@sallerdo');//商家模块修改商家信息
+    Route::any('/saller/update_pwd','Saller\SallerController@update_pwd');//商家模块商家修改密码
 
 
 });
