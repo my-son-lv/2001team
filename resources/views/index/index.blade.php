@@ -145,24 +145,27 @@
                     </li>
                 </ul>
                 <div class="life-item-content">
-                    <div class="life-detail">
-                        <i class="close">关闭</i>
-                        <p>话费充值</p>
-                        <form action="" class="sui-form form-horizontal">
-                            号码：<input type="text" id="inputphoneNumber" placeholder="输入你的号码" />
-                        </form>
-                        <button class="sui-btn btn-danger">快速充值</button>
-                    </div>
-                    <div class="life-detail">
-                        <i class="close">关闭</i> 机票
-                    </div>
-                    <div class="life-detail">
-                        <i class="close">关闭</i> 电影票
-                    </div>
-                    <div class="life-detail">
-                        <i class="close">关闭</i> 游戏
-                    </div>
-                </div>
+						<div class="life-detail">
+							<i class="close">关闭</i>
+							<p>话费充值</p>
+							<button class="sui-btn btn-danger invest">去·充值</button>
+						</div>
+						<div class="life-detail">
+							<i class="close">关闭</i>
+							<p>机票预定</p>
+							<button class="sui-btn btn-danger plane">去·预定</button>
+						</div>
+						<div class="life-detail">
+							<i class="close">关闭</i>
+							<p>各式大片等你来看</p>
+							<button class="sui-btn btn-danger film">去·观看</button>
+						</div>
+						<div class="life-detail">
+							<i class="close">关闭</i>
+							<p>在线小游戏等你来战</p>
+							<button class="sui-btn btn-danger game">去·娱乐</button>
+						</div>
+					</div>
                 <div class="ads">
                     <img src="/status/img/ad1.png" />
                 </div>
@@ -692,3 +695,20 @@
 
 
 </html>
+<script>
+    $(document).on('click','.invest',function(){
+        location.href="https://re.jd.com/search?keyword=%e5%85%85%20%e8%af%9d%e8%b4%b9&keywordid=69864031620&re_dcp=202m0QjIIg==&traffic_source=1004&test=1&enc=utf8&cu=true&utm_source=baidu-search&utm_medium=cpc&utm_campaign=t_262767352_baidusearch&utm_term=69864031620_0_5547bf3c1fbb428abff36dbe83c273ff";
+    })
+    $(document).on('click','.plane',function(){
+        location.href="http://www.xinya188.com/";
+    })
+    $(document).on('click','.film',function(){
+        location.href="https://maoyan.com/";
+    })
+	$(document).on('click','.game',function(){
+        location.href="http://www.4399.com/";
+    })
+    $(document).on('click','.kbmore',function(){
+        location.href="https://www.jiemian.com/lists/84.html";
+    })
+</script>

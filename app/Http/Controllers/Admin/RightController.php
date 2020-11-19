@@ -18,8 +18,8 @@ class RightController extends Controller
      public function store(){
         // $all=request()->except(['_token','data']);
         $all=request()->all();
-        // dd($all);
         $all['add_time']=time();
+        // dd($all);
         $res=Right::insert($all);
         if($res){
             return json_encode($arr=["code"=>0000,'msg'=>'添加成功']);

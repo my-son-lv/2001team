@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>品优购，欢迎登录</title>
@@ -36,26 +37,25 @@
                 </ul>
                 <div class="tab-content tab-wraped">
                     <div id="index" class="tab-pane">
-                        <p>二维码登录，暂为官网二维码</p>
-                        <img src="/status/img/wx_cz.jpg" />
+                        <p>功能暂未开发</p>
                     </div>
                     <div id="profile" class="tab-pane  active">
-                        <form class="sui-form">
+                        <form class="sui-form" id="ddform">
                             <div class="input-prepend"><span class="add-on loginname"></span>
-                                <input id="prependedInput" type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat">
+                                <input id="prependedInput" name="user_name" type="text" placeholder="用户名" class="span2 input-xfat">
                             </div>
                             <div class="input-prepend"><span class="add-on loginpwd"></span>
-                                <input id="prependedInput" type="password" placeholder="请输入密码" class="span2 input-xfat">
+                                <input id="prependedInput"  name="user_pwd" type="password" placeholder="请输入密码" class="span2 input-xfat">
                             </div>
                             <div class="setting">
                                 <label class="checkbox inline">
-                                    <input name="m1" type="checkbox" value="2" checked="">
+                                    <input type="checkbox" value="2" checked="">
                                     自动登录
                                 </label>
                                 <span class="forget">忘记密码？</span>
                             </div>
                             <div class="logined">
-                                <a class="sui-btn btn-block btn-xlarge btn-danger" href="home-index.html" >登&nbsp;&nbsp;录</a>
+                                <button class="sui-btn btn-block btn-xlarge btn-danger butt" type="button">登&nbsp;&nbsp;录</button>
                             </div>
                         </form>
                         <div class="otherlogin">
@@ -67,7 +67,7 @@
                                     <li><img src="/status/img/weixin.png" /></li>
                                 </ul>
                             </div>
-                            <span class="register"><a href="register.html" target="_blank">立即注册</a></span>
+                            <span class="register"><a href="/reg">立即注册</a></span>
                         </div>
                     </div>
                 </div>
@@ -100,3 +100,19 @@
 </body>
 
 </html>
+<script>
+$(document).on('click',".butt",function(){
+    var data = $("#ddform").serialize();
+    // var url = "/logindo";
+    // alert(data);
+    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    $.post("/logindo",data,function(res){
+            if(res.code=='0000'){
+                alert(res.msg);
+                location.href="/";
+            }else{
+                alert('登录失败')
+            }
+        },'json');
+})
+</script>  

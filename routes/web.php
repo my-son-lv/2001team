@@ -142,6 +142,7 @@ Route::prefix("admin")->group(function(){
  */
     Route::any('/','Index\IndexController@index');//首页
     Route::any('/login','Index\loginController@login');//登录
+    Route::any('/logindo','Index\loginController@logindo');//执行登录
     Route::any('/reg','Index\loginController@reg');//注册
     Route::any('/index/index_list','Index\IndexController@index_list');//列表
     Route::any('/index/index_show','Index\IndexController@index_show');//详情
