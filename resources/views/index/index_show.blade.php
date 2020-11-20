@@ -45,7 +45,7 @@
                     <div id="preview" class="spec-preview">
                         <span class="jqzoom">
                             @if($goods_img)
-                                <img jqimg="/status/img/_/b1.png" src="{{env('JUSTME_URL')}}{{$goods_img[0]['goods_imgs']}}" />
+                                <img jqimg="{{env('JUSTME_URL')}}{{$goods_img[0]['goods_imgs']}}" src="{{env('JUSTME_URL')}}{{$goods_img[0]['goods_imgs']}}" width="405px" height="395px"/>
                         @endif
                         </span>
                     </div>
@@ -58,7 +58,7 @@
                                 @if($goods_img)
                                 @foreach($goods_img as $v)
                                 <li>
-                                    <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" onmousemove="preview(this)" />
+                                    <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
                                 </li>
                                 @endforeach
                                     @endif
@@ -125,16 +125,18 @@
                                 <i>{{$v['specs_name']}}</i>
                             </div>
                             </dt>
+                            @php $i=0; @endphp
                             @foreach($specs_val_info as  $vv)
+
                                 @if($v['specs_id']==$vv['specs_id'])
-                                <dd><a href="javascript:;"  class="selected" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
+                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$v['specs_id']}}" goods_attr_id="{{$vv['id']}}" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
                                     </a></dd>
+                                    @php $i++; @endphp
                                 @endif
                             @endforeach
                         </dl>
                         @endforeach
                     </div>
-                    <div class="summary-wrap">
                         <div class="fl title">
                             <div class="control-group">
                                 <div class="controls">
@@ -147,7 +149,7 @@
                         <div class="fl">
                             <ul class="btn-choose unstyled">
                                 <li>
-                                    <a href="cart.html" target="_blank" class="sui-btn  btn-danger addshopcar">加入购物车</a>
+                                    <a href="javascript:void(0);"  class="sui-btn  btn-danger addshopcar">加入购物车</a>
                                 </li>
                             </ul>
                         </div>
@@ -672,7 +674,7 @@
 <!--侧栏面板结束-->
 
 
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
     $(function(){
         $("#service").hover(function(){
@@ -686,13 +688,40 @@
             $("#shopcarlist").hide();
         });
 
+        //加入购物车
+        $(document).on("click",".addshopcar",function(){
+            var goods_id = "{{$goods['goods_id']}}";
+            var goods_number = $('.itxt').val();
+            var goods_attr_id = new Array();
+            $('.selected').each(function(){
+                goods_attr_id+=$(this).attr('sepcs_id')+','+$(this).attr('goods_attr_id')+':';
+            });
+            goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            $.ajax({
+                url:"/index/addcart",
+                data:{goods_id:goods_id,goods_number:goods_number,goods_attr_id:goods_attr_id},
+                type:"post",
+                dataType:"json",
+                success:function(res){
+                    if(res.code=='0000'){
+                        alert(res.msg);
+                        window.location.href=res.url;
+                    }else{
+                        alert(res.msg);
+                    }
+                }
+            })
+        })
+
+
+
     })
 </script>
-<script type="text/javascript" src="js/model/cartModel.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.jqzoom/jquery.jqzoom.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.jqzoom/zoom.js"></script>
+<script type="text/javascript" src="/status/js/model/cartModel.js"></script>
+<script type="text/javascript" src="/status/js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="/status/js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="/status/js/plugins/jquery.jqzoom/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="/status/js/plugins/jquery.jqzoom/zoom.js"></script>
 <script type="text/javascript" src="index/index.js"></script>
 </body>
 

@@ -129,12 +129,15 @@ Route::prefix("admin")->group(function(){
     Route::any('/reg','Index\loginController@reg');//注册
     Route::any('/index/index_list','Index\IndexController@index_list');//列表
     Route::any('/index/index_show','Index\IndexController@index_show');//详情
+    Route::any('/index/addcart','Index\CartController@addcart');//加入购物车
+    Route::any('/index/cart','Index\CartController@cart');//购物车列表
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
 
 
     Route::any('/index/cart','Index\CartController@cart');//购物车
     Route::any('/index/order','Index\CartController@order');//订单
     Route::any('/index/settl','Index\CartController@settl');//结算页
+    Route::any('/index/getorder','Index\CartController@getorder');//三级联动
 
     Route::any('/index/home','Index\HomeController@home');//个人中心
     Route::any('/index/home_paid','Index\HomeController@paid');//待付款
@@ -148,7 +151,6 @@ Route::prefix("admin")->group(function(){
 
     /**
      * 商家模块
->>>>>>> 76147fdb337f2771862e64e270d1e62a3fe48b9d
      */
     Route::any('/saller/login','Saller\LoginController@login');//商家登录
     Route::any('/saller/logindo','Saller\LoginController@logindo');//商家登录
