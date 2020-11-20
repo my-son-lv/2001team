@@ -110,8 +110,11 @@ $(document).on('click',".butt",function(){
             if(res.code=='0000'){
                 alert(res.msg);
                 location.href="/";
+            }else if(res.code=='0002'){
+                alert(res.msg);
+                location.href='/';
             }else{
-                alert('账号或密码错误')
+                alert(res.msg);
             }
         },'json');
 })

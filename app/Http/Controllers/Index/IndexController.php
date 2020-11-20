@@ -14,9 +14,23 @@ class IndexController extends Controller
         return view("index.index",["cate"=>$cate]);
     }//首页
 
-    public function index_list(){
-        return view("index.index_list");
-    }//列表
+    public function GetIndo($cate_cate,$pid=0){
+        $info = [];
+        foreach($cate_cate as $k=>$v){
+            if($pid==$v->pid){
+                $info[$k] = $v;
+                $info[$k]["son"] = $this->GetIndo($cate_cate,$v->cate_id);
+            }
+        }
+        return $info;
+    }
+    //列表
+    public function index_list($cate_id){
+        //分类导航
+        $url = "http://www.2001api.com/api/home";
+        $cate = $this->postcurl($url);
+        return view("index.index_list",['cate'=>$cate]);
+    }
 
 
     //详情

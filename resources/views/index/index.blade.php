@@ -25,7 +25,7 @@
                 <div class="all-sort-list2">
                     @foreach($cate["info"] as $v)
                     <div class="item bo">
-                        <h3><a href="">{{$v["cate_name"]}}</a></h3>
+                        <h3><a href="javascript:;">{{$v["cate_name"]}}</a></h3>
                         <div class="item-list clearfix">
                             <div class="subitem">
                                 <dl class="fore1">
@@ -34,8 +34,8 @@
                                     @endforeach
                                     <dd>
                                         @foreach($vv["son"] as $vvv)
-                                        <em><a href="">{{$vvv["cate_name"]}}</a></em>
-                                            @endforeach
+                                        <em><a href="{{url('index/index_list/'.$vvv['cate_id'])}}">{{$vvv["cate_name"]}}</a></em>
+                                        @endforeach
                                     </dd>
                                 </dl>
                             </div>
