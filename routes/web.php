@@ -132,6 +132,7 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/addcart','Index\CartController@addcart');//加入购物车
     Route::any('/index/cart','Index\CartController@cart');//购物车列表
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
+    Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
 
 
     Route::any('/index/cart','Index\CartController@cart');//购物车

@@ -81,7 +81,7 @@
                             <td><input type="checkbox"></td>
                             <td>{{$v->kill_id}}</td>
                             <td>{{$v->goods_name}}</td>
-                            <td><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}"></td>
+                            <td><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}" style="width: 100px;height: 100px"></td>
                             <td>{{$v->goods_price}}</td>
                             <td>{{$v->goods_present}}</td>
                             <td>{{$v->numbers}}</td>

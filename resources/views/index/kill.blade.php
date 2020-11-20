@@ -100,11 +100,15 @@
                 <div class='num'>
                     <div>已售87%</div>
                     <div class='progress'>
-                        <div class='sui-progress progress-danger'><span style='width: 70%;' class='bar'></span></div>
+                        <div class='sui-progress progress-danger'>
+                            <span style='width: 70%;' class='bar'>
+
+                            </span>
+                        </div>
                     </div>
                     <div>剩余<b class='owned'>{{$v["goods_numbers"]}}</b>件</div>
                 </div>
-                <a class='sui-btn btn-block btn-buy' href='seckill-item.html' target='_blank'>立即抢购</a>
+                <a class='sui-btn btn-block btn-buy' id="but" value="{{$v['kill_id']}}" target='_blank'>立即抢购</a>
             </li>
                 @endforeach
         </ul>
@@ -123,13 +127,25 @@
         </div>
     </div>
 </div>
-
+<script>
+    $(document).on("click","#but",function(){
+        var kill_id = $(this).attr("value");
+        $.ajax({
+            url : "/user_kill",
+            dataType : "json",
+            data : {kill_id:kill_id},
+            type  : "post",
+            success:function(res){
+                console.log(res)
+            }
+        })
+    })
+</script>
 <!--回到顶部-->
 
 <!-- 底部栏位 -->
 <!--页面底部-->
 @include("frag.index.index_foot")
 <!--页面底部END-->
-undefined
 
 </html>
