@@ -15,6 +15,9 @@ class IndexController extends Controller
         $info = $this->GetIndo($cate_cate);
 //        dd($cate);
         return view("index.index",["data"=>$data,"cate"=>$cate,"info"=>$info]);
+        $url = "http://www.2001api.com/api/home";
+        $cate = $this->postcurl($url);
+        return view("index.index",["cate"=>$cate]);
     }//首页
 
     public function GetIndo($cate_cate,$pid=0){
@@ -27,10 +30,13 @@ class IndexController extends Controller
         }
         return $info;
     }
-
-    public function index_list(){
-        return view("index.index_list");
-    }//列表
+    //列表
+    public function index_list($cate_id){
+        //分类导航
+        $url = "http://www.2001api.com/api/home";
+        $cate = $this->postcurl($url);
+        return view("index.index_list",['cate'=>$cate]);
+    }
 
 
     //详情

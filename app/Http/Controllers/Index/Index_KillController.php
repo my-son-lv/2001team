@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CateModel;
 use App\Models\KillModel;
+use Illuminate\Support\Facades\Redis;
 class Index_KillController extends Controller
 {
     public function index_kill(){
         $url = "http://www.2001api.com/api/api_kill";
         $cate = $this->postcurl($url);
         return view("index.kill",["cate"=>$cate]);
+    }
+    public function user_kill(){
+        $token = cookie("token");
+        $user_id = Redis::Hget("token",$token);
+        dd($user_id);
+        $kill_id = request()->kill_id;
     }
 
     //API post curl

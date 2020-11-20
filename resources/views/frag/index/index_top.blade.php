@@ -6,12 +6,17 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        <li class="f-item">请<a href="/login">登录</a>　<span><a href="/reg">免费注册</a></span></li>
+                        @if(cookie('token')=='')
+                            <li class="f-item">请<a href="/login">登录</a>
+                            <span><a href="/reg">免费注册</a></span></li>
+                        @else
+                        <li class="f-item"><a href="/loginout">退出登录</a></li>
+                        @endif
                     </ul>
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
                         <li class="f-item space"></li>
-                        <li class="f-item"><a href="home.html">我的品优购</a></li>
+                        <li class="f-item">我的品优购</li>
                         <li class="f-item space"></li>
                         <li class="f-item">品优购会员</li>
                         <li class="f-item space"></li>
@@ -69,7 +74,7 @@
                         <div class="fr shopcar">
                             <div class="show-shopcar" id="shopcar">
                                 <span class="car"></span>
-                                <a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
+                                <a class="sui-btn btn-default btn-xlarge" href="/index/cart">
                                     <span>我的购物车</span>
                                     <i class="shopnum">0</i>
                                 </a>
@@ -91,6 +96,8 @@
                             @foreach($cate as $k=>$v)
 
                             <li class="f-item" value="{{$v['cate_id']}}">{{$v['cate_name']}}</li>
+                            @foreach($cate["cate"] as $k=>$v)
+                            <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
                             @endforeach
                             <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>
                         </ul>

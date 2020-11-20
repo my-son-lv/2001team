@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Redis;
 
 class LoginController extends Controller
 {
+    //测试
+    public function test(){
+        if(isset($_COOKIE['token'])){
+            dd($_COOKIE['token']);
+        }else{
+            dd('cookie为空');
+        }
+    }
     //前台登录
     public function login(){
         return view("index.login");
@@ -22,21 +30,23 @@ class LoginController extends Controller
         $data=request()->all();
         // dd($data);
         // dd(Redis::get('token'));
-        $url="http://www.2001api.com/api/logstore";
-        $res=$this->postcurl($url,$data);
-        // dd($res);
-        if($res['code']=='0000'){
-            
-            Redis::setex('token',3600,$res['token']);
-            
-            // dd(Redis::get('token'));
-            return json_encode($res);
+        if(!isset($_COOKIE['token'])){
+            // dd(123);
+            $url="http://www.2001api.com/api/logstore";
+            $res=$this->postcurl($url,$data);
+            // dd($res);
+            if($res['code']=='0000'){
+                
+                Redis::Hset('token',$res['token'],$res['user_id']);
+                setcookie('token',$res['token']); //存cookie
+                // dd($_COOKIE['token']);//取cookie
+                return json_encode($res);
+            }else{
+                return json_encode($res);
+            }
         }else{
-            return json_encode($res);
+            return json_encode($arr=['code'=>'0002','msg'=>'请退出登录后再试']);
         }
-        // print_r($res['token']);
-        // echo 123;
-        
     }
     //前台注册
     public function reg(){
@@ -120,7 +130,7 @@ class LoginController extends Controller
         return $output;
     }
     //API post curl
-    public function postcurl($url,$data){
+    public function postcurl($url,$data=[]){
         // $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $headerArray=[];
         $curl = curl_init();//初始化
@@ -198,6 +208,14 @@ class LoginController extends Controller
             return $e->getErrorMessage() . PHP_EOL;
         } catch (ServerException $e) {
             return $e->getErrorMessage() . PHP_EOL;
+        }
+    }
+    public function loginout(){
+        $res=setcookie("token","",time()-1);
+        if($res){
+            return redirect('/login');
+        }else{
+            return redirect('/');
         }
     }
 }

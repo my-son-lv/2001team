@@ -49,10 +49,20 @@ class VerifyCsrfToken extends Middleware
         "/index/addcart",
         "/saller/regdo",
         "/saller/logindo",
+        "/saller/sallerdo",
+        "/saller/goods/specs",
+        "/saller/goods/specs_create",
+        "/saller/goods/uploads",
+        "/saller/goods/upload",
+        "/saller/goods",
+        "/saller/goods/create",
+        "/saller/goods/store",
+        "/saller/goods/del",
         "/index/cart",
         "/index/settl",
         "/admin/kill_do",
         "/saller/sallerdo",
-        "/index/getorder"
+        "/index/getorder",
+        "/user_kill"
     ];
 }
