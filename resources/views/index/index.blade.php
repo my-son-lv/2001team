@@ -30,7 +30,7 @@
                             <div class="subitem">
                                 <dl class="fore1">
                                     @foreach($v["son"] as $vv)
-                                    <dt><a href="">{{$vv["cate_name"]}}</a></dt>
+                                    <dt><a href="{{url('index/index_list/'.$vv['cate_id'])}}">{{$vv["cate_name"]}}</a></dt>
                                     @endforeach
                                     <dd>
                                         @foreach($vv["son"] as $vvv)
@@ -183,18 +183,14 @@
                     <h3>今日推荐</h3>
                 </div>
             </li>
+            @foreach($goods as $v)
             <li class="yui3-u-5-24">
-                <a href="list.html" target="_blank"><img src="/status/img/today01.png" /></a>
+           
+                <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>
+                <h4 style="color:red;">{{$v->goods_price}}</h4>
+                <p>{{$v->goods_name}}</p>
             </li>
-            <li class="yui3-u-5-24">
-                <img src="/status/img/today02.png" />
-            </li>
-            <li class="yui3-u-5-24">
-                <img src="/status/img/today03.png" />
-            </li>
-            <li class="yui3-u-5-24">
-                <img src="/status/img/today04.png" />
-            </li>
+            @endforeach
         </ul>
     </div>
 </div>
