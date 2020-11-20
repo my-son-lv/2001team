@@ -75,7 +75,14 @@
                                     <input type="hidden" name="right_id" value="{{$data->right_id}}">
                                     <div class="col-md-2 title">权限名称</div>
                                     <div class="col-md-10 data">
-                                        <input type="text" class="form-control" value="{{$data->right_name}}" name="right_name" ng-model="entity.name"  placeholder="公司名称" value="">
+                                        <input type="text" class="form-control" value="{{$data->right_name}}" name="right_name" ng-model="entity.name" >
+                                    </div>
+                                </div>
+                                <div class="row data-type">                                  
+                                    <input type="hidden" name="right_id" value="{{$data->right_id}}">
+                                    <div class="col-md-2 title">地址</div>
+                                    <div class="col-md-10 data">
+                                        <input type="text" class="form-control" value="{{$data->right_url}}" name="right_url" ng-model="entity.name" >
                                     </div>
                                 </div>
                             </div>

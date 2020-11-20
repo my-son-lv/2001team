@@ -85,7 +85,6 @@
                     </li>
                 </ul>
             </li>
-
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-folder"></i>
@@ -96,17 +95,12 @@
                 </a>
                 <ul class="treeview-menu">
                     <li id="admin-login">
-                        <a href="" >
+                        <a href="/admin/kill">
                             <i class="fa fa-circle-o"></i>秒杀
                         </a>
                     </li>
                 </ul>
-
             </li>
-
-
-
-
             {{--商家--}}
             <li class="treeview">
                 <a href="#">

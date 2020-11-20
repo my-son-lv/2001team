@@ -11,9 +11,6 @@
 </div>
 
 
-<script src="/status/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="/status/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="/status/plugins/adminLTE/js/app.min.js"></script>
 
 </body>
 

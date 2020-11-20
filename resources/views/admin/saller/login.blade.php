@@ -65,7 +65,7 @@
 										<li><img src="/status/img/weixin.png" /></li>
 									</ul>
 								</div>
-								<span class="register"><a href="/admin/saller/reg" target="_blank">立即注册</a></span>
+								<span class="register"><a href="/saller/reg" target="_blank">立即注册</a></span>
 							</div>
 						</div>
 					</div>
