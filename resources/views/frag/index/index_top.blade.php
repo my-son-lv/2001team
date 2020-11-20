@@ -6,11 +6,11 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        @if(cookie('token'))
-                            <li class="f-item"><a href="/loginout">退出登录</a></li>
-                        @else
+                        @if(cookie('token')=='')
                             <li class="f-item">请<a href="/login">登录</a>
                             <span><a href="/reg">免费注册</a></span></li>
+                        @else
+                        <li class="f-item"><a href="/loginout">退出登录</a></li>
                         @endif
                     </ul>
                     <ul class="fr">
@@ -93,10 +93,10 @@
                     </div>
                     <div class="yui3-u Center navArea">
                         <ul class="nav">
-                            @foreach($cate as $k=>$v)
+                            @foreach($cate["cate"] as $k=>$v)
                             <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
                             @endforeach
-                            <li class="f-item"><a href="seckill-index.html" target="_blank">秒杀</a></li>
+                            <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>
                         </ul>
                     </div>
                     <div class="yui3-u Right"></div>
