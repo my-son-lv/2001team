@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001team.com')->group(function(){ //域名分组
+Route::domain('2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -253,6 +253,16 @@ Route::any('/admin/goods/specs_create','Goods\GoodsController@specs_create')->mi
     Route::any('/saller/saller','Saller\SallerController@saller');//商家模块商家信息
     Route::any('/saller/sallerdo','Saller\SallerController@sallerdo');//商家模块修改商家信息
     Route::any('/saller/update_pwd','Saller\SallerController@update_pwd');//商家模块商家修改密码
+
+    Route::any('/saller/goods/create','Saller\GoodsController@create');//商家模块 添加商品
+    Route::any('/saller/goods','Saller\GoodsController@goods');//商家模块 商品展示
+    Route::any('/saller/goods/upload','Saller\GoodsController@upload');//商家模块 上传图片
+    Route::any('/saller/goods/uploads','Saller\GoodsController@uploads');//商家模块 上传相册
+    Route::any('/saller/goods/specs_create','Saller\GoodsController@specs_create');//商家模块 sku处理
+    Route::any('/saller/goods/specs','Saller\GoodsController@specs');//商家模块 规格添加
+    Route::any('/saller/goods/store','Saller\GoodsController@store');//商家模块 商品添加方法
+    Route::any('/saller/goods/update','Saller\GoodsController@update');//商家模块 修改
+    Route::any('/saller/goods/del','Saller\GoodsController@del');//商家模块 批量删除
 
 
 });

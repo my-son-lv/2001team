@@ -13,8 +13,8 @@ class GoodsModel extends Model
     public function goods_create($data){
         return GoodsModel::insertGetId($data);
     }
-    public function goods_infos(){
-        return GoodsModel::where('is_del',1)->paginate(4);
+    public function goods_infos($saller_id){
+        return GoodsModel::where(['is_del'=>1,'saller_id'=>$saller_id])->paginate(4);
     }
     public function goods_del($goods_id){
         return GoodsModel::where('goods_id',$goods_id)->update(['is_del'=>2,'upd_time'=>time()]);
