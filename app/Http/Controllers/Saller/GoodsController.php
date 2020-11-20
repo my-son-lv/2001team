@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Goods;
+namespace App\Http\Controllers\Saller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand_Model;
 use App\Models\CateModel;
+use App\Models\Specsname_Model;
+use App\Models\Specsval_Model;
+use Illuminate\Http\Request;
 use App\Models\GoodsImgsModel;
 use App\Models\GoodsModel;
 use App\Models\SpecsModel;
-use Illuminate\Http\Request;
-use App\Models\Brand_Model;
-use App\Models\Specsname_Model;
-use App\Models\Specsval_Model;
 class GoodsController extends Controller
 {
     /**
-     * 后台商品添加
+     * 商家 商品添加
      */
     public function create(){
         $brand_info= Brand_Model::where('is_del',1)->get();
@@ -23,10 +23,11 @@ class GoodsController extends Controller
         $specs_name_info = $specs_name_model->specs_name_info();
         $specs_val_info = $specs_val_model->specs_value_info();
 //        dd($specs_val_info);
+
         $cateinfo=CateModel::get();
         $cateinfo=$this->createTree($cateinfo);
+        return view('admin.saller.goods.create',['brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
 
-        return view('admin.goods.create',['brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
     }
     /**
      * @param $data
@@ -37,6 +38,7 @@ class GoodsController extends Controller
      */
     public function store(){
         $data = request()->all();
+        $data['saller_id']=session('saller_info')->saller_id;
         $sku = $data['sku'];
         $goods_model = new GoodsModel();
         $goods_imgs = $data['goods_imgs'];
@@ -52,7 +54,6 @@ class GoodsController extends Controller
         }else{
             $data['add_time'] = time();
             $data['goods_article'] = $this->rand(20);
-            $data['saller_id'] = 0;
             $goods_id = $goods_model->goods_create($data);
         }
         if($goods_imgs){
@@ -117,18 +118,36 @@ class GoodsController extends Controller
         }
         return json_encode($datae,true);
     }
-    /*
-     * 后台商品的展示
+    /**
+     * 商家 商品展示
      */
     public function goods(){
         $goods_model = new GoodsModel();
+        $saller_id = session('saller_info')->saller_id;
         $goods_imgs_model = new GoodsImgsModel();
-        $saller_id = 0;
         $goods_info = $goods_model->goods_infos($saller_id);
         foreach($goods_info as $k=>$v){
             $goods_info[$k]['goods_imgs'] = $goods_imgs_model->goods_imgs_get($v->goods_id);
         }
-        return view('admin.goods.index',['goods_info'=>$goods_info]);
+        return view('admin.saller.goods.index',['goods_info'=>$goods_info]);
+    }
+    /**
+     * 商家修改展示
+     */
+    public function update(){
+        $goods_id = request()->goods_id;
+        $goods_model = new GoodsModel();
+        $goods_info = $goods_model->goods_first($goods_id);
+        $brand_info= Brand_Model::where('is_del',1)->get();
+        $specs_name_model = new Specsname_Model();
+        $specs_val_model = new Specsval_Model();
+        $specs_name_info = $specs_name_model->specs_name_info();
+        $specs_val_info = $specs_val_model->specs_value_info();
+//        dd($specs_val_info);
+        $cateinfo=CateModel::get();
+        $cateinfo=$this->createTree($cateinfo);
+        return view('admin.saller.goods.update',['goods_info'=>$goods_info,'brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
+
     }
     /**
      * 后台商品的批量删除
@@ -151,47 +170,12 @@ class GoodsController extends Controller
         ];
         return json_encode($data,true);
     }
-    /**
-     * 后台商品的修改页面
-     */
-    public function update(){
-        $goods_id = request()->goods_id;
-        $goods_model = new GoodsModel();
-        $goods_info = $goods_model->goods_first($goods_id);
-        $brand_info= Brand_Model::where('is_del',1)->get();
-        $specs_name_model = new Specsname_Model();
-        $specs_val_model = new Specsval_Model();
-        $specs_name_info = $specs_name_model->specs_name_info();
-        $specs_val_info = $specs_val_model->specs_value_info();
-//        dd($specs_val_info);
-        $cateinfo=CateModel::get();
-        $cateinfo=$this->createTree($cateinfo);
-        return view('admin.goods.update',['goods_info'=>$goods_info,'brand_info'=>$brand_info,'specs_name_info'=>$specs_name_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo]);
-    }
-    /**
-     * @param $len
-     * @return int|mixed
-     * 生成随机字符串
-     */
-    public function rand($len)
-    {
-        $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
-        $string=time();
-        for(;$len>=1;$len--)
-        {
-            $position=rand()%strlen($chars);
-            $position2=rand()%strlen($string);
-            $string=substr_replace($string,substr($chars,$position,1),$position2,0);
-        }
-        return $string;
-    }
     //分类无限极分类
     function createTree($data,$parent_id=0,$level=0){
         if(!$data){
             return;
         }
         static $newArray=[];
-
         foreach($data as $v){
             if($v->pid==$parent_id){
                 $v->level=$level;
@@ -240,28 +224,6 @@ class GoodsController extends Controller
         }
     }
     /**
-     * 后台添加 中添加规格
-     */
-    public function specs(Request $request){
-        $specs_name = $request->specs_name;
-        $specs_val = $request->specs_val;
-        $specs_name_model = new Specsname_Model();
-        $specs_val_model = new Specsval_Model();
-        $specs_id = $specs_name_model->specs_name_id($specs_name);
-        if(!$specs_id){
-            $data = [
-                'add_time'=>time(),
-                'specs_name'=>$specs_name
-            ];
-            $specs_id = $specs_name_model->specs_name_create($data);
-        }
-        $str = $specs_val_model->specs_value_id($specs_id,$specs_val);
-        if(!$str){
-            $specs_val_model->specs_value_create(['specs_id'=>$specs_id,'specs_val'=>$specs_val,'add_time'=>time()]);
-        }
-        return ['code'=>0000,'msg'=>'成功','data'=>[]];
-    }
-    /**
      * 后台添加 商品下规格
      */
     public function specs_create(){
@@ -274,7 +236,6 @@ class GoodsController extends Controller
         ];
         return json_encode($data,true);
     }
-
     /**
      * @param $sku
      * 商品下规格的处理
@@ -355,5 +316,44 @@ class GoodsController extends Controller
             }
         }
         return $sku;
+    }
+    /**
+     * 后台添加 中添加规格
+     */
+    public function specs(Request $request){
+        $specs_name = $request->specs_name;
+        $specs_val = $request->specs_val;
+        $specs_name_model = new Specsname_Model();
+        $specs_val_model = new Specsval_Model();
+        $specs_id = $specs_name_model->specs_name_id($specs_name);
+        if(!$specs_id){
+            $data = [
+                'add_time'=>time(),
+                'specs_name'=>$specs_name
+            ];
+            $specs_id = $specs_name_model->specs_name_create($data);
+        }
+        $str = $specs_val_model->specs_value_id($specs_id,$specs_val);
+        if(!$str){
+            $specs_val_model->specs_value_create(['specs_id'=>$specs_id,'specs_val'=>$specs_val,'add_time'=>time()]);
+        }
+        return ['code'=>0000,'msg'=>'成功','data'=>[]];
+    }
+    /**
+     * @param $len
+     * @return int|mixed
+     * 生成随机字符串
+     */
+    public function rand($len)
+    {
+        $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+        $string=time();
+        for(;$len>=1;$len--)
+        {
+            $position=rand()%strlen($chars);
+            $position2=rand()%strlen($string);
+            $string=substr_replace($string,substr($chars,$position,1),$position2,0);
+        }
+        return $string;
     }
 }
