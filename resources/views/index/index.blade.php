@@ -23,19 +23,19 @@
         <div class="yui3-g SortList ">
             <div class="yui3-u Left all-sort-list">
                 <div class="all-sort-list2">
-                    @foreach($info as $v)
+                    @foreach($cate["info"] as $v)
                     <div class="item bo">
-                        <h3><a href="">{{$v->cate_name}}</a></h3>
+                        <h3><a href="javascript:;">{{$v["cate_name"]}}</a></h3>
                         <div class="item-list clearfix">
                             <div class="subitem">
                                 <dl class="fore1">
-                                    @foreach($v->son as $vv)
-                                    <dt><a href="">{{$vv->cate_name}}</a></dt>
+                                    @foreach($v["son"] as $vv)
+                                    <dt><a href="">{{$vv["cate_name"]}}</a></dt>
                                     @endforeach
                                     <dd>
-                                        @foreach($vv->son as $vvv)
-                                        <em><a href="">{{$vvv->cate_name}}</a></em>
-                                            @endforeach
+                                        @foreach($vv["son"] as $vvv)
+                                        <em><a href="{{url('index/index_list/'.$vvv['cate_id'])}}">{{$vvv["cate_name"]}}</a></em>
+                                        @endforeach
                                     </dd>
                                 </dl>
                             </div>
@@ -208,11 +208,11 @@
         </div>
         <div class="bd">
             <ul class="clearfix yui3-g Favourate picLB" id="picLBxxl">
-                @foreach($data as $v)
+                @foreach($cate["data"] as $v)
                 <li class="yui3-u-1-6">
                     <dl class="picDl huozhe">
                         <dd>
-                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL'),$v['goods_img']}}" alt="" /></a>
+                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"   /></a>
                             <div class="like-text">
                                 <p>{{$v["goods_name"]}}</p>
                                 <h3>¥{{$v["goods_price"]}}</h3>

@@ -27,7 +27,9 @@ class Loginsss
         if($data["prev"]=="*"){
             return $next($request);
         }else{
-            $res = Admin::leftjoin("admin_role","admin.admin_id","=","admin_role.admin_id")->leftjoin("role_right","admin_role.role_id","=","role_right.role_id")->where(["admin.admin_id"=>$admin["admin_id"]])->first()->toArray();
+            $res = Admin::leftjoin("admin_role","admin.admin_id","=","admin_role.admin_id")
+                ->leftjoin("role_right","admin_role.role_id","=","role_right.role_id")
+                ->where(["admin.admin_id"=>$admin["admin_id"]])->first()->toArray();
             $right_id = explode(",",$res["right_id"]);
             $urls = Right::whereIn("right_id",$right_id)->get()->toArray();
             $urlss = [];

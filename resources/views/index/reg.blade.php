@@ -149,8 +149,7 @@ $(document).on('click','#but',function(){
                 alert(res.msg);
             }
         }
-        }
-    )
+    }
 })
 
 //获取短信验证码

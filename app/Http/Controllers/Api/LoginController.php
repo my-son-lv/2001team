@@ -17,6 +17,12 @@ class LoginController extends Controller
     public function logstore(){
         // echo encrypt(123);die;
         $all=request()->all();
+        if($all['user_name']==''){
+            return json_encode($arr=['code'=>'0001','msg'=>'用户名不能为空']);
+        }
+        if($all['user_pwd']==''){
+            return json_encode($arr=['code'=>'0001','msg'=>'密码不能为空']);
+        }
         $user=User::where('user_name',$all['user_name'])->first();
         // print_r($user->user_pwd);
         $user['user_pwd']=decrypt($user['user_pwd']);
@@ -35,12 +41,12 @@ class LoginController extends Controller
                 // $jwtAuth->setToken($token);
                 // // // dd($jwtAuth);
                 //     if ($jwtAuth->validate() && $jwtAuth->verify()){ //验签
-                //         $user_id = $jwtAuth->getUid();
+                //         $user_id = $jwtAuth->getUid();//解密并获取数据信息
                 //         dd($user_id);
                 //     }else{
                 //         dd('0909');
                 //     }
-                return json_encode($arr=['code'=>'0000','msg'=>'登录成功','token'=>$token]);
+                return json_encode($arr=['code'=>'0000','msg'=>'登录成功','token'=>$token,'user_id'=>$user_id]);
             }else{
                 return json_encode($arr=['code'=>'0001','msg'=>'密码错误']);
             }
