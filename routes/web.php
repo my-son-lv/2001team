@@ -160,6 +160,7 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/cart','Index\CartController@cart');//购物车列表
     Route::any('/index/order','Index\CartController@order');//订单
     Route::any('/index/settl','Index\CartController@settl');//结算页
+    Route::any('/index/getorder','Index\CartController@getorder');//三级联动
 
     Route::any('/index/home','Index\HomeController@home');//个人中心
     Route::any('/index/home_paid','Index\HomeController@paid');//待付款

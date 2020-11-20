@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Index;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class CartController extends Controller
 {
     public function  addcart(){
@@ -13,9 +11,41 @@ class CartController extends Controller
         $goods_attr_id = request()->goods_attr_id;
         $url=env('API_URL')."api/index/addcart";
         $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id]);
+        return json_encode($cart);
+    }
+
+    //购物车列表
+    public function cart(){
+        $uid=1;
+        $url=env('API_URL')."api/index/cart";
+        $cart=$this->postcurl($url,['user_id',$uid]);
+//        dd($cart);
+        return view("index.cart.cart",['cart'=>$cart]);
     }
 
 
+    //结算页
+    public function settl(){
+        $uid=1;
+        $cart_id=request()->cart_id;
+        $url=env('API_URL')."api/index/settl";
+        return view("index.cart.settl");
+    }
+
+    public  function  getorder(){
+        $uid=1;
+        $data=request()->all();
+        dd($data);
+
+    }
+
+
+
+
+    //订单页面
+    public function order(){
+        return view("index.order");
+    }
     //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
 //初始化
@@ -30,21 +60,10 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
 //执行
         $result = curl_exec($ch);
-        echo $result;exit;
+//        echo $result;exit;
+        $result = json_decode($result,true);
 //关闭
         curl_close($ch);
-        return json_decode($result,true);
+        return $result;
     }
-
-    public function cart(){
-        return view("index.cart.cart");
-    }//购物车列表
-
-    public function settl(){
-        return view("index.cart.settl");
-    }//结算页
-
-    public function order(){
-        return view("index.order");
-    }//订单页面
 }

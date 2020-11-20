@@ -11,8 +11,10 @@ use App\Models\GoodsImgsModel;
 use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
 use App\Models\CartModel;
+use App\Models\AddressModel;
 class IndexController extends Controller
 {
+    //商品详情
     public function index_show(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
@@ -32,7 +34,7 @@ class IndexController extends Controller
         return $data;
 
     }
-
+//加入购物车
     public  function  addcart(){
         $uid=1;
         $goods_id = request()->goods_id;
@@ -101,4 +103,39 @@ class IndexController extends Controller
             return json_encode(['code'=>'0000','msg'=>"加入购物车成功",'url'=>"/index/cart"]);
         }
     }
+
+    //购物车列表
+    public  function  cart(){
+        $uid=1;
+        $cart=CartModel::select('cart.*','goods.goods_img')
+            ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
+            ->where(['user_id'=>$uid])
+            ->get();
+        $specs_name_model=new Specsname_Model();
+        $specs_val_model=new Specsval_Model();
+        $data=[];
+        foreach($cart as $k=>$v){
+            if($v->specs_id){
+                $specs_id=explode(':',$v->specs_id);
+                foreach($specs_id as $kk=>$vv){
+                    $data[]=explode(',',$vv);
+                    foreach($data as $kkk=>$vvv){
+                        $data[$kkk]['specs_id']=$vvv[0];
+                        $data[$kkk]['specs_name']=$specs_name_model->where('specs_id',$vvv[0])->value('specs_name');
+                        $data[$kkk]['specs_val_id']=$vvv[1];
+                        $data[$kkk]['specs_val']=$specs_val_model->where('id',$vvv[1])->value('specs_val');
+                    }
+                    $cart[$k]['specs']=$data;
+                }
+            }
+        }
+//        dd($cart);
+        return json_encode($cart,true);
+    }
+
+    #结算
+    public  function  settl(){
+
+    }
+
 }

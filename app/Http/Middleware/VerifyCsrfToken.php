@@ -47,6 +47,8 @@ class VerifyCsrfToken extends Middleware
         "/admin/goods/del",
         "/index/addcart",
         "/saller/regdo",
-        "/saller/logindo"
+        "/saller/logindo",
+        "/index/cart",
+        "/index/settl"
     ];
 }
