@@ -55,7 +55,7 @@ class LoginController extends Controller
     //注册接口
     public function regstore(){
         $callback=request()->callback;
-       // echo $callback.'(123)';exit;
+//        echo $callback.'(123)';exit;
         $all=request()->all();
         $user=User::where('user_name',$all['user_name'])->count();
         if($all['user_name']==''){
