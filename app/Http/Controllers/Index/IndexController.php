@@ -26,12 +26,11 @@ class IndexController extends Controller
         }
         return $info;
     }
-
-    public function index_list(){
-        return view("index.index_list");
-    }//列表
-
-
+    //列表
+    public function index_list($cate_id){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        return view("index.index_list",['cate'=>$cate]);
+    }
     //详情
     public function index_show(){
         $goods_id=request()->goods_id;

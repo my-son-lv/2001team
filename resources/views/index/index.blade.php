@@ -25,16 +25,16 @@
                 <div class="all-sort-list2">
                     @foreach($info as $v)
                     <div class="item bo">
-                        <h3><a href="">{{$v->cate_name}}</a></h3>
+                        <h3><a href="javascript:;">{{$v->cate_name}}</a></h3>
                         <div class="item-list clearfix">
                             <div class="subitem">
                                 <dl class="fore1">
                                     @foreach($v->son as $vv)
-                                    <dt><a href="">{{$vv->cate_name}}</a></dt>
+                                    <dt><a href="javascript:;">{{$vv->cate_name}}</a></dt>
                                     @endforeach
                                     <dd>
                                         @foreach($vv->son as $vvv)
-                                        <em><a href="">{{$vvv->cate_name}}</a></em>
+                                        <em><a href="{{url('index/index_list/'.$vvv->cate_id)}}">{{$vvv->cate_name}}</a></em>
                                             @endforeach
                                     </dd>
                                 </dl>
