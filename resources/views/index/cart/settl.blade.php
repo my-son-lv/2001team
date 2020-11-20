@@ -65,18 +65,22 @@
             <div class="step-cont">
                 <div class="addressInfo">
                     <ul class="addr-detail">
+                        @foreach($cart as $v)
                         <li class="addr-item">
-
                             <div>
-                                <div class="con name selected"><a href="javascript:;" >张默<span title="点击取消选择">&nbsp;</a></div>
-                                <div class="con address">张默 北京市海淀区三环内 中关村软件园9号楼 <span>159****3201</span>
+                                <div class="con name selected"><a href="javascript:;" >{{$v['address_name']}}<span title="点击取消选择">&nbsp;</a></div>
+                                <div class="con address">{{$v['address']}}<span>{{$v['tel']}}</span>
+                                    @if($v['is_moren']==1)
                                     <span class="base">默认地址</span>
+                                    @else
+                                        <span class="edittext"><a href="javascript:;">设为默认</a></span>
+                                        @endif
                                     <span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-
                         </li>
+                            @endforeach
 
 
                     </ul>
@@ -96,8 +100,6 @@
                                                 <input type="text" class="input-medium" id="address_name">
                                             </div>
                                         </div>
-
-
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
@@ -117,8 +119,6 @@
                                             </div>
                                         </div>
                                     </form>
-
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
@@ -150,30 +150,32 @@
                 </div>
                 <div class="step-cont">
                     <ul class="send-detail">
+                        @foreach($cartinfo as $v)
                         <li>
-
                             <div class="sendGoods">
-
                                 <ul class="yui3-g">
                                     <li class="yui3-u-1-6">
-                                        <span><img src="/status/img/goods.png"/></span>
+                                        <span><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}"/></span>
                                     </li>
                                     <li class="yui3-u-7-12">
-                                        <div class="desc">Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列</div>
-                                        <div class="seven">7天无理由退货</div>
+                                        <div class="desc">
+                                            {{$v['goods_name']}}
+                                            <br>
+                                            @foreach($v['specs'] as $vv)
+                                                {{$vv['specs_name']}}:{{$vv['specs_val']}}
+                                            @endforeach
+                                        </div>
                                     </li>
                                     <li class="yui3-u-1-12">
-                                        <div class="price">￥5399.00</div>
+                                        <div class="price">￥{{$v['goods_price']}}</div>
                                     </li>
                                     <li class="yui3-u-1-12">
-                                        <div class="num">X1</div>
-                                    </li>
-                                    <li class="yui3-u-1-12">
-                                        <div class="exit">有货</div>
+                                        {{--<div class="num">X1</div>--}}
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        @endforeach
                         <li></li>
                         <li></li>
                     </ul>
@@ -239,12 +241,15 @@
         var tel=$("#tel").val();
         var email=$("#email").val();
         $.ajax({
-            url:"/index/settl",
+            url:"/index/getorder",
             type:"post",
             dataType:"json",
             data:{address_name:address_name,address:address,tel:tel,email:email},
             success:function(res){
-                alert(res);
+                if(res.code=='0000'){
+                    alert(res.msg);
+                    location=location;
+                }
             }
         })
     })

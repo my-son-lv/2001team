@@ -52,6 +52,7 @@ class VerifyCsrfToken extends Middleware
         "/index/cart",
         "/index/settl",
         "/admin/kill_do",
-        "/saller/sallerdo"
+        "/saller/sallerdo",
+        "/index/getorder"
     ];
 }

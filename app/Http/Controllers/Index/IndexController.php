@@ -13,6 +13,7 @@ class IndexController extends Controller
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->get()->toArray();
         $info = $this->GetIndo($cate_cate);
+//        dd($cate);
         return view("index.index",["data"=>$data,"cate"=>$cate,"info"=>$info]);
     }//首页
 

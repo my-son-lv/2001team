@@ -29,14 +29,17 @@ class CartController extends Controller
         $uid=1;
         $cart_id=request()->cart_id;
         $url=env('API_URL')."api/index/settl";
-        return view("index.cart.settl");
+        $cart=$this->postcurl($url,['user_id'=>$uid,'cart_id'=>$cart_id]);
+        return view("index.cart.settl",['cart'=>$cart['data']['address'],'cartinfo'=>$cart['data']['cartinfo']]);
     }
-
+        //收货地址添加
     public  function  getorder(){
         $uid=1;
         $data=request()->all();
-        dd($data);
-
+        $data['user_id']=$uid;
+        $url=env('API_URL')."api/index/getorder";
+        $cart=$this->postcurl($url,$data);
+        return json_encode($cart,true);
     }
 
 

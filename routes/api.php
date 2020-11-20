@@ -21,7 +21,7 @@ Route::domain('www.2001api.com')->group(function(){
     Route::post('/index/index_show','Api\IndexController@index_show');//详情
     Route::post('/index/addcart','Api\IndexController@addcart');//加入购物车
     Route::post('/index/cart','Api\IndexController@cart');//购物车列表
-    Route::post('/index/settl','Api\IndexController@settl');//结算
-    Route::post('/index/getorder','Api\IndexController@getorder');//三级联动
+    Route::post('/index/settl','Api\IndexController@settl');//结算 收货地址
+    Route::post('/index/getorder','Api\IndexController@getorder');//结算 收货地址
 });
 
