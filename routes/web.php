@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001.com')->group(function(){ //域名分组
+Route::domain('www.2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -32,9 +32,6 @@ Route::any('/test','Index\LoginController@test');
 Route::prefix('/admin')->group(function(){
     Route::any('/kill','Kill\KillController@kill')->middleware("login");//秒杀
     Route::any('/kill_do','Kill\KillController@kill_do')->middleware("login");//秒杀
-
-
-
 
 
     Route::any('/role/index','Admin\RoleController@index')->middleware("login");
@@ -151,6 +148,8 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
     Route::any('/index/getorder','Index\CartController@getorder')->middleware('IndexLogin');//三级联动
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
+
+    Route::any('/index/getorder','Index\CartController@getorder');//收货地址
 
     /**
      * 商家模块

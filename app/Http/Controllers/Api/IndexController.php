@@ -22,6 +22,7 @@ class IndexController extends Controller
         $goods_id=request()->goods_id;
 //        dd($goods_id);
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
+//        dd($goodsimg);
 
 //        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
@@ -31,9 +32,8 @@ class IndexController extends Controller
         $specs_val_model = new Specsval_Model();
         $specs_info = $specs_model->get();
         $specs_val_info = $specs_val_model->get();
-        $data = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info];
-        return $data;
-
+        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info];
+        return $cate;
     }
 //加入购物车
     public  function  addcart(){
@@ -112,13 +112,15 @@ class IndexController extends Controller
             ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
             ->where(['user_id'=>$uid])
             ->get();
+//        dd($cart);
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
-        $data=[];
         foreach($cart as $k=>$v){
+            $data=[];
             if($v->specs_id){
                 $specs_id=explode(':',$v->specs_id);
                 foreach($specs_id as $kk=>$vv){
+//                    dd($vv);
                     $data[]=explode(',',$vv);
                     foreach($data as $kkk=>$vvv){
                         $data[$kkk]['specs_id']=$vvv[0];
@@ -130,16 +132,57 @@ class IndexController extends Controller
                 }
             }
         }
-//        dd($cart);
         return json_encode($cart,true);
     }
 
     #结算
     public  function  settl(){
+        $uid=1;
+        $cart_id=request()->cart_id;
+        $cart_id = explode(',',$cart_id);
+        $address=AddressModel::where('user_id',$uid)->get();
+        $cartinfo=CartModel::select('cart.*','goods.goods_img')
+                ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
+                ->whereIn('cart_id',$cart_id)
+                ->get();
+//        dd($cart);
+        $total=0;
+        $specs_name_model=new Specsname_Model();
+        $specs_val_model=new Specsval_Model();
+        $date=[];
+        foreach($cartinfo as $k=>$v){
+            if($v->specs_id){
+                $specs_id=explode(':',$v->specs_id);
+                foreach($specs_id as $kk=>$vv){
+                    $date[]=explode(',',$vv);
+                    foreach($date as $kkk=>$vvv){
+                        $date[$kkk]['specs_id']=$vvv[0];
+                        $date[$kkk]['specs_name']=$specs_name_model->where('specs_id',$vvv[0])->value('specs_name');
+                        $date[$kkk]['specs_val_id']=$vvv[1];
+                        $date[$kkk]['specs_val']=$specs_val_model->where('id',$vvv[1])->value('specs_val');
+                    }
+                    $cartinfo[$k]['specs']=$date;
+                }
+            }
+           $v['xiaoji']= $v['buy_number']*$v['goods_price'];
+            $total+=$v['buy_number']*$v['goods_price'];
+        }
+
+        return json_encode(['code'=>'0001','msg'=>"成功",'data'=>['address'=>$address,'cartinfo'=>$cartinfo,'total'=>$total]]);
 
     }
+    //地址
+    public  function  getorder(){
+        $uid=1;
+        $data=request()->all();
+        $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
+        $address=AddressModel::insert($data);
 
-
+        if($address){
+            return json_encode(['code'=>'0000','msg'=>"添加收货地址成功",'data'=>[]]);
+        }
+    }
+//秒杀
     public function api_kill(){
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         $kill = KillModel::leftjoin("goods","kill.goods_id","=","goods.goods_id")->get();
@@ -155,7 +198,6 @@ class IndexController extends Controller
         $data = ["cate"=>$cate,"data"=>$data,"info"=>$info];
         return $data;
     }
-
     public function GetIndo($cate_cate,$pid=0){
         $info = [];
         foreach($cate_cate as $k=>$v){
