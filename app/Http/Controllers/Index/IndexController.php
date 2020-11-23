@@ -9,12 +9,6 @@ use App\Models\CateModel;
 class IndexController extends Controller
 {
     public function index(){
-        $cate_cate = CateModel::get();
-        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->get()->toArray();
-        $info = $this->GetIndo($cate_cate);
-//        dd($cate);
-        return view("index.index",["data"=>$data,"cate"=>$cate,"info"=>$info]);
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
         return view("index.index",["cate"=>$cate]);
@@ -44,9 +38,9 @@ class IndexController extends Controller
         $goods_id=request()->goods_id;
 //        dd($goods_id);
         $url=env('API_URL')."api/index/index_show";
-        $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-//        dd($data['dat']);
-        return view("index.index_show",['goods'=>$data['goods'],'cate'=>$data['cate'],'goods_img'=>$data['goodsimg'],'specs_val_info'=>$data['specs_val_info'],'specs_info'=>$data['specs_info']]);
+        $cate=$this->postcurl($url,['goods_id'=>$goods_id]);
+//        dd($cate);
+        return view("index.index_show",['cate'=>$cate]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
@@ -62,6 +56,7 @@ class IndexController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
 //执行
         $result = curl_exec($ch);
+//        echo $result;exit;
 //关闭
         curl_close($ch);
         return json_decode($result,true);

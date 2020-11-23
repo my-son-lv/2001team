@@ -22,15 +22,13 @@ class CartController extends Controller
 //        dd($cart);
         return view("index.cart.cart",['cart'=>$cart]);
     }
-
-
     //结算页
     public function settl(){
         $uid=1;
         $cart_id=request()->cart_id;
         $url=env('API_URL')."api/index/settl";
         $cart=$this->postcurl($url,['user_id'=>$uid,'cart_id'=>$cart_id]);
-        return view("index.cart.settl",['cart'=>$cart['data']['address'],'cartinfo'=>$cart['data']['cartinfo']]);
+        return view("index.cart.settl",['cart'=>$cart['data']['address'],'cartinfo'=>$cart['data']['cartinfo'],'total'=>$cart['data']['total']]);
     }
         //收货地址添加
     public  function  getorder(){
@@ -47,6 +45,7 @@ class CartController extends Controller
 
     //订单页面
     public function order(){
+
         return view("index.order");
     }
     //API post curl

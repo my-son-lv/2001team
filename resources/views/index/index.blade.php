@@ -16,32 +16,32 @@
 <body>
 <!-- 头部栏位 -->
 <!--页面顶部-->
-    @include("frag.index.index_top")
-<!--列表-->
+@include("frag.index.index_top")
+        <!--列表-->
 <div class="sort">
     <div class="py-container">
         <div class="yui3-g SortList ">
             <div class="yui3-u Left all-sort-list">
                 <div class="all-sort-list2">
                     @foreach($cate["info"] as $v)
-                    <div class="item bo">
-                        <h3><a href="javascript:;">{{$v["cate_name"]}}</a></h3>
-                        <div class="item-list clearfix">
-                            <div class="subitem">
-                                <dl class="fore1">
-                                    @foreach($v["son"] as $vv)
-                                    <dt><a href="">{{$vv["cate_name"]}}</a></dt>
-                                    @endforeach
-                                    <dd>
-                                        @foreach($vv["son"] as $vvv)
-                                        <em><a href="{{url('index/index_list/'.$vvv['cate_id'])}}">{{$vvv["cate_name"]}}</a></em>
+                        <div class="item bo">
+                            <h3><a href="javascript:;">{{$v["cate_name"]}}</a></h3>
+                            <div class="item-list clearfix">
+                                <div class="subitem">
+                                    <dl class="fore1">
+                                        @foreach($v["son"] as $vv)
+                                            <dt><a href="">{{$vv["cate_name"]}}</a></dt>
                                         @endforeach
-                                    </dd>
-                                </dl>
+                                        <dd>
+                                            @foreach($vv["son"] as $vvv)
+                                                <em><a href="{{url('index/index_list/'.$vvv['cate_id'])}}">{{$vvv["cate_name"]}}</a></em>
+                                            @endforeach
+                                        </dd>
+                                    </dl>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                        @endforeach
+                    @endforeach
                 </div>
             </div>
             <div class="yui3-u Center banerArea">
@@ -145,27 +145,27 @@
                     </li>
                 </ul>
                 <div class="life-item-content">
-						<div class="life-detail">
-							<i class="close">关闭</i>
-							<p>话费充值</p>
-							<button class="sui-btn btn-danger invest">去·充值</button>
-						</div>
-						<div class="life-detail">
-							<i class="close">关闭</i>
-							<p>机票预定</p>
-							<button class="sui-btn btn-danger plane">去·预定</button>
-						</div>
-						<div class="life-detail">
-							<i class="close">关闭</i>
-							<p>各式大片等你来看</p>
-							<button class="sui-btn btn-danger film">去·观看</button>
-						</div>
-						<div class="life-detail">
-							<i class="close">关闭</i>
-							<p>在线小游戏等你来战</p>
-							<button class="sui-btn btn-danger game">去·娱乐</button>
-						</div>
-					</div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>话费充值</p>
+                        <button class="sui-btn btn-danger invest">去·充值</button>
+                    </div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>机票预定</p>
+                        <button class="sui-btn btn-danger plane">去·预定</button>
+                    </div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>各式大片等你来看</p>
+                        <button class="sui-btn btn-danger film">去·观看</button>
+                    </div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>在线小游戏等你来战</p>
+                        <button class="sui-btn btn-danger game">去·娱乐</button>
+                    </div>
+                </div>
                 <div class="ads">
                     <img src="/status/img/ad1.png" />
                 </div>
@@ -209,25 +209,25 @@
         <div class="bd">
             <ul class="clearfix yui3-g Favourate picLB" id="picLBxxl">
                 @foreach($cate["data"] as $v)
-                <li class="yui3-u-1-6">
-                    <dl class="picDl huozhe">
-                        <dd>
-                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"   /></a>
-                            <div class="like-text">
-                                <p>{{$v["goods_name"]}}</p>
-                                <h3>¥{{$v["goods_price"]}}</h3>
-                            </div>
-                        </dd>
-                        <dd>
-                            <a href="" class="pic"><img src="/status/img/like_01.png" alt="" /></a>
-                            <div class="like-text">
-                                <p>爱仕达 30CM炒锅不粘锅NWG8330E电磁炉炒</p>
-                                <h3>¥116.00</h3>
-                            </div>
-                        </dd>
-                    </dl>
-                </li>
-                    @endforeach
+                    <li class="yui3-u-1-6">
+                        <dl class="picDl huozhe">
+                            <dd>
+                                <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"   /></a>
+                                <div class="like-text">
+                                    <p>{{$v["goods_name"]}}</p>
+                                    <h3>¥{{$v["goods_price"]}}</h3>
+                                </div>
+                            </dd>
+                            <dd>
+                                <a href="" class="pic"><img src="/status/img/like_01.png" alt="" /></a>
+                                <div class="like-text">
+                                    <p>爱仕达 30CM炒锅不粘锅NWG8330E电磁炉炒</p>
+                                    <h3>¥116.00</h3>
+                                </div>
+                            </dd>
+                        </dl>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
@@ -506,7 +506,7 @@
 <!-- 底部栏位 -->
 <!--页面底部-->
 @include("frag.index.index_foot")
-<!--页面底部END-->
+        <!--页面底部END-->
 <!-- 楼层位置 -->
 <div id="floor-index" class="floor-index">
     <ul>
@@ -705,7 +705,7 @@
     $(document).on('click','.film',function(){
         location.href="https://maoyan.com/";
     })
-	$(document).on('click','.game',function(){
+    $(document).on('click','.game',function(){
         location.href="http://www.4399.com/";
     })
     $(document).on('click','.kbmore',function(){

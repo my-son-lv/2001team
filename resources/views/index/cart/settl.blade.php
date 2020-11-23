@@ -68,7 +68,7 @@
                         @foreach($cart as $v)
                         <li class="addr-item">
                             <div>
-                                <div class="con name selected"><a href="javascript:;" >{{$v['address_name']}}<span title="点击取消选择">&nbsp;</a></div>
+                                <div class="con name @if($v['is_moren']==1)selected @endif"><a href="javascript:;" >{{$v['address_name']}}<span title="点击取消选择">&nbsp;</a></div>
                                 <div class="con address">{{$v['address']}}<span>{{$v['tel']}}</span>
                                     @if($v['is_moren']==1)
                                     <span class="base">默认地址</span>
@@ -81,8 +81,6 @@
                             </div>
                         </li>
                             @endforeach
-
-
                     </ul>
                     <!--添加地址-->
                     <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
@@ -170,6 +168,9 @@
                                         <div class="price">￥{{$v['goods_price']}}</div>
                                     </li>
                                     <li class="yui3-u-1-12">
+                                        <div class="num">X{{$v['buy_number']}}</div>
+                                    </li>
+                                    <li class="yui3-u-1-12">
                                         {{--<div class="num">X1</div>--}}
                                     </li>
                                 </ul>
@@ -202,8 +203,8 @@
     <div class="order-summary">
         <div class="static fr">
             <div class="list">
-                <span><i class="number">1</i>件商品，总商品金额</span>
-                <em class="allprice">¥5399.00</em>
+                <span><i class="number">{{count($cartinfo)}}</i>件商品，总商品金额</span>
+                <em class="allprice">¥{{$total}}</em>
             </div>
             <div class="list">
                 <span>返现：</span>
@@ -216,8 +217,14 @@
         </div>
     </div>
     <div class="clearfix trade">
-        <div class="fc-price">应付金额:　<span class="price">¥5399.00</span></div>
-        <div class="fc-receiverInfo">寄送至:北京市海淀区三环内 中关村软件园9号楼 收货人：某某某 159****3201</div>
+        <div class="fc-price">应付金额:　<span class="price">¥{{$total}}</span></div>
+        <div class="fc-receiverInfo">
+            @foreach($cart as $v)
+                @if($v['is_moren']==1)
+                    寄送至:{{$v['address']}} 收货人：{{$v['address_name']}} {{$v['tel']}}
+                @endif
+            @endforeach
+        </div>
     </div>
     <div class="submit">
         <a class="sui-btn btn-danger btn-xlarge" href="pay.html">提交订单</a>
