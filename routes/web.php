@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('2001team.com')->group(function(){ //域名分组
+Route::domain('www.2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -147,9 +147,7 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_foot','Index\HomeController@home_foot')->middleware('IndexLogin');//我的足迹
     Route::any('/index/home_info','Index\HomeController@home_info')->middleware('IndexLogin');//个人信息
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
-    Route::any('/index/cart','Index\CartController@cart');//购物车
-    Route::any('/index/order','Index\CartController@order');//订单
-    Route::any('/index/settl','Index\CartController@settl');//结算页
+
     Route::any('/index/getorder','Index\CartController@getorder');//收货地址
 
 
