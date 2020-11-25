@@ -34,7 +34,25 @@ class IndexController extends Controller
         $cate = $this->postcurl($url); 
         // $soncate_id=CateModel::where('pid',$cate_id)->pluck('cate_id');
         // $soncate_id=$soncate_id?$soncate_id->toArray():[];
-        $goods=GoodsModel::where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(3);
+        $query=request()->all();
+        // dump($query);
+        $where=[];
+        if(isset($query['brand_id'])){
+            $where[]=[
+                'brand_id','=',$query['brand_id']
+            ];
+        }
+        if(isset($query['price'])){
+            $price_array = explode('元',$query['price']);
+            $price_array = explode('-',$price_array[0]);
+            // dump($price_array); 
+            $where[]=['goods_price','>',$price_array[0]];
+            if(isset($price_array[1])){
+                $where[]=['goods_price','<',$price_array[1]];
+            }
+        }
+        // dump($where);
+        $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(3);
         // dd($cate_id);
         $goods_price=GoodsModel::where(['is_shelf'=>1,'is_del'=>1,'cate_id'=>$cate_id])->max('goods_price');
         if ($goods_price) {
@@ -51,7 +69,7 @@ class IndexController extends Controller
         // dd($brand_ids);
         $brand=Brand_Model::whereIn('brand_id',$brand_ids)->get();
         // dd($brand);
-        return view("index.index_list",['cate'=>$cate,'goods'=>$goods,'goods_hot'=>$goods_hot,'cate_name'=>$cate_name,'brand'=>$brand,'price'=>$price]);
+        return view("index.index_list",['cate'=>$cate,'goods'=>$goods,'goods_hot'=>$goods_hot,'cate_name'=>$cate_name,'brand'=>$brand,'price'=>$price,'query'=>$query]);
     }
     public function getPrice($goods_price){
         // dd($goods_price);
