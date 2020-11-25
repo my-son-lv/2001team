@@ -24,9 +24,6 @@ class LoginController extends Controller
             return json_encode($arr=['code'=>'0001','msg'=>'密码不能为空']);
         }
         $user=User::where('user_name',$all['user_name'])->first();
-        // print_r($user->user_pwd);
-//         echo $user;die;
-
         if($user){
             // var_dump($user);
             if(decrypt($user['user_pwd'])==$all['user_pwd']){

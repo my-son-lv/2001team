@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
     <title>品优购，优质！优质！</title>
-    <link rel="icon" href="assets//status/img/favicon.ico">
+    <link rel="icon" href="assets/status/img/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css"/>
     <link rel="stylesheet" type="text/css" href="/status/css/pages-JD-index.css"/>
@@ -25,12 +25,12 @@
                 <div class="all-sort-list2">
                     @foreach($cate["info"] as $v)
                         <div class="item bo">
-                            <h3><a href="javascript:;">{{$v["cate_name"]}}</a></h3>
+                            <h3><a href="{{url('index/index_list/'.$v['cate_id'])}}">{{$v["cate_name"]}}</a></h3>
                             <div class="item-list clearfix">
                                 <div class="subitem">
                                     <dl class="fore1">
-                                        @foreach($v["son"] as $vv)
-                                            <dt><a href="">{{$vv["cate_name"]}}</a></dt>
+                                        @foreach($v["son"] as $vv) 
+                                            <dt><a href="{{url('index/index_list/'.$vv['cate_id'])}}">{{$vv["cate_name"]}}</a></dt>
                                         @endforeach
                                         <dd>
                                             @foreach($vv["son"] as $vvv)
@@ -54,17 +54,17 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="active item">
-                            <a href="http://baidu2.wypxj.com/">
+                            <a href="http://jd.com/">
                                 <img src="/status/img/banner1.jpg"  />
                             </a>
                         </div>
                         <div class="item">
-                            <a href="http://baidu2.wypxj.com/">
+                            <a href="http://baidu.com/">
                                 <img src="/status/img/banner2.jpg"  />
                             </a>
                         </div>
                         <div class="item">
-                            <a href="http://baidu2.wypxj.com/">
+                            <a href="http://taobao.com/">
                                 <img src="/status/img/banner3.jpg"  />
                             </a>
 
@@ -183,20 +183,7 @@
                     <h3>今日推荐</h3>
                 </div>
             </li>
-            <li class="yui3-u-5-24">
-                <a href="list.html" target="_blank"><img src="/status/img/today01.png" /></a>
-            </li>
-            <li class="yui3-u-5-24">
-                <img src="/status/img/today02.png" />
-            </li>
-            <li class="yui3-u-5-24">
-                <img src="/status/img/today03.png" />
-            </li>
-            <li class="yui3-u-5-24">
-                <img src="/status/img/today04.png" />
-            </li>
-        </ul>
-        <ul>
+         
             @foreach($goods as $v)
             <li class="yui3-u-5-24">           
                 <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>
@@ -213,7 +200,6 @@
         <div class="title">
             <h3 class="fl">猜你喜欢</h3>
             <b class="border"></b>
-            <a href="javascript:;" class="fr tip changeBnt" id="xxlChg"><i></i>换一换</a>
         </div>
         <div class="bd">
             <ul class="clearfix yui3-g Favourate picLB" id="picLBxxl">

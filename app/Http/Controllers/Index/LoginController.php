@@ -11,6 +11,7 @@ use App\Models\Tel_code;
 use App\Models\User;
 use Illuminate\Support\Facades\Redis;
 use App\Common\Jwt;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -28,19 +29,17 @@ class LoginController extends Controller
     }
     //执行登录
     public function logindo(){
-//        dd(123);
         $data=request()->all();
-//         dd($data);
-        // dd(Redis::get('token'));
+        //dd($data);
         if(!isset($_COOKIE['token'])){
             // dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-            //  dd($res);
+            // dd($res['token']);
             if($res['code']=='0000'){
-                
                 Redis::Hset('token',$res['token'],$res['user_id']);
                 setcookie('token',$res['token']); //存cookie
+                // Cookie::make('token', $res['token']);
                 // dd($_COOKIE['token']);//取cookie
                 return json_encode($res);
             }else{
@@ -145,7 +144,7 @@ class LoginController extends Controller
         curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
-         echo $output;exit;
+        //  echo $output;exit;
         curl_close($curl);
         return json_decode($output,true);
     }
