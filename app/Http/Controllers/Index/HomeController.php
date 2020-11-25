@@ -7,6 +7,8 @@ use App\Models\GoodsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use App\Models\OrderModel;
+use App\Models\ColleModel;
+use App\Models\FootModel;
 class HomeController extends Controller
 {
     public function home(){
@@ -75,13 +77,23 @@ class HomeController extends Controller
     public function home_person(){
         $url = "http://www.2001api.com/api/index/user_home";
         $cate = $this->postcurl($url);
-        return view("index.home.home_person",["cate"=>$cate]);
+        if(isset($_COOKIE["token"])){
+            $token = $_COOKIE["token"];
+            $user_id = Redis::hget("token",$token);
+            $data = ColleModel::leftjoin("goods","colle.goods_id","=","goods.goods_id")->where(["colle.user_id"=>$user_id])->get();
+        }
+        return view("index.home.home_person",["cate"=>$cate,"data"=>$data]);
     }//我的收藏
 
     public function home_foot(){
+        if(isset($_COOKIE["token"])){
+            $token = $_COOKIE["token"];
+            $user_id = Redis::hget("token",$token);
+            $data = FootModel::leftjoin("goods","foot.goods_id","=","goods.goods_id")->where(["foot.user_id"=>$user_id])->get();
+        }
         $url = "http://www.2001api.com/api/index/user_home";
         $cate = $this->postcurl($url);
-        return view("index.home.home_foot",["cate"=>$cate]);
+        return view("index.home.home_foot",["cate"=>$cate,"data"=>$data]);
     }//我的足迹
 
     public function home_info(){

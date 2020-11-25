@@ -18,8 +18,6 @@
 <!-- 头部栏位 -->
 <!--页面顶部-->
 @include("frag.index.index_top")
-
-
 <div class="py-container">
     <div id="item">
         <div class="crumb-wrap">
@@ -44,7 +42,7 @@
                     <!--默认第一个预览-->
                     <div id="preview" class="spec-preview">
                         <span class="jqzoom">
-                                <img src="{{env('JUSTME_URL')}}{{$cate['goods']['goods_img']}}" width="405px" height="395px"/>
+                                <img src="{{env('JUSTME_URL')}}{{$cate['goods']["goods_img"]}}" width="405px" height="395px"/>
                         </span>
                     </div>
                     <!--下方的缩略图-->

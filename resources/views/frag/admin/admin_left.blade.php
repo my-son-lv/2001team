@@ -29,6 +29,11 @@
                 </a>
                 <ul class="treeview-menu">
                     <li id="admin-login">
+                        <a href="/admin/examine" >
+                            <i class="fa fa-circle-o"></i>商品审核
+                        </a>
+                    </li>
+                    <li id="admin-login">
                         <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
@@ -108,12 +113,12 @@
                 <ul class="treeview-menu">
 
                     <li id="admin-login">
-                        <a href="seller_1.html" >
+                        <a href="/admin/saller_exam" >
                             <i class="fa fa-circle-o"></i>商家审核
                         </a>
                     </li>
                     <li id="admin-login">
-                        <a href="seller.html" >
+                        <a href="/admin/saller" >
                             <i class="fa fa-circle-o"></i>商家管理
                         </a>
                     </li>

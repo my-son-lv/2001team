@@ -183,6 +183,20 @@
                     <h3>今日推荐</h3>
                 </div>
             </li>
+            <li class="yui3-u-5-24">
+                <a href="list.html" target="_blank"><img src="/status/img/today01.png" /></a>
+            </li>
+            <li class="yui3-u-5-24">
+                <img src="/status/img/today02.png" />
+            </li>
+            <li class="yui3-u-5-24">
+                <img src="/status/img/today03.png" />
+            </li>
+            <li class="yui3-u-5-24">
+                <img src="/status/img/today04.png" />
+            </li>
+        </ul>
+        <ul>
             @foreach($goods as $v)
             <li class="yui3-u-5-24">           
                 <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>

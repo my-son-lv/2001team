@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\GoodsModel;
 use App\Models\CateModel;
 use App\Models\Brand_Model;
+use App\Models\FootModel;
+use App\Models\ColleModel;
+use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
+//        dd($cate);
+//        return view("index.index",["cate"=>$cate]);
         $goods=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
         // dd($goods);
         return view("index.index",["cate"=>$cate,'goods'=>$goods]);
@@ -90,15 +95,19 @@ class IndexController extends Controller
         return $price;
     }
 
-
     //详情
     public function index_show(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
         $goods_id=request()->goods_id;
+        $toekn = $_COOKIE["token"];
+        $Foot_Model = new FootModel();
+        $Foot_Model->user_id = Redis::hget("token",$toekn);
+        $Foot_Model->goods_id = $goods_id;
+        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        return view("index.index_show",['cate'=>$data]);
+        return view("index.index_show",["cate"=>$data]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
@@ -115,4 +124,20 @@ class IndexController extends Controller
         return json_decode($result,true);
     }
 
+    public function user_colle(){
+        if(isset($_COOKIE["token"])){
+            $Colle_Model = new ColleModel();
+            $token = $_COOKIE["token"];
+            $Colle_Model->goods_id = request()->goods_id;
+            $Colle_Model->user_id = Redis::hget("token",$token);
+            $res = $Colle_Model->save();
+            if($res){
+                return json_encode(["code"=>0000,"message"=>"收藏OK"]);
+            }else{
+                return json_encode(["code"=>0001,"message"=>"收藏NO"]);
+            }
+        }else{
+            return json_encode(["code"=>0001,"message"=>"请登录"]);
+        }
+    }
 }
