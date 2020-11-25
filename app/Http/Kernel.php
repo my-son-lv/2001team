@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'login' => \App\Http\Middleware\Loginsss::class,
         'IndexLogin' => \App\Http\Middleware\IndexLogin::class,
+        'CheckSallerLogin' => \App\Http\Middleware\CheckSallerLogin::class,
     ];
 
     /**

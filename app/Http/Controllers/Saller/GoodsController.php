@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Saller;
 use App\Http\Controllers\Controller;
 use App\Models\Brand_Model;
 use App\Models\CateModel;
+use App\Models\SallerModel;
 use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
 use Illuminate\Http\Request;
@@ -17,6 +18,12 @@ class GoodsController extends Controller
      * 商家 商品添加
      */
     public function create(){
+        $saller_id = session('saller_info')->saller_id;
+        $saller_model = new SallerModel();
+        $saller_status = $saller_model->saller_status_true($saller_id);
+        if($saller_status!==1){
+            return redirect('/saller');
+        }
         $brand_info= Brand_Model::where('is_del',1)->get();
         $specs_name_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
@@ -122,6 +129,12 @@ class GoodsController extends Controller
      * 商家 商品展示
      */
     public function goods(){
+        $saller_id = session('saller_info')->saller_id;
+        $saller_model = new SallerModel();
+        $saller_status = $saller_model->saller_status_true($saller_id);
+        if($saller_status!==1){
+            return redirect('/saller');
+        }
         $goods_model = new GoodsModel();
         $saller_id = session('saller_info')->saller_id;
         $goods_imgs_model = new GoodsImgsModel();
@@ -135,6 +148,12 @@ class GoodsController extends Controller
      * 商家修改展示
      */
     public function update(){
+        $saller_id = session('saller_info')->saller_id;
+        $saller_model = new SallerModel();
+        $saller_status = $saller_model->saller_status_true($saller_id);
+        if($saller_status!==1){
+            return redirect('/saller');
+        }
         $goods_id = request()->goods_id;
         $goods_model = new GoodsModel();
         $goods_info = $goods_model->goods_first($goods_id);

@@ -18,4 +18,7 @@ class SallerInfoModel extends Model
     public function saller_info_update($saller_id,$data){
         return SallerInfoModel::where('saller_id',$saller_id)->update($data);
     }
+    public function goods_info_saller_name($saller_id){
+        return SallerInfoModel::where('saller_id',$saller_id)->value('saller_name');
+    }
 }

@@ -265,7 +265,7 @@
             layui.$("input[name='goods_img']").attr('value',res.data.urls);
             }
         });
-
+.
         //多图片上传
         upload.render({
             elem: '#test2'

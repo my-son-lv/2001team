@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001.com')->group(function(){ //域名分组
+Route::domain('www.2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -96,6 +96,20 @@ Route::prefix('/admin')->group(function(){
     Route::any('/coupon/store','Coupon\CouponController@store')->middleware("login");
     Route::any('/coupon/del','Coupon\CouponController@del')->middleware("login");
 
+    //商品审核 examine
+    Route::any('/examine','Examine\ExamineController@examine')->middleware("login");
+    Route::any('/examine/exam_true','Examine\ExamineController@exam_true')->middleware("login");
+    Route::any('/examine/exam_false','Examine\ExamineController@exam_false')->middleware("login");
+
+    //商家审核
+    Route::any('/saller_exam','Examine\ExamineController@saller_exam')->middleware("login");
+    Route::any('/saller_examine','Examine\ExamineController@saller_examine')->middleware("login");
+    Route::any('/saller_examine/saller_true','Examine\ExamineController@saller_true')->middleware("login");
+    Route::any('/saller_examine/saller_false','Examine\ExamineController@saller_false')->middleware("login");
+    Route::any('/saller_examine/saller_down','Examine\ExamineController@saller_down')->middleware("login");
+    //后台的商家管理
+    Route::any('/saller','Examine\ExamineController@saller')->middleware("login");
+
 });
 
 
@@ -131,6 +145,16 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/cart','Index\CartController@cart');//购物车列表
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
     Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
+
+// ->middleware('IndexLogin');//购物车->middleware('IndexLogin');//订单->middleware('IndexLogin');//结算页
+    Route::any('/index/cart','Index\CartController@cart');//购物车
+    Route::any('/index/getTypePrice','Index\CartController@getTypePrice');//购物车 +
+    Route::any('/index/getTypePrices','Index\CartController@getTypePrices');//购物车 -
+    Route::any('/index/getInputPrice','Index\CartController@getInputPrice');//购物车 文本框
+    Route::any('/index/del','Index\CartController@del');//购物车 单删
+    Route::any('/index/manydel','Index\CartController@manydel');//购物车 复选框
+    Route::any('/index/order','Index\CartController@order');#订单
+    Route::any('/index/settl','Index\CartController@settl');#结算
     Route::any('/user_colle','Index\IndexController@user_colle');//用户点击列表收藏
 
     Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
@@ -154,23 +178,25 @@ Route::prefix("admin")->group(function(){
     /**
      * 商家模块
      */
-    Route::any('/saller/login','Saller\LoginController@login');//商家登录
-    Route::any('/saller/logindo','Saller\LoginController@logindo');//商家登录
-    Route::any('/saller/reg','Saller\LoginController@reg');//商家入驻
-    Route::any('/saller/regdo','Saller\LoginController@regdo');//商家入驻方法
-    Route::any('/saller','Saller\SallerController@index');//商家模块首页
-    Route::any('/saller/saller','Saller\SallerController@saller');//商家模块商家信息
-    Route::any('/saller/sallerdo','Saller\SallerController@sallerdo');//商家模块修改商家信息
-    Route::any('/saller/update_pwd','Saller\SallerController@update_pwd');//商家模块商家修改密码
-    Route::any('/saller/goods/create','Saller\GoodsController@create');//商家模块 添加商品
-    Route::any('/saller/goods','Saller\GoodsController@goods');//商家模块 商品展示
-    Route::any('/saller/goods/upload','Saller\GoodsController@upload');//商家模块 上传图片
-    Route::any('/saller/goods/uploads','Saller\GoodsController@uploads');//商家模块 上传相册
-    Route::any('/saller/goods/specs_create','Saller\GoodsController@specs_create');//商家模块 sku处理
-    Route::any('/saller/goods/specs','Saller\GoodsController@specs');//商家模块 规格添加
-    Route::any('/saller/goods/store','Saller\GoodsController@store');//商家模块 商品添加方法
-    Route::any('/saller/goods/update','Saller\GoodsController@update');//商家模块 修改
-    Route::any('/saller/goods/del','Saller\GoodsController@del');//商家模块 批量删除
-
+    Route::any('/saller/login', 'Saller\LoginController@login');//商家登录
+    Route::any('/saller/reg', 'Saller\LoginController@reg');//商家入驻
+    Route::any('/saller/regdo', 'Saller\LoginController@regdo');//商家入驻方法
+    Route::any('/saller/logindo', 'Saller\LoginController@logindo');//商家登录
+    Route::prefix("saller")->middleware('CheckSallerLogin')->group(function() {
+        Route::any('/', 'Saller\SallerController@index');//商家模块首页
+        Route::any('/saller', 'Saller\SallerController@saller');//商家模块商家信息
+        Route::any('/sallerdo', 'Saller\SallerController@sallerdo');//商家模块修改商家信息
+        Route::any('/update_pwd', 'Saller\SallerController@update_pwd');//商家模块商家修改密码
+        Route::any('/goods/create', 'Saller\GoodsController@create');//商家模块 添加商品
+        Route::any('/goods', 'Saller\GoodsController@goods');//商家模块 商品展示
+        Route::any('/goods/upload', 'Saller\GoodsController@upload');//商家模块 上传图片
+        Route::any('/goods/uploads', 'Saller\GoodsController@uploads');//商家模块 上传相册
+        Route::any('/goods/specs_create', 'Saller\GoodsController@specs_create');//商家模块 sku处理
+        Route::any('/goods/specs', 'Saller\GoodsController@specs');//商家模块 规格添加
+        Route::any('/goods/store', 'Saller\GoodsController@store');//商家模块 商品添加方法
+        Route::any('/goods/update', 'Saller\GoodsController@update');//商家模块 修改
+        Route::any('/goods/del', 'Saller\GoodsController@del');//商家模块 批量删除
+        Route::any('/order', 'Saller\OrderController@order');//商家模块 订单管理
+    });
 
 });

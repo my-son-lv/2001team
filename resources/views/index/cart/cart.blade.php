@@ -72,9 +72,10 @@
                 <div class="cart-body">
                     <div class="cart-list">
                         @foreach($cart as $v)
+                            {{--@php  dump($cart)  @endphp--}}
                         <ul class="goods-list yui3-g">
                             <li class="yui3-u-1-24">
-                                <input type="checkbox" class="cart_id" value="{{$v['cart_id']}}" />
+                                <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
                             </li>
                             <li class="yui3-u-11-24">
                                 <div class="good-item">
@@ -90,13 +91,13 @@
 
                             <li class="yui3-u-1-8"><span class="price">{{$v['goods_price']}}</span></li>
                             <li class="yui3-u-1-8">
-                                <a href="javascript:void(0)" class="increment mins">-</a>
-                                <input autocomplete="off" type="text" value="1" minnum="1" class="itxt" />
-                                <a href="javascript:void(0)" class="increment plus">+</a>
+                                <a href="javascript:void(0)" class="increment mins" cart_id="{{$v['cart_id']}}">-</a>
+                                <input autocomplete="off" type="text" cart_id="{{$v['cart_id']}}" value="{{$v['buy_number']}}" minnum="1" class="itxt" />
+                                <a href="javascript:void(0)" class="increment plus" cart_id="{{$v['cart_id']}}">+</a>
                             </li>
                             <li class="yui3-u-1-8"><span class="sum">{{$v['goods_price']*$v['buy_number']}}</span></li>
                             <li class="yui3-u-1-8">
-                                <a href="#none">删除</a><br />
+                                <a href="javascript:void(0)" cart_id="{{$v['cart_id']}}" id="del">删除</a><br />
                                 <a href="#none">移到我的关注</a>
                             </li>
                         </ul>
@@ -107,7 +108,7 @@
         </div>
         <div class="cart-tool">
             <div class="select-all">
-                <input type="checkbox" name="" id="" value="" />
+                <input type="checkbox" name="" id="" value="" class="checkbox" />
                 <span>全选</span>
             </div>
             <div class="option">
@@ -118,7 +119,7 @@
             <div class="toolbar">
                 <div class="chosed">已选择<span>0</span>件商品</div>
                 <div class="sumprice">
-                    <span><em>总价（不含运费） ：</em><i class="summoney">¥16283.00</i></span>
+                    <span><em>总价（不含运费） ：</em><i class="summoney">¥0</i></span>
                     <span><em>已节省：</em><i>-¥20.00</i></span>
                 </div>
                 <div class="sumbtn">
@@ -127,33 +128,11 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="deled">
-            <span>已删除商品，您可以重新购买或加关注：</span>
-            <div class="cart-list del">
-                <ul class="goods-list yui3-g">
-                    <li class="yui3-u-1-2">
-                        <div class="good-item">
-                            <div class="item-msg">Apple Macbook Air 13.3英寸笔记本电脑 银色（Corei5）处理器/8GB内存</div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-6"><span class="price">8848.00</span></li>
-                    <li class="yui3-u-1-6">
-                        <span class="number">1</span>
-                    </li>
-                    <li class="yui3-u-1-8">
-                        <a href="#none">重新购买</a>
-                        <a href="#none">移到我的关注</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
         <div class="liked">
             <ul class="sui-nav nav-tabs">
                 <li class="active">
                     <a href="#index" data-toggle="tab">猜你喜欢</a>
-                </li>
-                <li>
-                    <a href="#profile" data-toggle="tab">特惠换购</a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -163,106 +142,19 @@
                         <div class="carousel-inner">
                             <div class="active item">
                                 <ul>
+                                    @foreach($goods as $v)
+
                                     <li>
-                                        <img src="/status/img/like1.png" />
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
                                         <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
+                                            <i>{{$v['goods_name']}}</i>
                                         </div>
                                         <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
+                                            <span>${{$v['goods_price']}}</span>
                                         </div>
                                     </li>
-                                    <li>
-                                        <img src="/status/img/like2.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img src="/status/img/like3.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img src="/status/img/like4.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="item">
-                                <ul>
-                                    <li>
-                                        <img src="/status/img/like1.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img src="/status/img/like2.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img src="/status/img/like3.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img src="/status/img/like4.png" />
-                                        <div class="intro">
-                                            <i>Apple苹果iPhone 6s (A1699)</i>
-                                        </div>
-                                        <div class="money">
-                                            <span>$29.00</span>
-                                        </div>
-                                        <div class="incar">
-                                            <a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car"></i><span class="cartxt">加入购物车</span></a>
-                                        </div>
-                                    </li>
+                                    @endforeach
+
                                 </ul>
                             </div>
                         </div>
@@ -281,13 +173,60 @@
 <!--页面底部-->
 @include("frag.index.index_foot")
 <!--页面底部END-->
-
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/status/js/plugins/jquery.easing/jquery.easing.min.js"></script>
 <script type="text/javascript" src="/status/js/plugins/sui/sui.min.js"></script>
 <script type="text/javascript" src="/status/js/widget/nav.js"></script>
 </body>
 <script>
+
+    //复选框
+    $(document).on("click",".cart_id",function(){
+        var cart_id=new Array();
+        $(".cart_id:checked").each(function(){
+            cart_id.push($(this).val());
+        });
+        $.ajax({
+            url:"/index/manydel",
+            data:{cart_id:cart_id},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=='0000'){
+                    $(".summoney").text(res.total.total);
+                }
+            }
+        })
+
+    })
+    //全选
+    $(document).on('click',"input[class='checkbox']",function(){
+        if($(this).prop('checked')){
+            $("input[class='checkbox']").prop('checked', true);
+            $("input[class='cart_id']").prop('checked', true);
+            var cart_id=new Array();
+            $(".cart_id:checked").each(function(){
+                cart_id.push($(this).val());
+            });
+            $.ajax({
+                url:"/index/manydel",
+                data:{cart_id:cart_id},
+                type:"post",
+                dataType:"json",
+                success:function(res){
+                    if(res.code=='0000'){
+                        $(".summoney").text(res.total.total);
+                    }
+                }
+            })
+        }else{
+            $("input[class='checkbox']").prop('checked', false);
+            $("input[class='cart_id']").prop('checked', false);
+            $(".summoney").text(0);
+        }
+    })
+
+
     $(document).on("click",".sum-btn",function(){
             var cart_id=new Array();
         $(".cart_id:checked").each(function(){
@@ -295,5 +234,84 @@
         });
         window.location.href="settl?cart_id="+cart_id;
     })
+    //+
+    $(document).on("click",".plus",function(){
+        var type=$(this).text();
+        var cart_id=$(this).prev().attr('cart_id');
+        var buy_number = $(this).prev(".itxt").val();
+        $.ajax({
+            url:"/index/getTypePrice",
+            data:{type:type,cart_id:cart_id,buy_number:buy_number},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+//                console.log(res);return;
+                    if(res.code=='0000'){
+                        $("input[cart_id='"+cart_id+"']").val(res.buy_number);
+                        $(".sum").text(res.total.total);
+//                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
+                    }
+            }
+        })
+    })
+    //-
+    $(document).on("click",".mins",function(){
+        var type=$(this).text();
+        var cart_id=$(this).next().attr('cart_id');
+        var buy_number = $(this).next(".itxt").val();
+        $.ajax({
+            url:"/index/getTypePrices",
+            data:{type:type,cart_id:cart_id,buy_number:buy_number},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=='0000'){
+                    $("input[cart_id='"+cart_id+"']").val(res.buy_number);
+                    $(".sum").text(res.total.total);
+//                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
+                }
+            }
+        })
+    })
+    //文本框
+    $(document).on("blur",".itxt",function(){
+        var buy_number=$(this).val();
+        var cart_id=$(this).attr("cart_id");
+        var res=/^\+?[1-9][0-9]*$/;
+        if(!res.test(buy_number)){
+            alert("购买数量有误！！！");return;
+        }
+        $.ajax({
+            url:"/index/getInputPrice",
+            data:{buy_number:buy_number,cart_id:cart_id},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=='0000'){
+                    $("input[cart_id='"+cart_id+"']").val(res.buy_number);
+                    $(".sum").text(res.total.total);
+                }
+            }
+        })
+    })
+    //单删
+    $(document).on("click","#del",function(){
+        var cart_id=$("#del").attr("cart_id");
+        $.ajax({
+            url:"/index/del",
+            data:{cart_id:cart_id},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=="0000"){
+                    alert(res.msg);
+                    location=location;
+                }
+            }
+        })
+    })
+
+
+
 </script>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Saller;
 
 use App\Http\Controllers\Controller;
 use App\Models\SallerInfoModel;
+use App\Models\SallerModel;
 use Illuminate\Http\Request;
 
 class SallerController extends Controller
@@ -19,9 +20,14 @@ class SallerController extends Controller
      * 商家的资料
      */
     public function saller(){
-        $saller_info = session('saller_info');
+        $saller_id = session('saller_info')->saller_id;
+        $saller_model = new SallerModel();
+        $saller_status = $saller_model->saller_status_true($saller_id);
+        if($saller_status!==1){
+            return redirect('/saller');
+        }
         $saller_info_model = new SallerInfoModel();
-        $saller_info_first = $saller_info_model->saller_info_first(['saller_id'=>$saller_info['saller_id']]);
+        $saller_info_first = $saller_info_model->saller_info_first(['saller_id'=>$saller_id]);
         return view('admin.saller.saller',['saller_info_first'=>$saller_info_first]);
     }
 
