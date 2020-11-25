@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001team.com')->group(function(){ //域名分组
+Route::domain('www.2001.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -32,7 +32,6 @@ Route::any('/test','Index\LoginController@test');
 Route::prefix('/admin')->group(function(){
     Route::any('/kill','Kill\KillController@kill')->middleware("login");//秒杀
     Route::any('/kill_do','Kill\KillController@kill_do')->middleware("login");//秒杀
-
 
     Route::any('/role/index','Admin\RoleController@index')->middleware("login");
     Route::any('/role/store','Admin\RoleController@store')->middleware("login");

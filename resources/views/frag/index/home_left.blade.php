@@ -15,7 +15,6 @@
             <dd><a href="/index/home_paid" >待付款</a></dd>
             <dd><a href="/index/home_send"  >待发货</a></dd>
             <dd><a href="/index/home_receive" >待收货</a></dd>
-            <dd><a href="/index/home_eva" >待评价</a></dd>
         </dl>
         <dl>
             <dt><i>·</i> 我的中心</dt>

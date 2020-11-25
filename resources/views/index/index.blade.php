@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
     <title>品优购，优质！优质！</title>
     <link rel="icon" href="assets//status/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
-    <link rel="stylesheet" type="text/css" href="/status/css/pages-JD-index.css" />
-    <link rel="stylesheet" type="text/css" href="/status/css/widget-jquery.autocomplete.css" />
-    <link rel="stylesheet" type="text/css" href="/status/css/widget-cartPanelView.css" />
+    <link rel="stylesheet" type="text/css" href="/status/css/webbase.css"/>
+    <link rel="stylesheet" type="text/css" href="/status/css/pages-JD-index.css"/>
+    <link rel="stylesheet" type="text/css" href="/status/css/widget-jquery.autocomplete.css"/>
+    <link rel="stylesheet" type="text/css" href="/status/css/widget-cartPanelView.css"/>
 </head>
 
 <body>
@@ -31,17 +31,6 @@
                                     <dl class="fore1">
                                         @foreach($v["son"] as $vv)
                                             <dt><a href="">{{$vv["cate_name"]}}</a></dt>
-                    <div class="item bo">
-                        <h3><a href="javascript:;">{{$v["cate_name"]}}</a></h3>
-                        <div class="item-list clearfix">
-                            <div class="subitem">
-                                <dl class="fore1">
-                                    @foreach($v["son"] as $vv)
-                                    <dt><a href="{{url('index/index_list/'.$vv['cate_id'])}}">{{$vv["cate_name"]}}</a></dt>
-                                    @endforeach
-                                    <dd>
-                                        @foreach($vv["son"] as $vvv)
-                                        <em><a href="{{url('index/index_list/'.$vvv['cate_id'])}}">{{$vvv["cate_name"]}}</a></em>
                                         @endforeach
                                         <dd>
                                             @foreach($vv["son"] as $vvv)
@@ -194,14 +183,18 @@
                     <h3>今日推荐</h3>
                 </div>
             </li>
-            @foreach($goods as $v)
             <li class="yui3-u-5-24">
-           
-                <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>
-                <h4 style="color:red;">{{$v->goods_price}}</h4>
-                <p>{{$v->goods_name}}</p>
+                <a href="list.html" target="_blank"><img src="/status/img/today01.png" /></a>
             </li>
-            @endforeach
+            <li class="yui3-u-5-24">
+                <img src="/status/img/today02.png" />
+            </li>
+            <li class="yui3-u-5-24">
+                <img src="/status/img/today03.png" />
+            </li>
+            <li class="yui3-u-5-24">
+                <img src="/status/img/today04.png" />
+            </li>
         </ul>
     </div>
 </div>
@@ -211,6 +204,7 @@
         <div class="title">
             <h3 class="fl">猜你喜欢</h3>
             <b class="border"></b>
+            <a href="javascript:;" class="fr tip changeBnt" id="xxlChg"><i></i>换一换</a>
         </div>
         <div class="bd">
             <ul class="clearfix yui3-g Favourate picLB" id="picLBxxl">
@@ -234,18 +228,6 @@
                         </dl>
                     </li>
                 @endforeach
-                <li class="yui3-u-1-6">
-                    <dl class="picDl huozhe">
-                        <dd>
-                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"   /></a>
-                            <div class="like-text">
-                                <p>{{$v["goods_name"]}}</p>
-                                <h3>¥{{$v["goods_price"]}}</h3>
-                            </div>
-                        </dd>
-                    </dl>
-                </li>
-                    @endforeach
             </ul>
         </div>
     </div>

@@ -21,7 +21,7 @@ Route::domain('www.2001api.com')->group(function(){
     Route::any('/regstore', 'Index\LoginController@regstore'); //注册接口
     Route::any('/sendcode', 'Index\LoginController@sendcode'); //发送短信验证码
     Route::any('/api_kill', 'Api\IndexController@api_kill'); //秒杀数据
-    Route::any('/index/user_home', 'Api\IndexController@user_home'); //秒杀数据
+    Route::any('/index/user_home', 'Api\IndexController@user_home'); //个人中心
     Route::any('/index/daifukuan', 'Api\IndexController@daifukuan'); //待付款
     Route::any('/index/daifahuo', 'Api\IndexController@daifahuo'); //代发货
     Route::any('/index/daishouhuo', 'Api\IndexController@daishouhuo'); //待收货
