@@ -39,7 +39,7 @@ class LoginController extends Controller
                 
                 Redis::Hset('token',$res['token'],$res['user_id']);
                 setcookie('token',$res['token']); //存cookie
-                // dd($_COOKIE['token']);//取cookie
+//                 dd($_COOKIE['token']);//取cookie
                 return json_encode($res);
             }else{
                 return json_encode($res);

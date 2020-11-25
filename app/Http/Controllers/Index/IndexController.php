@@ -56,6 +56,7 @@ class IndexController extends Controller
         // dd($brand);
         return view("index.index_list",['cate'=>$cate,'goods'=>$goods,'goods_hot'=>$goods_hot,'cate_name'=>$cate_name,'brand'=>$brand,'price'=>$price]);
     }
+
     public function getPrice($goods_price){
         // dd($goods_price);
         $length=strlen($goods_price);
