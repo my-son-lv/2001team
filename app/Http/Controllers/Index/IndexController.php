@@ -37,7 +37,11 @@ class IndexController extends Controller
         $goods=GoodsModel::where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(3);
         // dd($cate_id);
         $goods_price=GoodsModel::where(['is_shelf'=>1,'is_del'=>1,'cate_id'=>$cate_id])->max('goods_price');
-        $price=$this->getPrice($goods_price); 
+        if ($goods_price) {
+            $price=$this->getPrice($goods_price); 
+        } else {
+            $price[] = "该分类下没有商品";
+        }
         // dd($price);
         $goods_hot=GoodsModel::where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1,'is_hot'=>1])->limit(4);
         $cate_name=CateModel::where('cate_id',$cate_id)->first();
@@ -74,17 +78,13 @@ class IndexController extends Controller
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
         $goods_id=request()->goods_id;
-//        dd($goods_id);
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-//        dd($data['dat']);
         return view("index.index_show",['goods'=>$data['goods'],'cate'=>$data['cate'],'goods_img'=>$data['goodsimg'],'specs_val_info'=>$data['specs_val_info'],'specs_info'=>$data['specs_info'],'cate'=>$cate]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
-//初始化
         $ch = curl_init();
-//设置
         curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
@@ -92,9 +92,7 @@ class IndexController extends Controller
         curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-//执行
         $result = curl_exec($ch);
-//关闭
         curl_close($ch);
         return json_decode($result,true);
     }

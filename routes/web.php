@@ -33,10 +33,6 @@ Route::prefix('/admin')->group(function(){
     Route::any('/kill','Kill\KillController@kill')->middleware("login");//秒杀
     Route::any('/kill_do','Kill\KillController@kill_do')->middleware("login");//秒杀
 
-
-
-
-
     Route::any('/role/index','Admin\RoleController@index')->middleware("login");
     Route::any('/role/store','Admin\RoleController@store')->middleware("login");
     Route::any('/role/edit/{role_id}','Admin\RoleController@edit')->middleware("login");
@@ -136,7 +132,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
     Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
 
-
     Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
     Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
     Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
@@ -150,20 +145,10 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_foot','Index\HomeController@home_foot')->middleware('IndexLogin');//我的足迹
     Route::any('/index/home_info','Index\HomeController@home_info')->middleware('IndexLogin');//个人信息
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
-    Route::any('/index/cart','Index\CartController@cart');//购物车
-    Route::any('/index/order','Index\CartController@order');//订单
-    Route::any('/index/settl','Index\CartController@settl');//结算页
-    Route::any('/index/getorder','Index\CartController@getorder');//三级联动
+    Route::any('/index/getorder','Index\CartController@getorder')->middleware('IndexLogin');//三级联动
+    Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
 
-    Route::any('/index/home','Index\HomeController@home');//个人中心
-    Route::any('/index/home_paid','Index\HomeController@paid');//待付款
-    Route::any('/index/home_send','Index\HomeController@home_send');//待发货
-    Route::any('/index/home_receive','Index\HomeController@home_receive');//待收货
-    Route::any('/index/home_eva','Index\HomeController@home_eva');//待评价
-    Route::any('/index/home_person','Index\HomeController@home_person');//我的收藏
-    Route::any('/index/home_foot','Index\HomeController@home_foot');//我的足迹
-    Route::any('/index/home_info','Index\HomeController@home_info');//个人信息
-    Route::any('/index/home_address','Index\HomeController@home_address');//地址管理
+    Route::any('/index/getorder','Index\CartController@getorder');//收货地址
 
     /**
      * 商家模块
