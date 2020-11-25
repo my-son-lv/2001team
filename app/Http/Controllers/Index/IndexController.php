@@ -98,7 +98,7 @@ class IndexController extends Controller
         $goods_id=request()->goods_id;
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        return view("index.index_show",['goods'=>$data['goods'],'cate'=>$data['cate'],'goods_img'=>$data['goodsimg'],'specs_val_info'=>$data['specs_val_info'],'specs_info'=>$data['specs_info'],'cate'=>$cate]);
+        return view("index.index_show",['cate'=>$data]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
