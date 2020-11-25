@@ -27,14 +27,15 @@ class LoginController extends Controller
     }
     //执行登录
     public function logindo(){
+//        dd(123);
         $data=request()->all();
-        // dd($data);
+//         dd($data);
         // dd(Redis::get('token'));
         if(!isset($_COOKIE['token'])){
             // dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-            // dd($res);
+             dd($res);
             if($res['code']=='0000'){
                 
                 Redis::Hset('token',$res['token'],$res['user_id']);

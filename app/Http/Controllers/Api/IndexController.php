@@ -132,6 +132,7 @@ class IndexController extends Controller
                 }
             }
         }
+
         return json_encode($cart,true);
     }
 
@@ -167,7 +168,6 @@ class IndexController extends Controller
            $v['xiaoji']= $v['buy_number']*$v['goods_price'];
             $total+=$v['buy_number']*$v['goods_price'];
         }
-
         return json_encode(['code'=>'0001','msg'=>"成功",'data'=>['address'=>$address,'cartinfo'=>$cartinfo,'total'=>$total]]);
 
     }
