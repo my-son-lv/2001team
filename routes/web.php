@@ -131,6 +131,7 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/cart','Index\CartController@cart');//购物车列表
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
     Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
+    Route::any('/user_colle','Index\IndexController@user_colle');//用户点击列表收藏
 
     Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
     Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单

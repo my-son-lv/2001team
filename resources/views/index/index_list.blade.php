@@ -145,7 +145,7 @@
                             <div class="operate">
                                 <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
                                 <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
+                                <a href="javascript:void(0);" id="colle" value="{{$v->goods_id}}" class="sui-btn btn-bordered">收藏</a>
                             </div>
                         </div>
                     </li>
@@ -358,5 +358,22 @@
 <script type="text/javascript" src="/status/js/plugins/sui/sui.min.js"></script>
 <script type="text/javascript" src="/status/js/widget/cartPanelView.js"></script>
 </body>
-
+<script>
+    $(document).on("click","#colle",function(){
+        var goods_id = $(this).attr("value");
+        $.ajax({
+            url : "/user_colle",
+            data : {goods_id:goods_id},
+            dataType : "json",
+            type : "post",
+            success:function(res){
+                if(res.code==0000){
+                    alert(res.message)
+                }else{
+                    alert(res.message)
+                }
+            }
+        })
+    })
+</script>
 </html>
