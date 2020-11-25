@@ -34,9 +34,18 @@ class IndexController extends Controller
     public function index_list($cate_id){
         //分类导航
         $url = "http://www.2001api.com/api/home";
-        $cate = $this->postcurl($url);
+        $cate = $this->postcurl($url); 
+        // $soncate_id=CateModel::where('pid',$cate_id)->pluck('cate_id');
+        // $soncate_id=$soncate_id?$soncate_id->toArray():[];
         $goods=GoodsModel::where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(3);
-        // dd($goods_cate);is_hot
+        // dd($cate_id);
+        $goods_price=GoodsModel::where(['is_shelf'=>1,'is_del'=>1,'cate_id'=>$cate_id])->max('goods_price');
+        if ($goods_price) {
+            $price=$this->getPrice($goods_price); 
+        } else {
+            $price[] = "该分类下没有商品";
+        }
+        // dd($price);
         $goods_hot=GoodsModel::where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1,'is_hot'=>1])->limit(4);
         $cate_name=CateModel::where('cate_id',$cate_id)->first();
         $brand_ids = GoodsModel::where('cate_id',$cate_id)->pluck('brand_id');
@@ -45,7 +54,25 @@ class IndexController extends Controller
         // dd($brand_ids);
         $brand=Brand_Model::whereIn('brand_id',$brand_ids)->get();
         // dd($brand);
-        return view("index.index_list",['cate'=>$cate,'goods'=>$goods,'goods_hot'=>$goods_hot,'cate_name'=>$cate_name,'brand'=>$brand]);
+        return view("index.index_list",['cate'=>$cate,'goods'=>$goods,'goods_hot'=>$goods_hot,'cate_name'=>$cate_name,'brand'=>$brand,'price'=>$price]);
+    }
+    public function getPrice($goods_price){
+        // dd($goods_price);
+        $length=strlen($goods_price);
+        $format='1'.str_repeat(0,$length-1);
+        $maxprice=substr($goods_price,0,1);
+        $maxprice=$maxprice*$format;
+        // dd($maxprice);
+        // 计算价格阶段
+        $price=[];
+        $avgprice=$maxprice/5;
+        for($i=0,$j=1;$i<$maxprice;$i++,$j++){
+            $price[]=$i.'-'.$avgprice*$j.'元';
+            $i=$avgprice*$j-1;
+        }
+        $price[]=$maxprice.'元以上';
+        // dd($price);
+        return $price;
     }
 
     //详情

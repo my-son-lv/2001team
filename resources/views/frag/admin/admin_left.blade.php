@@ -30,11 +30,6 @@
                 <ul class="treeview-menu">
                     <li id="admin-login">
                         <a href="/admin/brand" >
-                            <i class="fa fa-circle-o"></i>商品管理
-                        </a>
-                    </li>
-                    <li id="admin-login">
-                        <a href="/admin/brand" >
                             <i class="fa fa-circle-o"></i>品牌管理
                         </a>
                     </li>
