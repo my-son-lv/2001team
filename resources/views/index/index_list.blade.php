@@ -42,36 +42,24 @@
             <div class="type-wrap logo">
                 <div class="fl key brand">品牌</div>
                 <div class="value logos">
-                    <ul class="logo-list">
+                    <ul class="logo-list search">
                         <!-- <li><img src="/status/img/_/phone01.png"></li> -->
                     @foreach($brand as $v)
-                        <li><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"></li>
+                        <li class="brand_val">
+                        <a href="javascript:;"><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"></a></li>
                     @endforeach
                     </ul>
-                </div>
+                </div> 
             </div>
-            <div class="type-wrap">
+            <div class="type-wrap">  
                 <div class="fl key">价格</div>
                 <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>0-500元</a>
+                    <ul class="type-list search">
+                    @foreach($price as $v)
+                        <li class="price_val">
+                        <a href="javascript:;">{{$v}}</a>
                         </li>
-                        <li>
-                            <a>500-1000元</a>
-                        </li>
-                        <li>
-                            <a>1000-1500元</a>
-                        </li>
-                        <li>
-                            <a>1500-2000元</a>
-                        </li>
-                        <li>
-                            <a>2000-3000元 </a>
-                        </li>
-                        <li>
-                            <a>3000元以上</a>
-                        </li>
+                    @endforeach
                     </ul>
                 </div>
                 <div class="fl ext">
@@ -144,7 +132,7 @@
                             </div>
                             <div class="operate">
                                 <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
+                                <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
                                 <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
                             </div>
                         </div>
@@ -338,19 +326,14 @@
 <!--侧栏面板结束-->
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $("#service").hover(function() {
-            $(".service").show();
-        }, function() {
-            $(".service").hide();
-        });
-        $("#shopcar").hover(function() {
-            $("#shopcarlist").show();
-        }, function() {
-            $("#shopcarlist").hide();
-        });
-
+    $(document).on('click','.search li',function(){
+        $(this).siblings().find('a').removeClass('redhover');
+        $(this).find('a').addClass('redhover');
+        var url = window.location.href;
+        var price_val = $(".price_val").text();
+        // alert(price_val);
     })
+			
 </script>
 <script type="text/javascript" src="/status/js/model/cartModel.js"></script>
 <script type="text/javascript" src="/status/js/czFunction.js"></script>

@@ -189,7 +189,7 @@
                 <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>
                 <h4 style="color:red;">{{$v->goods_price}}</h4>
                 <p>{{$v->goods_name}}</p>
-            </li>
+            </li> 
             @endforeach
         </ul>
     </div>
@@ -199,7 +199,7 @@
     <div class="py-container">
         <div class="title">
             <h3 class="fl">猜你喜欢</h3>
-            <b class="border"></b>
+            <b class="border"></b> 
         </div>
         <div class="bd">
             <ul class="clearfix yui3-g Favourate picLB" id="picLBxxl">
