@@ -62,6 +62,11 @@ class VerifyCsrfToken extends Middleware
         "/index/settl",
         "/admin/kill_do",
         "/saller/sallerdo",
-        "/user_kill"
+        "/user_kill",
+        "/admin/examine/exam_true",
+        "/admin/examine/exam_false",
+        "/admin/saller_examine/saller_true",
+        "/admin/saller_examine/saller_false",
+        "/admin/saller_examine/saller_down",
     ];
 }

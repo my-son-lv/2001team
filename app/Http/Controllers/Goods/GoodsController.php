@@ -137,7 +137,7 @@ class GoodsController extends Controller
         $goods_id = request()->goods_id;
         $goods_model = new GoodsModel();
         if(strpos($goods_id,',') !== false){
-            $goods_id = explode($goods_id,',');
+            $goods_id = explode(',',$goods_id);
             foreach($goods_id as $v){
                 $goods_model->goods_del($v);
             }

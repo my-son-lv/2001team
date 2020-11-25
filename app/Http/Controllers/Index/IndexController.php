@@ -11,6 +11,7 @@ class IndexController extends Controller
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
+//        dd($cate);
         return view("index.index",["cate"=>$cate]);
     }//首页
 
