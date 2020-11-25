@@ -14,17 +14,17 @@
                             }
                         @endphp
                         @if($cookie)
-                            <li class="f-item"><a href="/loginout">退出登录</a></li>
-                        @else
                             <li class="f-item">请<a href="/login">登录</a>
                                 <span><a href="/reg">免费注册</a></span></li>
                         {{--@else--}}
                             {{--<li class="f-item"><a href="/loginout">退出登录</a></li>--}}
                             {{--<span><a href="/reg">免费注册</a></span></li>--}}
+                        @else
+                            <li class="f-item"><a href="/loginout">退出登录</a></li>
                         @endif
                     </ul>
                     <ul class="fr">
-                        <li class="f-item">我的订单</li>
+                        <li class="f-item"><a href="/index/home">我的订单</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">我的品优购</li>
                         <li class="f-item space"></li>

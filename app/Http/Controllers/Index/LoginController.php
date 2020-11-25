@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Tel_code;
 use App\Models\User;
 use Illuminate\Support\Facades\Redis;
+use App\Common\Jwt;
 
 class LoginController extends Controller
 {
@@ -58,6 +59,7 @@ class LoginController extends Controller
         $callback=request()->callback;
 //        echo $callback.'(123)';exit;
         $all=request()->all();
+        dd($all);
         $user=User::where('user_name',$all['user_name'])->count();
         if($all['user_name']==''){
             $arr=json_encode(['code'=>'0001','msg'=>'用户名不能为空']);
@@ -143,7 +145,7 @@ class LoginController extends Controller
         curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
-        // dd($output);
+         echo $output;exit;
         curl_close($curl);
         return json_decode($output,true);
     }

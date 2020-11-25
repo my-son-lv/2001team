@@ -208,4 +208,34 @@ class IndexController extends Controller
         }
         return $info;
     }
+
+    public function user_home(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function daifukuan(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function daifahuo(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function daishouhuo(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function daipingjia(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
 }

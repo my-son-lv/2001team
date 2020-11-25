@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
     <title>品优购，优质！优质！</title>
     <link rel="icon" href="assets//status/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
-    <link rel="stylesheet" type="text/css" href="/status/css/pages-JD-index.css" />
-    <link rel="stylesheet" type="text/css" href="/status/css/widget-jquery.autocomplete.css" />
-    <link rel="stylesheet" type="text/css" href="/status/css/widget-cartPanelView.css" />
+    <link rel="stylesheet" type="text/css" href="/status/css/webbase.css"/>
+    <link rel="stylesheet" type="text/css" href="/status/css/pages-JD-index.css"/>
+    <link rel="stylesheet" type="text/css" href="/status/css/widget-jquery.autocomplete.css"/>
+    <link rel="stylesheet" type="text/css" href="/status/css/widget-cartPanelView.css"/>
 </head>
 
 <body>
@@ -196,6 +196,15 @@
                 <img src="/status/img/today04.png" />
             </li>
         </ul>
+        <ul>
+            @foreach($goods as $v)
+            <li class="yui3-u-5-24">           
+                <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>
+                <h4 style="color:red;">{{$v->goods_price}}</h4>
+                <p>{{$v->goods_name}}</p>
+            </li> 
+            @endforeach
+       </ul>
     </div>
 </div>
 <!--喜欢-->
