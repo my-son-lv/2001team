@@ -143,13 +143,13 @@ $(document).on('click','#but',function(){
     $.getJSON(url,data,function(res){
         // alert(res.msg);
             if(res.code=='0000'){
-                alert(res.msg.',请登录');
+                alert(res.msg+',请登录');
                 location.href='/login';
             }else{
                 alert(res.msg);
             }
-        }
-    }
+        })
+
 })
 
 //获取短信验证码

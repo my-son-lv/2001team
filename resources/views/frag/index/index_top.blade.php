@@ -6,15 +6,22 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        @if(cookie('token')=='')
+                        @php  
+                            if(isset($_COOKIE['token'])){
+                                $cookie=$_COOKIE['token'];
+                            }else{
+                                $cookie='';
+                            }
+                        @endphp
+                        @if($cookie)
                             <li class="f-item">请<a href="/login">登录</a>
-                            <span><a href="/reg">免费注册</a></span></li>
+                                <span><a href="/reg">免费注册</a></span></li>
                         @else
-                        <li class="f-item"><a href="/loginout">退出登录</a></li>
+                            <li class="f-item"><a href="/loginout">退出登录</a></li>
                         @endif
                     </ul>
                     <ul class="fr">
-                        <li class="f-item">我的订单</li>
+                        <li class="f-item"><a href="/index/home">我的订单</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">我的品优购</li>
                         <li class="f-item space"></li>
@@ -45,7 +52,7 @@
             <div class="py-container">
                 <div class="yui3-g Logo">
                     <div class="yui3-u Left logoArea">
-                        <a class="logo-bd" title="品优购" href="JD-index.html" target="_blank"></a>
+                        <a class="logo-bd" title="品优购" href="javascript:;"></a>
                     </div>
                     <div class="yui3-u Center searchArea">
                         <div class="search">
@@ -89,12 +96,12 @@
 
                 <div class="yui3-g NavList">
                     <div class="yui3-u Left all-sort">
-                        <h4>全部商品分类</h4>
+                        <h4><a href="/" style="color:white;">全部商品分类</a></h4>
                     </div>
                     <div class="yui3-u Center navArea">
                         <ul class="nav">
                             @foreach($cate["cate"] as $k=>$v)
-                            <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
+                                <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
                             @endforeach
                             <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>
                         </ul>

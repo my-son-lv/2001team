@@ -136,7 +136,12 @@
             data : {kill_id:kill_id},
             type  : "post",
             success:function(res){
-                console.log(res)
+                if(res.code==0001){
+                    alert(res.message)
+                    location.href="/login"
+                }else{
+                    alert(res.message)
+                }
             }
         })
     })

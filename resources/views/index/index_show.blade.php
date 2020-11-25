@@ -18,8 +18,6 @@
 <!-- 头部栏位 -->
 <!--页面顶部-->
 @include("frag.index.index_top")
-
-
 <div class="py-container">
     <div id="item">
         <div class="crumb-wrap">
@@ -44,9 +42,7 @@
                     <!--默认第一个预览-->
                     <div id="preview" class="spec-preview">
                         <span class="jqzoom">
-                            @if($goods_img)
-                                <img jqimg="{{env('JUSTME_URL')}}{{$goods_img[0]['goods_imgs']}}" src="{{env('JUSTME_URL')}}{{$goods_img[0]['goods_imgs']}}" width="405px" height="395px"/>
-                        @endif
+                                <img src="{{env('JUSTME_URL')}}{{$cate['goods']["goods_img"]}}" width="405px" height="395px"/>
                         </span>
                     </div>
                     <!--下方的缩略图-->
@@ -55,10 +51,10 @@
                         <!--左右按钮-->
                         <div class="items">
                             <ul>
-                                @if($goods_img)
-                                @foreach($goods_img as $v)
+                                @if($cate['goodsimg'])
+                                @foreach($cate['goodsimg'] as $v)
                                 <li>
-                                    <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
+                                    <img src="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
                                 </li>
                                 @endforeach
                                     @endif
@@ -70,7 +66,7 @@
             </div>
             <div class="fr itemInfo-wrap">
                 <div class="sku-name">
-                    <h4>{{$goods['goods_name']}}</h4>
+                    <h4>{{$cate['goods']['goods_name']}}</h4>
                 </div>
                 <div class="news"><span>推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</span></div>
                 <div class="summary">
@@ -80,7 +76,7 @@
                         </div>
                         <div class="fl price">
                             <i>¥</i>
-                            <em>{{$goods['goods_price']}}</em>
+                            <em>{{$cate['goods']['goods_price']}}</em>
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
@@ -118,7 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
-                        @foreach($specs_info as $v)
+                        @foreach($cate["specs_info"] as $v)
                         <dl>
                             <dt>
                             <div class="fl title">
@@ -126,7 +122,7 @@
                             </div>
                             </dt>
                             @php $i=0; @endphp
-                            @foreach($specs_val_info as  $vv)
+                            @foreach($cate['specs_val_info'] as  $vv)
 
                                 @if($v['specs_id']==$vv['specs_id'])
                                 <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$v['specs_id']}}" goods_attr_id="{{$vv['id']}}" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
@@ -688,9 +684,9 @@
             $("#shopcarlist").hide();
         });
 
-        //加入购物车
+        //加入购物车9
         $(document).on("click",".addshopcar",function(){
-            var goods_id = "{{$goods['goods_id']}}";
+            var goods_id = "{{$cate['goods']['goods_id']}}";
             var goods_number = $('.itxt').val();
             var goods_attr_id = new Array();
             $('.selected').each(function(){

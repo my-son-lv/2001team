@@ -17,8 +17,6 @@
 <!-- 头部栏位 -->
 <!--页面顶部-->
 @include("frag.index.index_top")
-
-
 <!--list-content-->
 <div class="main">
     <div class="py-container">
@@ -26,161 +24,46 @@
         <div class="bread">
             <ul class="fl sui-breadcrumb">
                 <li>
-                    <a href="#">全部结果</a>
+                    <a href="/">全部结果</a>
                 </li>
-                <li class="active">智能手机</li>
+                <li class="active">{{$cate_name->cate_name}}</li>
             </ul>
-            <ul class="tags-choose">
-                <li class="tag">全网通<i class="sui-icon icon-tb-close"></i></li>
-                <li class="tag">63G<i class="sui-icon icon-tb-close"></i></li>
-            </ul>
-            <form class="fl sui-form form-dark">
-                <div class="input-control control-right">
-                    <input type="text" />
-                    <i class="sui-icon icon-touch-magnifier"></i>
-                </div>
-            </form>
-            <div class="clearfix"></div>
+           
         </div>
         <!--selector-->
         <div class="clearfix selector">
             <div class="type-wrap">
-                <div class="fl key">手机、数码、配件</div>
+                <div class="fl key">筛选项</div>
                 <div class="fl value"></div>
                 <div class="fl ext"></div>
             </div>
             <div class="type-wrap logo">
                 <div class="fl key brand">品牌</div>
                 <div class="value logos">
-                    <ul class="logo-list">
-                        <li><img src="/status/img/_/phone01.png" /></li>
-                        <li><img src="/status/img/_/phone02.png" /></li>
-                        <li><img src="/status/img/_/phone03.png" /></li>
-                        <li><img src="/status/img/_/phone04.png" /></li>
-                        <li><img src="/status/img/_/phone05.png" /></li>
-                        <li><img src="/status/img/_/phone06.png" /></li>
-                        <li><img src="/status/img/_/phone07.png" /></li>
-                        <li><img src="/status/img/_/phone08.png" /></li>
-                        <li><img src="/status/img/_/phone09.png" /></li>
-                        <li><img src="/status/img/_/phone10.png" /></li>
-                        <li><img src="/status/img/_/phone11.png" /></li>
-                        <li><img src="/status/img/_/phone12.png" /></li>
-                        <li><img src="/status/img/_/phone13.png" /></li>
-                        <li><img src="/status/img/_/phone14.png" /></li>
-                        <li><img src="/status/img/_/phone05.png" /></li>
-                        <li><img src="/status/img/_/phone06.png" /></li>
-                        <li><img src="/status/img/_/phone07.png" /></li>
-                        <li><img src="/status/img/_/phone02.png" /></li>
+                    <ul class="logo-list search">
+                        <!-- <li><img src="/status/img/_/phone01.png"></li> -->
+                    @foreach($brand as $v)
+                        <li class="brand_val">
+                        <a href="javascript:;"><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"></a></li>
+                    @endforeach
                     </ul>
-                </div>
-                <div class="ext">
-                    <a href="javascript:void(0);" class="sui-btn">多选</a>
-                    <a href="javascript:void(0);">更多</a>
-                </div>
+                </div> 
             </div>
-            <div class="type-wrap">
-                <div class="fl key">网络制式</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>GSM（移动/联通2G）</a>
-                        </li>
-                        <li>
-                            <a>电信2G</a>
-                        </li>
-                        <li>
-                            <a>电信3G</a>
-                        </li>
-                        <li>
-                            <a>移动3G</a>
-                        </li>
-                        <li>
-                            <a>联通3G</a>
-                        </li>
-                        <li>
-                            <a>联通4G</a>
-                        </li>
-                        <li>
-                            <a>电信3G</a>
-                        </li>
-                        <li>
-                            <a>移动3G</a>
-                        </li>
-                        <li>
-                            <a>联通3G</a>
-                        </li>
-                        <li>
-                            <a>联通4G</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"></div>
-            </div>
-            <div class="type-wrap">
-                <div class="fl key">显示屏尺寸</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>4.0-4.9英寸</a>
-                        </li>
-                        <li>
-                            <a>4.0-4.9英寸</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"></div>
-            </div>
-            <div class="type-wrap">
-                <div class="fl key">摄像头像素</div>
-                <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>1200万以上</a>
-                        </li>
-                        <li>
-                            <a>800-1199万</a>
-                        </li>
-                        <li>
-                            <a>1200-1599万</a>
-                        </li>
-                        <li>
-                            <a>1600万以上</a>
-                        </li>
-                        <li>
-                            <a>无摄像头</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="fl ext"></div>
-            </div>
-            <div class="type-wrap">
+            <div class="type-wrap">  
                 <div class="fl key">价格</div>
                 <div class="fl value">
-                    <ul class="type-list">
-                        <li>
-                            <a>0-500元</a>
+                    <ul class="type-list search">
+                    @foreach($price as $v)
+                        <li class="price_val">
+                        <a href="javascript:;">{{$v}}</a>
                         </li>
-                        <li>
-                            <a>500-1000元</a>
-                        </li>
-                        <li>
-                            <a>1000-1500元</a>
-                        </li>
-                        <li>
-                            <a>1500-2000元</a>
-                        </li>
-                        <li>
-                            <a>2000-3000元 </a>
-                        </li>
-                        <li>
-                            <a>3000元以上</a>
-                        </li>
+                    @endforeach
                     </ul>
                 </div>
                 <div class="fl ext">
                 </div>
             </div>
-            <div class="type-wrap">
+            <!-- <div class="type-wrap">
                 <div class="fl key">更多筛选项</div>
                 <div class="fl value">
                     <ul class="type-list">
@@ -203,7 +86,7 @@
                 </div>
                 <div class="fl ext">
                 </div>
-            </div>
+            </div> -->
         </div>
         <!--details-->
         <div class="details">
@@ -211,38 +94,33 @@
                 <div class="navbar-inner filter">
                     <ul class="sui-nav">
                         <li class="active">
-                            <a href="#">综合</a>
+                            <a href="javascript:;">综合</a>
                         </li>
                         <li>
-                            <a href="#">销量</a>
+                            <a href="javascript:;">销量</a>
                         </li>
                         <li>
-                            <a href="#">新品</a>
-                        </li>
-                        <li>
-                            <a href="#">评价</a>
-                        </li>
-                        <li>
-                            <a href="#">价格</a>
+                            <a href="javascript:;">新品</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="goods-list">
                 <ul class="yui3-g">
+                @foreach($goods as $v)
                     <li class="yui3-u-1-5">
                         <div class="list-wrap">
                             <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="/status/img/_/mobile01.png" /></a>
+                                <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}" /></a>
                             </div>
                             <div class="price">
                                 <strong>
                                     <em>¥</em>
-                                    <i>6088.00</i>
+                                    <i>{{$v->goods_price}}</i>
                                 </strong>
                             </div>
                             <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
+                                <em>{{$v->goods_name}}</em>
                             </div>
                             <div class="cu">
                                 <em><span>促</span>满一件可参加超值换购</em>
@@ -253,285 +131,22 @@
                             <div class="operate">
                                 <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
                                 <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
+                                <a href="javascript:void(0);" id="colle" value="{{$v->goods_id}}" class="sui-btn btn-bordered">收藏</a>
+                                <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
                                 <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
                             </div>
                         </div>
                     </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile02.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile03.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile04.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile05.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile06.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile01.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile02.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile03.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/mobile04.png" />
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
+                @endforeach
                 </ul>
             </div>
+           
             <div class="fr page">
                 <div class="sui-pagination pagination-large">
-                    <ul>
-                        <li class="prev disabled">
-                            <a href="#">«上一页</a>
-                        </li>
-                        <li class="active">
-                            <a href="#">1</a>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
-                        <li class="dotted"><span>...</span></li>
-                        <li class="next">
-                            <a href="#">下一页»</a>
-                        </li>
-                    </ul>
-                    <div><span>共10页&nbsp;</span><span>
-      到第
-      <input type="text" class="page-num">
-      页 <button class="page-confirm" onclick="alert(1)">确定</button></span></div>
+                <ul class="pagination">
+                    {{$goods->links()}}
+                </ul>
+                  
                 </div>
             </div>
         </div>
@@ -540,18 +155,19 @@
             <h4 class="title">热卖商品</h4>
             <div class="hot-list">
                 <ul class="yui3-g">
+                @foreach($goods_hot as $v)
                     <li class="yui3-u-1-4">
                         <div class="list-wrap">
                             <div class="p-img">
                                 <img src="/status/img/like_01.png" />
                             </div>
                             <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
+                                <em>{{$v->goods_name}}</em>
                             </div>
                             <div class="price">
                                 <strong>
                                     <em>¥</em>
-                                    <i>4088.00</i>
+                                    <i>{{$v->goods_price}}</i>
                                 </strong>
                             </div>
                             <div class="commit">
@@ -559,63 +175,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/like_03.png" />
-                            </div>
-                            <div class="attr">
-                                <em>金属A面，360°翻转，APP下单省300！</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/like_04.png" />
-                            </div>
-                            <div class="attr">
-                                <em>256SSD商务大咖，完爆职场，APP下单立减200</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4068.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有20人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-4">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/like_02.png" />
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
+                @endforeach 
                 </ul>
             </div>
         </div>
@@ -766,19 +326,14 @@
 <!--侧栏面板结束-->
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $("#service").hover(function() {
-            $(".service").show();
-        }, function() {
-            $(".service").hide();
-        });
-        $("#shopcar").hover(function() {
-            $("#shopcarlist").show();
-        }, function() {
-            $("#shopcarlist").hide();
-        });
-
+    $(document).on('click','.search li',function(){
+        $(this).siblings().find('a').removeClass('redhover');
+        $(this).find('a').addClass('redhover');
+        var url = window.location.href;
+        var price_val = $(".price_val").text();
+        // alert(price_val);
     })
+			
 </script>
 <script type="text/javascript" src="/status/js/model/cartModel.js"></script>
 <script type="text/javascript" src="/status/js/czFunction.js"></script>
@@ -786,5 +341,22 @@
 <script type="text/javascript" src="/status/js/plugins/sui/sui.min.js"></script>
 <script type="text/javascript" src="/status/js/widget/cartPanelView.js"></script>
 </body>
-
+<script>
+    $(document).on("click","#colle",function(){
+        var goods_id = $(this).attr("value");
+        $.ajax({
+            url : "/user_colle",
+            data : {goods_id:goods_id},
+            dataType : "json",
+            type : "post",
+            success:function(res){
+                if(res.code==0000){
+                    alert(res.message)
+                }else{
+                    alert(res.message)
+                }
+            }
+        })
+    })
+</script>
 </html>
