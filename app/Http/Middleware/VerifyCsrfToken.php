@@ -70,6 +70,13 @@ class VerifyCsrfToken extends Middleware
         "/admin/saller_examine/saller_down",
         "/index/getorder",
         "/user_kill",
+        "/index/order",
+        "/index/getTypePrice",
+        "/index/getTypePrices",
+        "/index/getInputPrice",
+        "/index/del",
+        "/index/manydel",
+        "/index/order",
         "/user_colle",
         "/saller/shipment",
     ];

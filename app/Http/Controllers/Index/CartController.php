@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers\Index;
 use App\Http\Controllers\Controller;
+use App\Models\AddressModel;
+use App\Models\CartModel;
+use App\Models\GoodsModel;
+use App\Models\OrderGoodsModel;
+use App\Models\OrderModel;
+use App\Models\SpecsModel;
 use Illuminate\Http\Request;
+use DB;
 class CartController extends Controller
 {
     public function  addcart(){
@@ -19,8 +26,9 @@ class CartController extends Controller
         $uid=1;
         $url=env('API_URL')."api/index/cart";
         $cart=$this->postcurl($url,['user_id',$uid]);
+        $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
 //        dd($cart);
-        return view("index.cart.cart",['cart'=>$cart]);
+        return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods]);
     }
     //结算页
     public function settl(){
@@ -40,14 +48,193 @@ class CartController extends Controller
         return json_encode($cart,true);
     }
 
+    #+
+    public  function  getTypePrice(){
+        $type=request()->type;
+        $cart_id=request()->cart_id;
+        $buy_number=request()->buy_number;
+        $cart=CartModel::select('specs_id','buy_number','goods_id')->where('cart_id',$cart_id)->first();
+        if($type=='+'){
+            if($cart->specs_id){
+                $specs_number=SpecsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id'],'specs'=>$cart['specs_id']])->first();
+                if($buy_number>=$specs_number['goods_number']){
+                    $buy_number=$specs_number['goods_number'];
+                }else{
+                    $buy_number=$buy_number+1;
+                }
+                return $this->getNumberPrice($cart_id,$buy_number);
+            }else{
+                $goods_number=GoodsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id']])->first();
+                if($buy_number>=$goods_number['goods_number']){
+                    $buy_number=$goods_number['goods_number'];
+                }else{
+                    $buy_number=$goods_number+1;
+                }
+                return $this->getNumberPrice($cart_id,$buy_number);
 
+            }
+        }
+
+    }
+
+
+    //-
+    public  function  getTypePrices(){
+        $type=request()->type;
+        $cart_id=request()->cart_id;
+        $buy_number=request()->buy_number;
+        $cart=CartModel::select('specs_id','buy_number','goods_id')->where('cart_id',$cart_id)->first();
+        if($cart->specs_id){
+            $specs_number=SpecsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id'],'specs'=>$cart['specs_id']])->first();
+            if($buy_number>1){
+                $buy_number=$buy_number-1;
+            }else{
+                $buy_number=1;
+            }
+            return $this->getNumberPrice($cart_id,$buy_number);
+        }else{
+            $goods_number=GoodsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id']])->first();
+            if($buy_number>1){
+                $buy_number=$buy_number-1;
+            }else{
+                $buy_number=1;
+            }
+            return $this->getNumberPrice($cart_id,$buy_number);
+        }
+    }
+
+    //文本框
+    public  function  getInputPrice(){
+        $buy_number=request()->buy_number;
+        $cart_id=request()->cart_id;
+        if(!preg_match("/^[1-9][0-9]*$/",$buy_number)){
+            return json_encode(['code'=>'0001','msg'=>"参数错误"]);
+        }
+        if(!$cart_id){
+            return json_encode(['code'=>'0001','msg'=>"参数错误"]);
+        }
+        return $this->getNumberPrice($cart_id,$buy_number);
+
+    }
+
+    //单删
+    public  function  del(){
+        $cart_id=request()->cart_id;
+        $cart=CartModel::where("cart_id",$cart_id)->delete();
+        if($cart){
+            return json_encode(['code'=>'0000',"msg"=>"删除成功"]);
+        }
+    }
+    //复选框
+    public  function  manydel(){
+        $cart_id = request()->cart_id;
+        if(!count($cart_id)){
+            return json_encode(['code'=>"0000",'msg'=>'ok','total'=>'0']);
+        }
+        $cart=CartModel::getprice($cart_id);
+        if($cart){
+            return json_encode(['code'=>"0000",'msg'=>'ok','total'=>$cart[0]]);
+        }else{
+            return json_encode(['code'=>"0000",'msg'=>'ok','total'=>'0']);
+        }
+    }
+
+    public function getNumberPrice($cart_id,$buy_number){
+        $res = CartModel::where('cart_id',$cart_id)->update(['buy_number'=>$buy_number]);
+        if($res!==false){
+            $cart = DB::select("select buy_number*goods_price as total from cart where cart_id in ($cart_id)");
+            if($cart){
+                return json_encode(['code'=>'0000','msg'=>'ok','total'=>$cart[0],'buy_number'=>$buy_number]);
+//                return $this->success('ok',['total'=>$cart[0],'number'=>$buy_number]);
+            }
+        }
+    }
 
 
     //订单页面
     public function order(){
+        DB::beginTransaction();
+        try {
+            $uid = 1;
+            $data = request()->all();
+            $cart_id = $data['cart_id'];
+            $data['user_id'] = $uid;
+            $pay_name = ['2' => "微信"];
+            $data['pay_name'] = $pay_name[$data['pay_type']];
+            $data['order_sn'] = $this->createOrderSn();
+            if ($data['address_id']) {
+                $address = AddressModel::where("address_id", $data['address_id'])->first();
+                $address = $address ? $address->toArray() : [];
+            }
+            //商品总价
+            $total = CartModel::getprice($data['cart_id']);
+            $data['goods_price'] = $total[0]->total;
+            //订单
+            $data['order_price'] = $data['goods_price'];
+            $data['add_time'] = time();
+            $data = array_merge($data, $address);
+            unset($data['address_id']);
+            unset($data['address_name']);
+            unset($data['email']);
+            unset($data['is_moren']);
+            unset($data['cart_id']);
+            unset($data['is_del']);
+            unset($data['country']);
+            //订单入库
+            $order_id = OrderModel::insertGetId($data);
+            if (is_string($cart_id)) {
+                $cart_id = explode(',', $cart_id);
+            }
+            $goods = CartModel::whereIn('cart_id', $cart_id)->get();
+            $goods = $goods ? $goods->toArray() : [];
+//        dd($goods);
+            foreach ($goods as $k => $v) {
+                $goods[$k]['order_id'] = $order_id;
+                unset($goods[$k]['cart_id']);
+                unset($goods[$k]['user_id']);
+                unset($goods[$k]['add_time']);
+//            unset($goods[$k]['specs_id']);
+                unset($goods[$k]['goods_img']);
+//            dd($goods);
+            }
+            $order_goods = OrderGoodsModel::insert($goods);
+            //订单商品入库
+            $order_goods = $data['order_id'] = $order_id;
+            if ($order_goods) {
+                CartModel::where("cart_id", $cart_id)->delete();
+                foreach ($goods as $v) {
+                    if ($v['specs_id']) {
+                        SpecsModel::where("specs", $v['specs_id'])->decrement('goods_number', $v['buy_number']);
+                    }
+                    GoodsModel::where('goods_id', $v['goods_id'])->decrement('goods_number', $v['buy_number']);
+                }
+            }
+            DB::commit();
+            return json_encode(['code'=>'0000','msg'=>"ok",'url'=>env('JUSTMES_URL').'index/pay?order_id='.$order_id]);
+        } catch (\Throwable $e) {
+            dump($e->getMessage());
+            DB::rollBack();
+        }
+
 
         return view("index.order");
     }
+
+    //随机生成订单号
+    public  function  createOrderSn(){
+        $order_sn=date('YmdHis').rand(1000,9999);
+        if($this->isHaveOrdersn($order_sn)){
+            $this->createOrderSn();
+        }
+        return $order_sn;
+    }
+    //订单号出现的次数
+    public  function  isHaveOrdersn($order_sn){
+
+        return  OrderModel::where('order_sn',$order_sn)->count();
+    }
+
+
     //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
 //初始化

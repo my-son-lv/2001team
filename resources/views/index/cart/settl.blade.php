@@ -64,12 +64,16 @@
             </div>
             <div class="step-cont">
                 <div class="addressInfo">
+                    <input type="hidden"  cart_id="{{request()->cart_id}}" id="cart_id">
                     <ul class="addr-detail">
+
                         @foreach($cart as $v)
                         <li class="addr-item">
                             <div>
-                                <div class="con name @if($v['is_moren']==1)selected @endif"><a href="javascript:;" >{{$v['address_name']}}<span title="点击取消选择">&nbsp;</a></div>
-                                <div class="con address">{{$v['address']}}<span>{{$v['tel']}}</span>
+                                <div class="con name @if($v['is_moren']==1)selected @endif  " address_id="{{$v['address_id']}}"  >
+                                    <a href="javascript:;" id="address_name"><b id="address_name">{{$v['address_name']}}</b><span title="点击取消选择">&nbsp;</a>
+                                </div>
+                                <div class="con address"><p id="address">{{$v['address']}}</p><span id="tel">{{$v['tel']}}</span>
                                     @if($v['is_moren']==1)
                                     <span class="base">默认地址</span>
                                     @else
@@ -95,7 +99,7 @@
                                         <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium" id="address_name">
+                                                <input type="text" class="input-medium" id="address_name" >
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -138,8 +142,7 @@
                 </div>
                 <div class="step-cont">
                     <ul class="payType">
-                        <li class="selected">微信付款<span title="点击取消选择"></span></li>
-                        <li>货到付款<span title="点击取消选择"></span></li>
+                        <li class="selected" id="pay_type" value="2">支付宝付款<span title="点击取消选择"></span></li>
                     </ul>
                 </div>
                 <div class="hr"></div>
@@ -227,7 +230,7 @@
         </div>
     </div>
     <div class="submit">
-        <a class="sui-btn btn-danger btn-xlarge" href="pay.html">提交订单</a>
+        <button type="submit" class=" btn-danger btn-xlarge" id="add">提交订单</button>
     </div>
 </div>
 <!-- 底部栏位 -->
@@ -260,6 +263,25 @@
             }
         })
     })
+    $(document).on("click","#add",function(){
+        var address_id=$(".name").attr("address_id");
+        var pay_type=$("#pay_type").val();
+        var cart_id=$("#cart_id").attr("cart_id");
+        $.ajax({
+            url:"/index/order",
+            data:{address_id:address_id,pay_type:pay_type,cart_id:cart_id},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=='0000'){
+                    alert(res.msg);
+                    window.location.href=res.url;
+                }
+            }
+
+        })
+    })
+
 </script>
 
 </html>
