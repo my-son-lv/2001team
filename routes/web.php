@@ -187,6 +187,8 @@ Route::prefix("admin")->group(function(){
         Route::any('/goods/update', 'Saller\GoodsController@update');//商家模块 修改
         Route::any('/goods/del', 'Saller\GoodsController@del');//商家模块 批量删除
         Route::any('/order', 'Saller\OrderController@order');//商家模块 订单管理
+        Route::any('/shipment', 'Saller\OrderController@shipment');//商家模块 确认发货
+        Route::any('/order/content', 'Saller\OrderController@content');//商家模块 订单详情
     });
 
 });

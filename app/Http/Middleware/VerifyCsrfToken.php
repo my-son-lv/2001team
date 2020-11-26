@@ -71,5 +71,6 @@ class VerifyCsrfToken extends Middleware
         "/index/getorder",
         "/user_kill",
         "/user_colle",
+        "/saller/shipment",
     ];
 }
