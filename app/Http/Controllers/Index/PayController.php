@@ -99,7 +99,7 @@ class PayController extends Controller
             ];
             $res=OrderModel::where(['order_sn'=>$arr['out_trade_no']])->update($data);
             if($res){
-                return redirect('index/home');
+                return redirect('/index/home');
             }
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

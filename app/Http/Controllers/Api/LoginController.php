@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
     //登录接口
     public function logstore(){
-        // echo encrypt(123);die;
+//         dd(123);
         $all=request()->all();
         if($all['user_name']==''){
             return json_encode($arr=['code'=>'0001','msg'=>'用户名不能为空']);
@@ -24,7 +24,7 @@ class LoginController extends Controller
             return json_encode($arr=['code'=>'0001','msg'=>'密码不能为空']);
         }
         $user=User::where('user_name',$all['user_name'])->first();
-        // print_r($user->user_pwd);
+//         dd($user->user_pwd);
 //         echo $user;die;
 
         if($user){
@@ -33,7 +33,7 @@ class LoginController extends Controller
                 $user_id=$user['user_id'];
                 $jwtAuth = Jwt::getInstance();
                 $token = $jwtAuth->setUid($user_id)->encode()->getToken();
-                //  dd($token);
+                  dd($token);
                 //解密token
                 // $token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUub3JnIiwianRpIjoiNGYxZzIzYTEyYWEiLCJpYXQiOjE2MDU3MDExNDEsIm5iZiI6MTYwNTcwMTIwMSwiZXhwIjoxNjA1NzA0NzQxLCJ1aWQiOjJ9.BYBySnOhqjAeNJhZ7nMvHQe0pv6_b8riOoj1vgYa3Qg";
                 // $jwtAuth = Jwt::getInstance();
