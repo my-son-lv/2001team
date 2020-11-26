@@ -89,7 +89,7 @@
                                 </div>
                             </li>
 
-                            <li class="yui3-u-1-8"><span class="price">{{$v['goods_price']}}</span></li>
+                            <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
                             <li class="yui3-u-1-8">
                                 <a href="javascript:void(0)" class="increment mins" cart_id="{{$v['cart_id']}}">-</a>
                                 <input autocomplete="off" type="text" cart_id="{{$v['cart_id']}}" value="{{$v['buy_number']}}" minnum="1" class="itxt" />

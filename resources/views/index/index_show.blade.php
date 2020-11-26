@@ -341,63 +341,16 @@
                                 <span>商品介绍</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="#two" data-toggle="tab">
-                                <span>规格与包装</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#three" data-toggle="tab">
-                                <span>售后保障</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#four" data-toggle="tab">
-                                <span>商品评价</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#five" data-toggle="tab">
-                                <span>手机社区</span>
-                            </a>
-                        </li>
                     </ul>
                     <div class="clearfix"></div>
                     <div class="tab-content tab-wraped">
                         <div id="one" class="tab-pane active">
                             <ul class="goods-intro unstyled">
                                 <li>分辨率：1920*1080(FHD)</li>
-                                <li>后置摄像头：1200万像素</li>
-                                <li>前置摄像头：500万像素</li>
-                                <li>核 数：其他</li>
-                                <li>频 率：以官网信息为准</li>
-                                <li>品牌： Apple</li>
-                                <li>商品名称：APPLEiPhone 6s Plus</li>
-                                <li>商品编号：1861098</li>
-                                <li>商品毛重：0.51kg</li>
-                                <li>商品产地：中国大陆</li>
-                                <li>热点：指纹识别，Apple Pay，金属机身，拍照神器</li>
-                                <li>系统：苹果（IOS）</li>
-                                <li>像素：1000-1600万</li>
-                                <li>机身内存：64GB</li>
                             </ul>
                             <div class="intro-detail">
                                 <img src="/status/img/_/intro01.png" />
-                                <img src="/status/img/_/intro02.png" />
-                                <img src="/status/img/_/intro03.png" />
                             </div>
-                        </div>
-                        <div id="two" class="tab-pane">
-                            <p>规格与包装</p>
-                        </div>
-                        <div id="three" class="tab-pane">
-                            <p>售后保障</p>
-                        </div>
-                        <div id="four" class="tab-pane">
-                            <p>商品评价</p>
-                        </div>
-                        <div id="five" class="tab-pane">
-                            <p>手机社区</p>
                         </div>
                     </div>
                 </div>
@@ -527,7 +480,6 @@
             </div>
         </div>
     </div>
-</div>
 <!-- 底部栏位 -->
 <!--页面底部-->
 @include("frag.index.index_foot")

@@ -130,23 +130,19 @@
                             </div>
                             <div class="operate">
                                 <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
                                 <a href="javascript:void(0);" id="colle" value="{{$v->goods_id}}" class="sui-btn btn-bordered">收藏</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
+                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
                             </div>
                         </div>
                     </li>
                 @endforeach
                 </ul>
             </div>
-           
             <div class="fr page">
                 <div class="sui-pagination pagination-large">
                 <ul class="pagination">
                     {{$goods->links()}}
                 </ul>
-                  
                 </div>
             </div>
         </div>
