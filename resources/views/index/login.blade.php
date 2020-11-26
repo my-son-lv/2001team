@@ -107,16 +107,16 @@ $(document).on('click',".butt",function(){
     // alert(data);
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
     $.post("/logindo",data,function(res){
-        alert(res);
-//            if(res.code=='0000'){
-//                alert(res.msg);
-//                location.href="/";
-//            }else if(res.code=='0002'){
-//                alert(res.msg);
-//                location.href='/';
-//            }else{
-//                alert(res.msg);
-//            }
+        // alert(res);
+           if(res.code=='0000'){
+               alert(res.msg);
+               location.href="/";
+           }else if(res.code=='0002'){
+               alert(res.msg);
+               location.href='/';
+           }else{
+               alert(res.msg);
+           }
         },'json');
 })
 </script>  

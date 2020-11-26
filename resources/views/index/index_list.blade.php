@@ -43,8 +43,8 @@
                     <ul class="logo-list search">
                         <!-- <li><img src="/status/img/_/phone01.png"></li> -->
                     @foreach($brand as $v)
-                        <li class="brand_val">
-                        <a href="javascript:;"><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"></a></li>
+                        <li field="brand_id" value="{{$v->brand_id}}">
+                        <a href="javascript:;"  @if(isset($query['brand_id']) && $query['brand_id']==$v->brand_id) class="redhover" @endif><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"></a></li>
                     @endforeach
                     </ul>
                 </div> 
@@ -54,8 +54,8 @@
                 <div class="fl value">
                     <ul class="type-list search">
                     @foreach($price as $v)
-                        <li class="price_val">
-                        <a href="javascript:;">{{$v}}</a>
+                        <li field="price" value="{{$v}}">
+                        <a href="javascript:;" @if(isset($query['price']) && $query['price']==$v) class="redhover" @endif>{{$v}}</a>
                         </li>
                     @endforeach
                     </ul>
@@ -130,23 +130,19 @@
                             </div>
                             <div class="operate">
                                 <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
                                 <a href="javascript:void(0);" id="colle" value="{{$v->goods_id}}" class="sui-btn btn-bordered">收藏</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
+                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
                             </div>
                         </div>
                     </li>
                 @endforeach
                 </ul>
             </div>
-           
             <div class="fr page">
                 <div class="sui-pagination pagination-large">
                 <ul class="pagination">
                     {{$goods->links()}}
                 </ul>
-                  
                 </div>
             </div>
         </div>
@@ -330,8 +326,21 @@
         $(this).siblings().find('a').removeClass('redhover');
         $(this).find('a').addClass('redhover');
         var url = window.location.href;
-        var price_val = $(".price_val").text();
+        // var price_val = $(".price_val").text();
         // alert(price_val);
+        var param = '';
+        $('.redhover').each(function(i,k){
+			var s_val=$(this).parent('li').attr('value');
+			var s_key=$(this).parent('li').attr('field');
+            // alert(s_val);return; 
+             param += s_key+'='+s_val+'&'; 
+		});
+        // alert(param);
+        param = param.substring(0,param.length-1);
+        var url=location.protocol + '//' + location.host + location.pathname;
+        location.href=url+'?'+param;
+
+       
     })
 			
 </script>

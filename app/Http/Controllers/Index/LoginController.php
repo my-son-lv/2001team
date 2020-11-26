@@ -36,12 +36,12 @@ class LoginController extends Controller
             // dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-             dd($res);
+            //  dd($res);
             if($res['code']=='0000'){
                 
                 Redis::Hset('token',$res['token'],$res['user_id']);
                 setcookie('token',$res['token']); //存cookie
-                // dd($_COOKIE['token']);//取cookie
+//                 dd($_COOKIE['token']);//取cookie
                 return json_encode($res);
             }else{
                 return json_encode($res);
