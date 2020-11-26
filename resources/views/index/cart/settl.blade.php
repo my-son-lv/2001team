@@ -273,7 +273,10 @@
             type:"post",
             dataType:"json",
             success:function(res){
-                alert(res);
+                if(res.code=='0000'){
+                    alert(res.msg);
+                    window.location.href=res.url;
+                }
             }
 
         })

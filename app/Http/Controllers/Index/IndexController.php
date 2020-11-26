@@ -79,14 +79,14 @@ class IndexController extends Controller
 
     //详情
     public function index_show(){
-        $url = "http://www.2001api.com/api/home";
-        $cate = $this->postcurl($url);
+//        $url = "http://www.2001api.com/api/home";
+//        $cate = $this->postcurl($url);
         $goods_id=request()->goods_id;
-        $toekn = $_COOKIE["token"];
-        $Foot_Model = new FootModel();
-        $Foot_Model->user_id = Redis::hget("token",$toekn);
-        $Foot_Model->goods_id = $goods_id;
-        $Foot_Model->save();
+//        $toekn = $_COOKIE["token"];
+//        $Foot_Model = new FootModel();
+//        $Foot_Model->user_id = Redis::hget("token",$toekn);
+//        $Foot_Model->goods_id = $goods_id;
+//        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
         return view("index.index_show",["cate"=>$data]);
