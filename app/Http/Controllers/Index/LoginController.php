@@ -35,10 +35,11 @@ class LoginController extends Controller
             // dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-            // dd($res['token']);
+            // dd($res);
             if($res['code']=='0000'){
                 Redis::Hset('token',$res['token'],$res['user_id']);
                 setcookie('token',$res['token']); //存cookie
+                setcookie('user_name',$data['user_name']);
                 // Cookie::make('token', $res['token']);
                 // dd($_COOKIE['token']);//取cookie
                 return json_encode($res);
@@ -58,7 +59,7 @@ class LoginController extends Controller
         $callback=request()->callback;
 //        echo $callback.'(123)';exit;
         $all=request()->all();
-        dd($all);
+        // dd($all);
         $user=User::where('user_name',$all['user_name'])->count();
         if($all['user_name']==''){
             $arr=json_encode(['code'=>'0001','msg'=>'用户名不能为空']);
@@ -149,8 +150,8 @@ class LoginController extends Controller
         return json_decode($output,true);
     }
     //发送短信验证码
-    public function sendcode(){
-        $callback=request()->callback;
+    public function sendcode(){  
+        $callback=request()->callback; 
         $user_tel = request()->user_tel;
         // $count=Tel_code::where('tel',$all['user_tel'])->count();
         // if($count<3){
@@ -171,7 +172,7 @@ class LoginController extends Controller
             }else{
                 return json_encode(['code'=>'0001','msg'=>'手机号不规范']);    
             }
-        // }else{
+        // }else{}
         //     return json_encode(['code'=>'0001','msg'=>'发送次数已上线,请明日再试']);
         // }
         
