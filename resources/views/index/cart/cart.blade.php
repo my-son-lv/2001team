@@ -1,17 +1,13 @@
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>我的购物车</title>
-
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="/status/css/pages-cart.css" />
 </head>
-
 <body>
 <!--head-->
 <div class="top">
@@ -57,7 +53,7 @@
         <h4>全部商品<span>11</span></h4>
         <div class="cart-main">
             <div class="yui3-g cart-th">
-                <div class="yui3-u-1-4"><input type="checkbox" name="" id="" value="" /> 全部</div>
+                <div class="yui3-u-1-4"><button onclick="getMove()">全选</button><button onclick="getMov()">取消全选</button></div>
                 <div class="yui3-u-1-4">商品</div>
                 <div class="yui3-u-1-8">单价（元）</div>
                 <div class="yui3-u-1-8">数量</div>
@@ -66,13 +62,12 @@
             </div>
             <div class="cart-item-list">
                 <div class="cart-shop">
-                    <input type="checkbox" name="" id="" value="" />
+                    <input type="checkbox" name="" id="" value=""/>
                     <span class="shopname">神州数码专营店</span>
                 </div>
                 <div class="cart-body">
                     <div class="cart-list">
                         @foreach($cart as $v)
-                            {{--@php  dump($cart)  @endphp--}}
                         <ul class="goods-list yui3-g">
                             <li class="yui3-u-1-24">
                                 <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
@@ -107,10 +102,6 @@
             </div>
         </div>
         <div class="cart-tool">
-            <div class="select-all">
-                <input type="checkbox" name="" id="" value="" class="checkbox" />
-                <span>全选</span>
-            </div>
             <div class="option">
                 <a href="#none">删除选中的商品</a>
                 <a href="#none">移到我的关注</a>
@@ -128,7 +119,6 @@
             </div>
         </div>
         <div class="clearfix"></div>
-
         <div class="liked">
             <ul class="sui-nav nav-tabs">
                 <li class="active">
@@ -143,18 +133,16 @@
                             <div class="active item">
                                 <ul>
                                     @foreach($goods as $v)
-
                                     <li>
                                         <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
                                         <div class="intro">
                                             <i>{{$v['goods_name']}}</i>
                                         </div>
                                         <div class="money">
-                                            <span>${{$v['goods_price']}}</span>
+                                            <span>￥{{$v['goods_price']}}</span>
                                         </div>
                                     </li>
                                     @endforeach
-
                                 </ul>
                             </div>
                         </div>
@@ -169,8 +157,6 @@
         </div>
     </div>
 </div>
-<!-- 底部栏位 -->
-<!--页面底部-->
 @include("frag.index.index_foot")
 <!--页面底部END-->
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
@@ -179,7 +165,14 @@
 <script type="text/javascript" src="/status/js/widget/nav.js"></script>
 </body>
 <script>
-
+    function getMove(){
+        $(".cart_id").prop('checked',true);
+    }
+    function getMov(){
+        $(".cart_id").prop('checked',false);
+    }
+</script>
+<script>
     //复选框
     $(document).on("click",".cart_id",function(){
         var cart_id=new Array();

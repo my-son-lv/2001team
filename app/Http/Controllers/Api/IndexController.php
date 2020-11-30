@@ -20,13 +20,8 @@ class IndexController extends Controller
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         $goods_id=request()->goods_id;
-//        dd($goods_id);
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
-//        dd($goodsimg);
-
-//        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
-
        //规格
         $specs_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();

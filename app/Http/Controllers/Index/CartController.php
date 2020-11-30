@@ -162,7 +162,7 @@ class CartController extends Controller
             $address=AddressModel::where("address_id",$data['address_id'])->first();
             $address=$address ? $address->toArray() : [];
         }
-        $total=CartModel::ger
+//        $total=CartModel::ger
 //        dd($data);
         return view("index.order");
     }
