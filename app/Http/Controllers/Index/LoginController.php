@@ -32,9 +32,10 @@ class LoginController extends Controller
         $data=request()->all();
         //dd($data);
         if(!isset($_COOKIE['token'])){
-            // dd(123);
+//             dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
+//              dd($res);
             // dd($res);
             if($res['code']=='0000'){
                 Redis::Hset('token',$res['token'],$res['user_id']);
@@ -134,7 +135,7 @@ class LoginController extends Controller
     }
     //API post curl
     public function postcurl($url,$data=[]){
-        // $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
+// $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $headerArray=[];
         $curl = curl_init();//初始化
         curl_setopt($curl, CURLOPT_URL, $url);

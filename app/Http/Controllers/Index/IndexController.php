@@ -9,17 +9,17 @@ use App\Models\CateModel;
 use App\Models\Brand_Model;
 use App\Models\FootModel;
 use App\Models\ColleModel;
+use App\Models\Butti;
 use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
-    //    dd($cate);
-//        return view("index.index",["cate"=>$cate]);
+        $Butti = Butti::get();
         $goods=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
-        // dd($goods);
-        return view("index.index",["cate"=>$cate,'goods'=>$goods]);
+        $brand = Brand_Model::limit(10)->get();
+        return view("index.index",["cate"=>$cate,'goods'=>$goods,"brand"=>$brand,"Butti"=>$Butti]);
     }//首页
 
     public function GetIndo($cate_cate,$pid=0){
@@ -95,7 +95,6 @@ class IndexController extends Controller
         // dd($price);
         return $price;
     }
-
     //详情
     public function index_show(){
        $url = env('API_URL')."api/home";
@@ -110,11 +109,8 @@ class IndexController extends Controller
 //        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-//         dd($data);
-        $cateinfo=GoodsModel::where('cate_id',$data['goods']['cate_id'])->limit(5)->get();
-        $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
         // dd($cateinfo);
-        return view("index.index_show",["cate"=>$data,'home'=>$home,'cateinfo'=>$cateinfo,'hot'=>$hot]);
+        return view("index.index_show",["cate"=>$data,'home'=>$home]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$headerArray=[]){
@@ -137,7 +133,6 @@ class IndexController extends Controller
         }
         return json_decode($result,true);
     }
-
     public function user_colle(){
         if(isset($_COOKIE["token"])){
             $Colle_Model = new ColleModel();

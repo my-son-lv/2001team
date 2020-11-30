@@ -28,9 +28,6 @@ class Admin_roleController extends Controller
                     ->where('admin_role.is_del',1)
                     ->first();
         $data=Role::where('is_del',1)->get();
-
-        // dd($data);
-
         return view('admin.admin_role.edit',['data'=>$data,'info'=>$info]);
     }
     //修改
