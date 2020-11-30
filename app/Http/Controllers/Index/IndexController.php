@@ -9,17 +9,17 @@ use App\Models\CateModel;
 use App\Models\Brand_Model;
 use App\Models\FootModel;
 use App\Models\ColleModel;
+use App\Models\Butti;
 use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
-    //    dd($cate);
-//        return view("index.index",["cate"=>$cate]);
+        $Butti = Butti::get();
         $goods=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
-        // dd($goods);
-        return view("index.index",["cate"=>$cate,'goods'=>$goods]);
+        $brand = Brand_Model::limit(10)->get();
+        return view("index.index",["cate"=>$cate,'goods'=>$goods,"brand"=>$brand,"Butti"=>$Butti]);
     }//首页
 
     public function GetIndo($cate_cate,$pid=0){
@@ -95,7 +95,6 @@ class IndexController extends Controller
         // dd($price);
         return $price;
     }
-
     //详情
     public function index_show(){
        $url = env('API_URL')."api/home";
@@ -115,21 +114,25 @@ class IndexController extends Controller
         return view("index.index_show",["cate"=>$data,'home'=>$home]);
     }
 //API post curl
-    public function postcurl($url,$postfield=[],$header=[])
-    {
+    public function postcurl($url,$postfield=[],$headerArray=[]){
+        if(is_array($postfield)){
+            $postfield  = json_encode($postfield);
+        }
+        $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);//获取url路径
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfield);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
-//        echo $result;
         curl_close($ch);
-        return json_decode($result, true);
-
+        if(is_null(json_decode($result,true))){
+            return $result;
+        }
+        return json_decode($result,true);
     }
     public function user_colle(){
         if(isset($_COOKIE["token"])){

@@ -1,23 +1,18 @@
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>我的订单</title>
     <link rel="icon" href="assets//status/img/favicon.ico">
-
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="/status/css/pages-seckillOrder.css" />
 </head>
-
 <body>
 <!-- 头部栏位 -->
 <!--页面顶部-->
 @include("frag.index.index_top")
-
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
     $(function(){
@@ -31,7 +26,6 @@
         },function(){
             $("#shopcarlist").hide();
         });
-
     })
 </script>
 <script type="text/javascript" src="/status/js/plugins/jquery.easing/jquery.easing.min.js"></script>

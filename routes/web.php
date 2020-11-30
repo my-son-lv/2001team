@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001team.com')->group(function(){ //域名分组
+Route::domain('2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -32,6 +32,8 @@ Route::any('/test','Index\LoginController@test');
 Route::prefix('/admin')->group(function(){
     Route::any('/kill','Kill\KillController@kill')->middleware("login");//秒杀
     Route::any('/kill_do','Kill\KillController@kill_do')->middleware("login");//秒杀
+    Route::any('/barg','Barg\BargController@barg')->middleware("login");//砍价
+    Route::any('/barg_do','Barg\BargController@barg_do')->middleware("login");//砍价执行添加
 
     Route::any('/role/index','Admin\RoleController@index')->middleware("login");
     Route::any('/role/store','Admin\RoleController@store')->middleware("login");
@@ -63,6 +65,7 @@ Route::prefix('/admin')->group(function(){
     Route::any('brand/upd', 'Brand\BrandController@upd')->middleware("login");
     Route::any('brand/update_do', 'Brand\BrandController@update_do')->middleware("login");
 
+    Route::any('position','Advert\AdvertController@position')->middleware("login");
     Route::any('advert','Advert\AdvertController@advert')->middleware("login");//后台广告添加
     Route::any('advert_do','Advert\AdvertController@advert_do')->middleware("login");//后台广告添加执行
     Route::any('advert_del','Advert\AdvertController@advert_del')->middleware("login");//后台广告删除执行
@@ -148,13 +151,16 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/addcart','Index\CartController@addcart');//加入购物车
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
     Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
-
+    Route::any('/index/cart','Index\CartController@cart');//购物车
     Route::any('/index/getTypePrice','Index\CartController@getTypePrice');//购物车 +
     Route::any('/index/getTypePrices','Index\CartController@getTypePrices');//购物车 -
     Route::any('/index/getInputPrice','Index\CartController@getInputPrice');//购物车 文本框
     Route::any('/index/del','Index\CartController@del');//购物车 单删
     Route::any('/index/manydel','Index\CartController@manydel');//购物车 复选框
     Route::any('/user_colle','Index\IndexController@user_colle');//用户点击列表收藏
+    Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
+    Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
+    Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
 
     Route::any('/index/cart','Index\CartController@cart');//购物车
     Route::any('/index/order','Index\CartController@order');//订单
@@ -164,8 +170,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/is_moren','Index\CartController@is_moren');//默认收货地址
     Route::get('/index/pay','Index\PayController@pay');//支付
     Route::get('/pay/return_url','Index\PayController@return_url');//支付
-
-
     Route::any('/index/home','Index\HomeController@home');//个人中心
     Route::any('/index/home_paid','Index\HomeController@paid')->middleware('IndexLogin');//待付款
     Route::any('/index/home_send','Index\HomeController@home_send')->middleware('IndexLogin');//待发货
@@ -177,7 +181,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
     Route::any('/index/getorder','Index\CartController@getorder')->middleware('IndexLogin');//三级联动
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
-
     Route::any('/index/getorder','Index\CartController@getorder');//收货地址
 
     /**

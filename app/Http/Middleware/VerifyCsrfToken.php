@@ -78,6 +78,7 @@ class VerifyCsrfToken extends Middleware
         "/index/manydel",
         "/index/order",
         "/user_colle",
+        "/admin/barg_do",
         "/saller/shipment",
         "/index/orderdel",
         "/index/updorder",

@@ -91,6 +91,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <ul class="pagination">
+                    {{$data->links()}}
+                </ul>
                 <!--数据列表/-->
             </div>
             <!-- 数据表格 /-->

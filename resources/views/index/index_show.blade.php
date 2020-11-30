@@ -114,6 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
+                        @if($cate["newdata"])
                         @foreach($cate["newdata"] as $k=>$v)
                         <dl>
                             <dt>
@@ -129,6 +130,7 @@
                             @endforeach
                         </dl>
                         @endforeach
+                        @endif
                     </div>
                         <div class="fl title">
                             <div class="control-group">
