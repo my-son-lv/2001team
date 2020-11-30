@@ -23,7 +23,7 @@ class IndexController extends Controller
         $goods_id=request()->goods_id;
 //        dd($goods_id);exit;
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
-//        dd($goodsimg);
+    //    dd($goodsimg);
 
 //        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
@@ -71,7 +71,7 @@ class IndexController extends Controller
                 }
             }
         }
-//        dd($data);
+    //    dd($data);
         $newdata = [];
         foreach($data as $k=>$v){
             $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
@@ -79,7 +79,8 @@ class IndexController extends Controller
 
         }
 //        dd($newdata);
-        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
+        // dd($goodsimg);
+        $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
         return $cate;
     }
 //加入购物车
@@ -155,7 +156,7 @@ class IndexController extends Controller
 
     //购物车列表
     public  function  cart(){
-        $uid=1;
+        $uid=request()->user_id;
         $cart=CartModel::select('cart.*','goods.goods_img')
             ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
             ->where(['user_id'=>$uid])
@@ -180,7 +181,6 @@ class IndexController extends Controller
                 }
             }
         }
-
         return json_encode($cart,true);
     }
 

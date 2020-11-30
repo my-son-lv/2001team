@@ -90,7 +90,6 @@
                 <div class="cart-body">
                     <div class="cart-list">
                         @foreach($cart as $v)
-                            {{--@php  dump($cart)  @endphp--}}
                         <ul class="goods-list yui3-g">
                             <li class="yui3-u-1-24">
                                 <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
@@ -100,9 +99,11 @@
                                     <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
                                     <div class="item-msg">{{$v['goods_name']}}
                                         <br>
-                                        @foreach($v['specs'] as $vv)
+                                        @if(isset($v['specs']))
+                                            @foreach($v['specs'] as $vv)
                                             {{$vv['specs_name']}}:{{$vv['specs_val']}}
                                             @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </li>
