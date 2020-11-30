@@ -47,6 +47,7 @@
 									      <th class="sorting">下单时间</th>
 									      <th class="sorting">支付方式</th>
 									      <th class="sorting">订单状态</th>
+									      <th class="sorting">物流状态</th>
 									      <th class="sorting">操作</th>
 			                          </tr>
 			                      </thead>
@@ -68,8 +69,22 @@
 												  	正在付款
 												  @endif
 										  </td>
+										  <td>
+											  @if($v->shipping_status==0)
+												  未发货
+											  @elseif($v->shipping_status==1)
+												  已发货
+											  @elseif($v->shipping_status==2)
+												  已收货
+											  @elseif($v->shipping_status==4)
+												  退货
+											  @endif
+										  </td>
 		                                  <td class="text-center">
-		                                 	  <button type="button" class="btn bg-olive btn-xs"><a href="javascript:void(0)">详情</a></button>
+											  @if($v->order_status==1 && $v->shipping_status==0)
+												  <button type="button" class="btn bg-olive btn-xs shipment" order_id="{{$v->order_id}}">确认发货</button>
+												  @endif
+		                                 	  <button type="button" class="btn bg-olive btn-xs"><a href="{{url('/saller/order/content?order_id='.$v->order_id)}}">详情</a></button>
 		                                  </td>
 			                          </tr>
 								  @endforeach
@@ -122,6 +137,22 @@
 				}
 			})
 
+		});
+		$(document).on('click','.shipment',function(){
+			var order_id = $(this).attr('order_id');
+			$.ajax({
+				url:'/saller/shipment',
+				data:{order_id:order_id},
+				type:'post',
+				dataType:'json',
+				success:function(res){
+//					console.log(res);
+					if(res.success){
+						alert(res.msg);
+						location=location;
+					}
+				}
+			})
 		});
 	});
 </script>

@@ -5,24 +5,39 @@ use App\Http\Controllers\Controller;
 use App\Models\AddressModel;
 use App\Models\CartModel;
 use App\Models\GoodsModel;
+use App\Models\OrderGoodsModel;
 use App\Models\OrderModel;
 use App\Models\SpecsModel;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Redis;
+
+
 class CartController extends Controller
 {
+    //获取用户id
+    public function uid(){
+        if(!isset($_COOKIE['token'])){
+            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+        }
+        $uid=Redis::Hget('token',$_COOKIE['token']);
+        return $uid;
+    }
     public function  addcart(){
+        $uid=$this->uid();
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
+        // dd($goods_attr_id);
         $url=env('API_URL')."api/index/addcart";
-        $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id]);
+        $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id,'uid'=>$uid]);
+        // dd($cart);
         return json_encode($cart);
     }
 
     //购物车列表
     public function cart(){
-        $uid=1;
+        $uid=$this->uid();
         $url=env('API_URL')."api/index/cart";
         $cart=$this->postcurl($url,['user_id',$uid]);
         $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
@@ -31,7 +46,7 @@ class CartController extends Controller
     }
     //结算页
     public function settl(){
-        $uid=1;
+        $uid=$this->uid();
         $cart_id=request()->cart_id;
         $url=env('API_URL')."api/index/settl";
         $cart=$this->postcurl($url,['user_id'=>$uid,'cart_id'=>$cart_id]);
@@ -39,13 +54,42 @@ class CartController extends Controller
     }
         //收货地址添加
     public  function  getorder(){
-        $uid=1;
+        $uid=$this->uid();
         $data=request()->all();
         $data['user_id']=$uid;
         $url=env('API_URL')."api/index/getorder";
         $cart=$this->postcurl($url,$data);
         return json_encode($cart,true);
     }
+
+    //删除收货地址
+    public  function  orderdel(){
+        $address_id=request()->address_id;
+        $address=AddressModel::where("address_id",$address_id)->delete();
+        if($address){
+            return json_encode(['code'=>'0000','msg'=>"删除成功"]);
+        }
+    }
+
+        //默认地址
+        public function is_moren(){
+            $uid=1;
+            $address_id=request()->address_id;
+            $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>1]);
+            if($res){
+                return json_encode(['code'=>'0000','msg'=>"设置成功"]);
+            }
+
+        }
+
+
+
+
+    //修改收货地址
+    // public function updorder(){
+    //     $address_id=request()->address_id;
+    //     dd($address_id);
+    // }
 
     #+
     public  function  getTypePrice(){
@@ -152,24 +196,73 @@ class CartController extends Controller
 
     //订单页面
     public function order(){
-        $uid=1;
-        $data=request()->all();
-        $data['user_id']=$uid;
-        $pay_name=['2'=>"微信"];
-        $data['pay_name']=$pay_name[$data['pay_type']];
-        $data['order_sn']=$this->createOrderSn();
-        if($data['address_id']){
-            $address=AddressModel::where("address_id",$data['address_id'])->first();
-            $address=$address ? $address->toArray() : [];
+        DB::beginTransaction();
+        try {
+            $uid = 1;
+            $data = request()->all();
+            $cart_id = $data['cart_id'];
+            $data['user_id'] = $uid;
+            $pay_name = ['2' => "微信"];
+            $data['pay_name'] = $pay_name[$data['pay_type']];
+            $data['order_sn'] = $this->createOrderSn();
+            if ($data['address_id']) {
+                $address = AddressModel::where("address_id", $data['address_id'])->first();
+                $address = $address ? $address->toArray() : [];
+            }
+            //商品总价
+            $total = CartModel::getprice($data['cart_id']);
+            $data['goods_price'] = $total[0]->total;
+            //订单
+            $data['order_price'] = $data['goods_price'];
+            $data['add_time'] = time();
+            $data = array_merge($data, $address);
+            unset($data['address_id']);
+            unset($data['address_name']);
+            unset($data['email']);
+            unset($data['is_moren']);
+            unset($data['cart_id']);
+            unset($data['is_del']);
+            unset($data['country']);
+            //订单入库
+            $order_id = OrderModel::insertGetId($data);
+            if (is_string($cart_id)) {
+                $cart_id = explode(',', $cart_id);
+            }
+            $goods = CartModel::whereIn('cart_id', $cart_id)->get();
+            $goods = $goods ? $goods->toArray() : [];
+        //  dd($goods);
+            foreach ($goods as $k => $v) {
+                $goods[$k]['order_id'] = $order_id;
+                unset($goods[$k]['cart_id']);
+                unset($goods[$k]['user_id']);
+                unset($goods[$k]['add_time']);
+            //   unset($goods[$k]['specs_id']);
+                unset($goods[$k]['goods_img']);
+            //   dd($goods);
+            }
+            $order_goods = OrderGoodsModel::insert($goods);
+            //订单商品入库
+            $order_goods = $data['order_id'] = $order_id;
+            if ($order_goods) {
+                CartModel::where("cart_id", $cart_id)->delete();
+                foreach ($goods as $v) {
+                    if ($v['specs_id']) {
+                        SpecsModel::where("specs", $v['specs_id'])->decrement('goods_number', $v['buy_number']);
+                    }
+                    GoodsModel::where('goods_id', $v['goods_id'])->decrement('goods_number', $v['buy_number']);
+                }
+            }
+            DB::commit();
+            return json_encode(['code'=>'0000','msg'=>"ok",'url'=>env('JUSTMES_URL').'index/pay?order_id='.$order_id]);
+        } catch (\Throwable $e) {
+            dump($e->getMessage());
+            DB::rollBack();
         }
-//        $total=CartModel::ger
-//        dd($data);
         return view("index.order");
     }
 
     //随机生成订单号
     public  function  createOrderSn(){
-
         $order_sn=date('YmdHis').rand(1000,9999);
         if($this->isHaveOrdersn($order_sn)){
             $this->createOrderSn();
@@ -197,7 +290,7 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
 //执行
         $result = curl_exec($ch);
-//        echo $result;exit;
+    
         $result = json_decode($result,true);
 //关闭
         curl_close($ch);

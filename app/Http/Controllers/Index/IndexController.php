@@ -57,7 +57,7 @@ class IndexController extends Controller
             }
         }
         // dump($where);
-        $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(3);
+        $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(4);
         // dd($cate_id);
         $goods_price=GoodsModel::where(['is_shelf'=>1,'is_del'=>1,'cate_id'=>$cate_id])->max('goods_price');
         if ($goods_price) {
@@ -97,33 +97,38 @@ class IndexController extends Controller
     }
     //详情
     public function index_show(){
-        $url = "http://www.2001api.com/api/home";
-        $cate = $this->postcurl($url);
+       $url = env('API_URL')."api/home";
+       $home = $this->postcurl($url);
         $goods_id=request()->goods_id;
-        $toekn = $_COOKIE["token"];
-        $Foot_Model = new FootModel();
-        $Foot_Model->user_id = Redis::hget("token",$toekn);
-        $Foot_Model->goods_id = $goods_id;
-        $Foot_Model->save();
+//        dd($goods_id);
+
+//        $toekn = $_COOKIE["token"];
+//        $Foot_Model = new FootModel();
+//        $Foot_Model->user_id = Redis::hget("token",$toekn);
+//        $Foot_Model->goods_id = $goods_id;
+//        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        return view("index.index_show",["cate"=>$data]);
+        // dd($cateinfo);
+        return view("index.index_show",["cate"=>$data,'home'=>$home]);
     }
     //API post curl
-    public function postcurl($url,$postfield=[],$header=[]){
+    public function postcurl($url,$postfield=[],$header=[])
+    {
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
-        curl_setopt($ch,CURLOPT_POST,true);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($ch, CURLOPT_URL, $url);//获取url路径
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfield);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         $result = curl_exec($ch);
+//        echo $result;
         curl_close($ch);
-        return json_decode($result,true);
-    }
+        return json_decode($result, true);
 
+    }
     public function user_colle(){
         if(isset($_COOKIE["token"])){
             $Colle_Model = new ColleModel();

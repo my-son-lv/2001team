@@ -113,6 +113,10 @@ Route::prefix('/admin')->group(function(){
     //后台的商家管理
     Route::any('/saller','Examine\ExamineController@saller')->middleware("login");
 
+    //订单管理
+    Route::any('/saller/order','Order\OrderController@order')->middleware("login");
+    Route::any('/order/content','Order\OrderController@content')->middleware("login");
+
 });
 
 
@@ -145,7 +149,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/index_list/{cate_id}','Index\IndexController@index_list');//列表
     Route::any('/index/index_show','Index\IndexController@index_show');//详情
     Route::any('/index/addcart','Index\CartController@addcart');//加入购物车
-    Route::any('/index/cart','Index\CartController@cart');//购物车列表
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
     Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
     Route::any('/index/cart','Index\CartController@cart');//购物车
@@ -154,14 +157,20 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/getInputPrice','Index\CartController@getInputPrice');//购物车 文本框
     Route::any('/index/del','Index\CartController@del');//购物车 单删
     Route::any('/index/manydel','Index\CartController@manydel');//购物车 复选框
-    Route::any('/index/order','Index\CartController@order');#订单
-    Route::any('/index/settl','Index\CartController@settl');#结算
     Route::any('/user_colle','Index\IndexController@user_colle');//用户点击列表收藏
     Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
     Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
     Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
 
-    Route::any('/index/home','Index\HomeController@home')->middleware('IndexLogin');//个人中心
+    Route::any('/index/cart','Index\CartController@cart');//购物车
+    Route::any('/index/order','Index\CartController@order');//订单
+    Route::any('/index/settl','Index\CartController@settl');//结算页
+    Route::any('/index/orderdel','Index\CartController@orderdel');//收货地址删除
+    Route::any('/index/updorder','Index\CartController@updorder');//收货地址修改
+    Route::any('/index/is_moren','Index\CartController@is_moren');//默认收货地址
+    Route::get('/index/pay','Index\PayController@pay');//支付
+    Route::get('/pay/return_url','Index\PayController@return_url');//支付
+    Route::any('/index/home','Index\HomeController@home');//个人中心
     Route::any('/index/home_paid','Index\HomeController@paid')->middleware('IndexLogin');//待付款
     Route::any('/index/home_send','Index\HomeController@home_send')->middleware('IndexLogin');//待发货
     Route::any('/index/home_receive','Index\HomeController@home_receive')->middleware('IndexLogin');//待收货
@@ -196,6 +205,8 @@ Route::prefix("admin")->group(function(){
         Route::any('/goods/update', 'Saller\GoodsController@update');//商家模块 修改
         Route::any('/goods/del', 'Saller\GoodsController@del');//商家模块 批量删除
         Route::any('/order', 'Saller\OrderController@order');//商家模块 订单管理
+        Route::any('/shipment', 'Saller\OrderController@shipment');//商家模块 确认发货
+        Route::any('/order/content', 'Saller\OrderController@content');//商家模块 订单详情
     });
 
 });

@@ -13,12 +13,30 @@
 <div class="top">
     <div class="py-container">
         <div class="shortcut">
-            <ul class="fl">
-                <li class="f-item">品优购欢迎您！</li>
-                <li class="f-item">请登录　<span><a href="#">免费注册</a></span></li>
-            </ul>
+        <ul class="fl">
+                        @php  
+                            if(isset($_COOKIE['token'])){
+                                $cookie=$_COOKIE['token'];
+                            }else{
+                                $cookie='';
+                            }
+                            if(isset($_COOKIE['user_name'])){
+                                $user_name=$_COOKIE['user_name'];
+                            }else{
+                                $user_name='';
+                            }
+                        @endphp
+                        @if($cookie)
+                            <li class="f-item">欢迎<a href="javascript:;" style="color:red;">&nbsp;{{$user_name}}&nbsp;</a>登录</li>
+                            <li class="f-item"><a href="/loginout">&nbsp;&nbsp;退出登录</a></li>
+                        @else
+                            <li class="f-item">品优购欢迎您！</li>
+                            <li class="f-item">请<a href="/login">登录</a>
+                            <span><a href="/reg">免费注册</a></span></li>
+                        @endif
+                    </ul>
             <ul class="fr">
-                <li class="f-item">我的订单</li>
+                <li class="f-item"><a href="/index/home">个人中心</a></li>
                 <li class="f-item space"></li>
                 <li class="f-item">我的品优购</li>
                 <li class="f-item space"></li>
@@ -84,7 +102,7 @@
                                 </div>
                             </li>
 
-                            <li class="yui3-u-1-8"><span class="price">{{$v['goods_price']}}</span></li>
+                            <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
                             <li class="yui3-u-1-8">
                                 <a href="javascript:void(0)" class="increment mins" cart_id="{{$v['cart_id']}}">-</a>
                                 <input autocomplete="off" type="text" cart_id="{{$v['cart_id']}}" value="{{$v['buy_number']}}" minnum="1" class="itxt" />
@@ -179,6 +197,7 @@
         $(".cart_id:checked").each(function(){
             cart_id.push($(this).val());
         });
+
         $.ajax({
             url:"/index/manydel",
             data:{cart_id:cart_id},
@@ -219,12 +238,15 @@
         }
     })
 
-
+    //结算
     $(document).on("click",".sum-btn",function(){
             var cart_id=new Array();
         $(".cart_id:checked").each(function(){
             cart_id.push($(this).val());
         });
+        if(cart_id==""){
+            alert("请选择需要结算的商品");return;
+        }
         window.location.href="settl?cart_id="+cart_id;
     })
     //+

@@ -11,6 +11,7 @@ use App\Models\Tel_code;
 use App\Models\User;
 use Illuminate\Support\Facades\Redis;
 use App\Common\Jwt;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -28,20 +29,20 @@ class LoginController extends Controller
     }
     //执行登录
     public function logindo(){
-//        dd(123);
         $data=request()->all();
-//         dd($data);
-        // dd(Redis::get('token'));
+        //dd($data);
         if(!isset($_COOKIE['token'])){
-            // dd(123);
+//             dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-            //  dd($res);
+//              dd($res);
+            // dd($res);
             if($res['code']=='0000'){
-                
                 Redis::Hset('token',$res['token'],$res['user_id']);
                 setcookie('token',$res['token']); //存cookie
-//                 dd($_COOKIE['token']);//取cookie
+                setcookie('user_name',$data['user_name']);
+                // Cookie::make('token', $res['token']);
+                // dd($_COOKIE['token']);//取cookie
                 return json_encode($res);
             }else{
                 return json_encode($res);
@@ -59,7 +60,7 @@ class LoginController extends Controller
         $callback=request()->callback;
 //        echo $callback.'(123)';exit;
         $all=request()->all();
-        dd($all);
+        // dd($all);
         $user=User::where('user_name',$all['user_name'])->count();
         if($all['user_name']==''){
             $arr=json_encode(['code'=>'0001','msg'=>'用户名不能为空']);
@@ -134,7 +135,7 @@ class LoginController extends Controller
     }
     //API post curl
     public function postcurl($url,$data=[]){
-        // $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
+// $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $headerArray=[];
         $curl = curl_init();//初始化
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -145,12 +146,13 @@ class LoginController extends Controller
         curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
+        //  echo $output;exit;
         curl_close($curl);
         return json_decode($output,true);
     }
     //发送短信验证码
-    public function sendcode(){
-        $callback=request()->callback;
+    public function sendcode(){  
+        $callback=request()->callback; 
         $user_tel = request()->user_tel;
         // $count=Tel_code::where('tel',$all['user_tel'])->count();
         // if($count<3){
@@ -171,11 +173,11 @@ class LoginController extends Controller
             }else{
                 return json_encode(['code'=>'0001','msg'=>'手机号不规范']);    
             }
-        // }else{
+        // }else{}
         //     return json_encode(['code'=>'0001','msg'=>'发送次数已上线,请明日再试']);
         // }
         
-        echo $callback.'(123)';die;
+        // echo $callback.'(123)';die;
     }
     //短信发送验证码
     public function sendSms($user_tel,$code){

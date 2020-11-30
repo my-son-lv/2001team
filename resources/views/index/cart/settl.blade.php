@@ -66,25 +66,28 @@
                 <div class="addressInfo">
                     <input type="hidden"  cart_id="{{request()->cart_id}}" id="cart_id">
                     <ul class="addr-detail">
-
                         @foreach($cart as $v)
-                        <li class="addr-item">
-                            <div>
-                                <div class="con name @if($v['is_moren']==1)selected @endif  " address_id="{{$v['address_id']}}"  >
-                                    <a href="javascript:;" id="address_name"><b id="address_name">{{$v['address_name']}}</b><span title="点击取消选择">&nbsp;</a>
-                                </div>
-                                <div class="con address"><p id="address">{{$v['address']}}</p><span id="tel">{{$v['tel']}}</span>
-                                    @if($v['is_moren']==1)
-                                    <span class="base">默认地址</span>
-                                    @else
-                                        <span class="edittext"><a href="javascript:;">设为默认</a></span>
+                            <li class="addr-item">
+                                <div>
+                                    <div class="con name @if($v['is_moren']==1)selected @endif  " address_id="{{$v['address_id']}}"  >
+                                        <a href="javascript:;" id="address_name"><b id="address_name">{{$v['address_name']}}</b><span title="点击取消选择">&nbsp;</a>
+                                    </div>
+                                    <div class="con address"><p id="address">{{$v['address']}}</p><span id="tel">{{$v['tel']}}</span>
+                                        @if($v['is_moren']==1)
+                                            <span class="base">默认地址</span>
+                                        @else
+                                            <span class="edittext"><a href="javascript:;" address_id="{{$v['address_id']}}" class="is_moren">设为默认</a></span>
                                         @endif
-                                    <span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
+                                        <span class="edittext">
+                                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="upd"  address_id="{{$v['address_id']}}"  >编辑</a>
+                                            &nbsp;&nbsp;
+                                            <a href="javascript:;"   class="del"  address_id="{{$v['address_id']}}">删除</a>
+                                        </span>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </li>
-                            @endforeach
+                            </li>
+                        @endforeach
                     </ul>
                     <!--添加地址-->
                     <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
@@ -99,26 +102,26 @@
                                         <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium" id="address_name" >
+                                                <input type="text" class="input-medium address_name" name="address_name" >
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large" id="address">
+                                                <input type="text" class="input-medium" id="address"  name="address">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium" id="tel">
+                                                <input type="text" class="input-medium  tel " name="tel">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">邮箱：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium" id="email">
-                                            </div>
+                                                <input type="text" class="input-medium  email " name="email">
+                                            </div>-
                                         </div>
                                     </form>
                                 </div>
@@ -246,10 +249,10 @@
 </body>
 <script>
     $(document).on("click",".sui-btn",function(){
-        var address_name=$("#address_name").val();
-        var address=$("#address").val();
-        var tel=$("#tel").val();
-        var email=$("#email").val();
+        var address_name=$(".address_name").val();
+       var address=$("input[name='address']").val();
+        var tel=$(".tel").val();
+        var email=$(".email").val();
         $.ajax({
             url:"/index/getorder",
             type:"post",
@@ -263,6 +266,7 @@
             }
         })
     })
+
     $(document).on("click","#add",function(){
         var address_id=$(".name").attr("address_id");
         var pay_type=$("#pay_type").val();
@@ -273,11 +277,56 @@
             type:"post",
             dataType:"json",
             success:function(res){
-                alert(res);
+                if(res.code=='0000'){
+                    alert(res.msg);
+                    window.location.href=res.url;
+                }
             }
-
         })
     })
+
+    //删除收货地址
+    $(document).on("click",".del",function(){
+        var address_id=$(this).attr("address_id");
+        $.get('/index/orderdel',{address_id:address_id},function(res){
+            if(res.code=='0000'){
+                alert(res.msg);
+                location=location;
+            }
+        },'json')
+
+    })
+
+//设为默认  
+    $(document).on("click",".is_moren",function(){
+        var address_id = $(this).attr('address_id');
+             $.ajax({
+            url:"/index/is_moren",
+            data:{address_id:address_id},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=='0000'){
+                    alert(res.msg);
+                    location=location;
+                }
+            }
+        })
+    })
+
+    //修改地址
+    // $(document).on("click",".upd",function(){
+    //     var address_id=$(this).attr("address_id");
+    //     $.ajax({
+    //         url:"/index/updorder",
+    //         data:{address_id:address_id},
+    //         type:"post",
+    //         dataType:"json",
+    //         success:function(res){
+    //             alert(res);
+    //         }
+    //     })
+    // })
 
 </script>
 

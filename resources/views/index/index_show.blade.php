@@ -114,7 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
-                        @foreach($cate["specs_info"] as $v)
+                        @foreach($cate["newdata"] as $k=>$v)
                         <dl>
                             <dt>
                             <div class="fl title">
@@ -122,13 +122,10 @@
                             </div>
                             </dt>
                             @php $i=0; @endphp
-                            @foreach($cate['specs_val_info'] as  $vv)
-
-                                @if($v['specs_id']==$vv['specs_id'])
-                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$v['specs_id']}}" goods_attr_id="{{$vv['id']}}" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
+                            @foreach($v['specs'] as  $kk=>$vv)
+                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$k}}" goods_attr_id="{{$kk}}" >{{$vv}}<span title="点击取消选择">&nbsp;</span>
                                     </a></dd>
                                     @php $i++; @endphp
-                                @endif
                             @endforeach
                         </dl>
                         @endforeach
@@ -136,7 +133,7 @@
                         <div class="fl title">
                             <div class="control-group">
                                 <div class="controls">
-                                    <input autocomplete="off" type="text" value="1" minnum="1" class="itxt" />
+                                    <input autocomplete="off" type="text" value="1" minnum="1" class="itxt num" />
                                     <a href="javascript:void(0)" class="increment plus">+</a>
                                     <a href="javascript:void(0)" class="increment mins">-</a>
                                 </div>
@@ -170,29 +167,21 @@
                 </ul>
                 <div class="tab-content tab-wraped">
                     <div id="index" class="tab-pane active">
-                        <ul class="part-list unstyled">
-                            <li>手机</li>
-                            <li>手机壳</li>
-                            <li>内存卡</li>
-                            <li>Iphone配件</li>
-                            <li>贴膜</li>
-                            <li>手机耳机</li>
-                            <li>移动电源</li>
-                            <li>平板电脑</li>
-                        </ul>
+                       
                         <ul class="goods-list unstyled">
+                        @foreach($cate['cateinfo'] as $v)
                             <li>
                                 <div class="list-wrap">
                                     <div class="p-img">
-                                        <img src="/status/img/_/part01.png" />
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" width="150px"/></a>
                                     </div>
                                     <div class="attr">
-                                        <em>Apple苹果iPhone 6s (A1699)</em>
+                                        <em>{{$v['goods_name']}}</em>
                                     </div>
                                     <div class="price">
                                         <strong>
                                             <em>¥</em>
-                                            <i>6088.00</i>
+                                            <i>{{$v['goods_price']}}</i>
                                         </strong>
                                     </div>
                                     <div class="operate">
@@ -200,78 +189,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="list-wrap">
-                                    <div class="p-img">
-                                        <img src="/status/img/_/part02.png" />
-                                    </div>
-                                    <div class="attr">
-                                        <em>Apple苹果iPhone 6s (A1699)</em>
-                                    </div>
-                                    <div class="price">
-                                        <strong>
-                                            <em>¥</em>
-                                            <i>6088.00</i>
-                                        </strong>
-                                    </div>
-                                    <div class="operate">
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="list-wrap">
-                                    <div class="p-img">
-                                        <img src="/status/img/_/part03.png" />
-                                    </div>
-                                    <div class="attr">
-                                        <em>Apple苹果iPhone 6s (A1699)</em>
-                                    </div>
-                                    <div class="price">
-                                        <strong>
-                                            <em>¥</em>
-                                            <i>6088.00</i>
-                                        </strong>
-                                    </div>
-                                    <div class="operate">
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                                    </div>
-                                </div>
-                                <div class="list-wrap">
-                                    <div class="p-img">
-                                        <img src="/status/img/_/part02.png" />
-                                    </div>
-                                    <div class="attr">
-                                        <em>Apple苹果iPhone 6s (A1699)</em>
-                                    </div>
-                                    <div class="price">
-                                        <strong>
-                                            <em>¥</em>
-                                            <i>6088.00</i>
-                                        </strong>
-                                    </div>
-                                    <div class="operate">
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                                    </div>
-                                </div>
-                                <div class="list-wrap">
-                                    <div class="p-img">
-                                        <img src="/status/img/_/part03.png" />
-                                    </div>
-                                    <div class="attr">
-                                        <em>Apple苹果iPhone 6s (A1699)</em>
-                                    </div>
-                                    <div class="price">
-                                        <strong>
-                                            <em>¥</em>
-                                            <i>6088.00</i>
-                                        </strong>
-                                    </div>
-                                    <div class="operate">
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                                    </div>
-                                </div>
-                            </li>
+                        @endforeach
                         </ul>
                     </div>
                     <div id="profile" class="tab-pane">
@@ -280,58 +198,23 @@
                 </div>
             </div>
             <div class="fr detail">
+
                 <div class="clearfix fitting">
-                    <h4 class="kt">选择搭配</h4>
+                    <h4 class="kt">热卖商品</h4>
                     <div class="good-suits">
+                    @foreach($cate['hot'] as $v)
                         <div class="fl master">
+                       
                             <div class="list-wrap">
                                 <div class="p-img">
-                                    <img src="/status/img/_/l-m01.png" />
+                                <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" width="150px" /></a>
                                 </div>
+                                <p>{{$v['goods_name']}}</p>
                                 <em>￥5299</em>
-                                <i>+</i>
                             </div>
+                       
                         </div>
-                        <div class="fl suits">
-                            <ul class="suit-list">
-                                <li class="">
-                                    <div id="">
-                                        <img src="/status/img/_/dp01.png" />
-                                    </div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>39</span>
-                                    </label>
-                                </li>
-                                <li class="">
-                                    <div id=""><img src="/status/img/_/dp02.png" /> </div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>50</span>
-                                    </label>
-                                </li>
-                                <li class="">
-                                    <div id=""><img src="/status/img/_/dp03.png" /></div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>59</span>
-                                    </label>
-                                </li>
-                                <li class="">
-                                    <div id=""><img src="/status/img/_/dp04.png" /></div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>99</span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="fr result">
-                            <div class="num">已选购0件商品</div>
-                            <div class="price-tit"><strong>套餐价</strong></div>
-                            <div class="price">￥5299</div>
-                            <button class="sui-btn  btn-danger addshopcar">加入购物车</button>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="tab-main intro">
@@ -341,63 +224,18 @@
                                 <span>商品介绍</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="#two" data-toggle="tab">
-                                <span>规格与包装</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#three" data-toggle="tab">
-                                <span>售后保障</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#four" data-toggle="tab">
-                                <span>商品评价</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#five" data-toggle="tab">
-                                <span>手机社区</span>
-                            </a>
-                        </li>
                     </ul>
                     <div class="clearfix"></div>
                     <div class="tab-content tab-wraped">
                         <div id="one" class="tab-pane active">
                             <ul class="goods-intro unstyled">
-                                <li>分辨率：1920*1080(FHD)</li>
-                                <li>后置摄像头：1200万像素</li>
-                                <li>前置摄像头：500万像素</li>
-                                <li>核 数：其他</li>
-                                <li>频 率：以官网信息为准</li>
-                                <li>品牌： Apple</li>
-                                <li>商品名称：APPLEiPhone 6s Plus</li>
-                                <li>商品编号：1861098</li>
-                                <li>商品毛重：0.51kg</li>
-                                <li>商品产地：中国大陆</li>
-                                <li>热点：指纹识别，Apple Pay，金属机身，拍照神器</li>
-                                <li>系统：苹果（IOS）</li>
-                                <li>像素：1000-1600万</li>
-                                <li>机身内存：64GB</li>
+                                <li>{{$cate['goods']['content']}}</li>
                             </ul>
                             <div class="intro-detail">
-                                <img src="/status/img/_/intro01.png" />
-                                <img src="/status/img/_/intro02.png" />
-                                <img src="/status/img/_/intro03.png" />
+                            @foreach($cate['goodsimg'] as $v)
+                                <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" />
+                            @endforeach
                             </div>
-                        </div>
-                        <div id="two" class="tab-pane">
-                            <p>规格与包装</p>
-                        </div>
-                        <div id="three" class="tab-pane">
-                            <p>售后保障</p>
-                        </div>
-                        <div id="four" class="tab-pane">
-                            <p>商品评价</p>
-                        </div>
-                        <div id="five" class="tab-pane">
-                            <p>手机社区</p>
                         </div>
                     </div>
                 </div>
@@ -409,18 +247,19 @@
             <h4 class="kt">猜你喜欢</h4>
             <div class="like-list">
                 <ul class="yui3-g">
+                @foreach($home["data"] as $v)
                     <li class="yui3-u-1-6">
                         <div class="list-wrap">
                             <div class="p-img">
-                                <img src="/status/img/_/itemlike01.png" />
+                            <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"   /></a>
                             </div>
                             <div class="attr">
-                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                <em>{{$v["goods_name"]}}</em>
                             </div>
                             <div class="price">
                                 <strong>
                                     <em>¥</em>
-                                    <i>3699.00</i>
+                                    <i>{{$v["goods_price"]}}</i>
                                 </strong>
                             </div>
                             <div class="commit">
@@ -428,106 +267,11 @@
                             </div>
                         </div>
                     </li>
-                    <li class="yui3-u-1-6">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/itemlike02.png" />
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4388.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-6">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/itemlike03.png" />
-                            </div>
-                            <div class="attr">
-                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-6">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/itemlike04.png" />
-                            </div>
-                            <div class="attr">
-                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-6">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/itemlike05.png" />
-                            </div>
-                            <div class="attr">
-                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-6">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <img src="/status/img/_/itemlike06.png" />
-                            </div>
-                            <div class="attr">
-                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                            </div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>4088.00</i>
-                                </strong>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有700人评价</i>
-                            </div>
-                        </div>
-                    </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
     </div>
-</div>
 <!-- 底部栏位 -->
 <!--页面底部-->
 @include("frag.index.index_foot")
@@ -672,6 +416,45 @@
 
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
+   //购买数量+
+   $(document).on('click','.plus',function (){
+	var buy_number = parseInt($('.itxt').val());
+	var goods_num = parseInt("{{$cate['goods']['goods_number']}}");
+	
+	if(buy_number>=goods_num){
+		$('.itxt').val(goods_num);
+	}else{
+		buy_number = buy_number + 1;
+		$('.itxt').val(buy_number);
+	}
+	// alert(buy_number)
+})
+//购买数量-
+$(document).on('click','.mins',function (){
+	var buy_number = parseInt($('.itxt').val());
+	if(buy_number<=1){
+		$('.itxt').val(1);
+	}else{
+		buy_number = buy_number - 1;
+		$('.itxt').val(buy_number);
+	}
+	// alert(buy_number)
+})
+//购买数量文本框
+$(document).on('blur','.itxt',function(){
+	var buy_number = parseInt($(this).val());
+	var goods_num = parseInt("{{$cate['goods']['goods_number']}}");
+	var reg = /^\d{1,}$/;
+	if(buy_number==''){
+		$(this).val(1);
+	}else if(!reg.test(buy_number)){
+		$(this).val(1);
+	}else if(buy_number>=goods_num){
+		$(this).val(goods_num);
+	}else{
+		$(this).val(parseInt(buy_number));
+	}
+})
     $(function(){
         $("#service").hover(function(){
             $(".service").show();
@@ -683,8 +466,12 @@
         },function(){
             $("#shopcarlist").hide();
         });
-
-        //加入购物车9
+        $('dd a').click(function(){
+            $(this).parent().siblings().find('a').removeClass("selected");
+            $(this).addClass("selected");
+//            getgoodsprice();
+        });
+        //加入购物车
         $(document).on("click",".addshopcar",function(){
             var goods_id = "{{$cate['goods']['goods_id']}}";
             var goods_number = $('.itxt').val();
@@ -692,7 +479,11 @@
             $('.selected').each(function(){
                 goods_attr_id+=$(this).attr('sepcs_id')+','+$(this).attr('goods_attr_id')+':';
             });
-            goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            if(goods_attr_id==''){
+                goods_attr_id='';
+            }else{
+                goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            }
             $.ajax({
                 url:"/index/addcart",
                 data:{goods_id:goods_id,goods_number:goods_number,goods_attr_id:goods_attr_id},
@@ -700,8 +491,14 @@
                 dataType:"json",
                 success:function(res){
                     if(res.code=='0000'){
-                        alert(res.msg);
-                        window.location.href=res.url;
+                        if(confirm('添加成功，是否去购物车结算')){
+                            // alert(res.msg);
+                            window.location.href='/index/cart';
+                        }
+                    }else if(res.code=='0003'){
+                        if(confirm('是否去登录')){
+                            window.location.href='/login';
+                        }
                     }else{
                         alert(res.msg);
                     }

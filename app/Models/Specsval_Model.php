@@ -21,4 +21,7 @@ class Specsval_Model extends Model
     public function specs_value_first($specs_id){
         return Specsval_Model::where(['specs_id'=>$specs_id])->get();
     }
+    public function specs_val($id){
+        return Specsval_Model::where('id',$id)->value('specs_val');
+    }
 }
