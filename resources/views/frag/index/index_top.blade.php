@@ -62,11 +62,11 @@
                     </div>
                     <div class="yui3-u Center searchArea">
                         <div class="search">
-                            <form action="" class="sui-form form-inline">
+                            <form action="" class="sui-form form-inline search_nav">
                                 <!--searchAutoComplete-->
                                 <div class="input-append">
-                                    <input type="text" id="autocomplete" type="text" class="input-error input-xxlarge" />
-                                    <button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+                                    <input type="text" id="autocomplete" type="text" class="input-error input-xxlarge search_val" />
+                                    <button class="sui-btn btn-xlarge btn-danger search_but" type="button">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -118,3 +118,14 @@
         </div>
     </div>
 </div>
+<script src="/status/js/plugins/jquery/jquery.min.js"></script>
+<script>
+$(document).on('click',".search_but",function(){
+    var search_val = $(".search_val").val();
+    var url = "http://www.2001api.com/api/searchnav?callback=?";
+    $.getJSON(url,{search_val:search_val},function(res){
+        alert(res);
+    })
+    // alert(search_val);
+})
+</script>

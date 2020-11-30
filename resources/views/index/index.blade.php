@@ -661,7 +661,7 @@
     </div>
 </script>
 <!--侧栏面板结束-->
-<script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script> -->
 <script type="text/javascript">
     $(function(){
         $("#service").hover(function(){

@@ -238,4 +238,12 @@ class IndexController extends Controller
         $data = ["cate"=>$cate];
         return $data;
     }
+
+    //头部导航
+    public function searchnav(){
+        $callback=request()->callback;
+        $val=request()->search_val;
+        // dd($val);
+        echo $callback.'('.$val.')';die;
+    } 
 }

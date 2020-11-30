@@ -187,15 +187,15 @@ class CartController extends Controller
             }
             $goods = CartModel::whereIn('cart_id', $cart_id)->get();
             $goods = $goods ? $goods->toArray() : [];
-//        dd($goods);
+        //  dd($goods);
             foreach ($goods as $k => $v) {
                 $goods[$k]['order_id'] = $order_id;
                 unset($goods[$k]['cart_id']);
                 unset($goods[$k]['user_id']);
                 unset($goods[$k]['add_time']);
-//            unset($goods[$k]['specs_id']);
+            //   unset($goods[$k]['specs_id']);
                 unset($goods[$k]['goods_img']);
-//            dd($goods);
+            //   dd($goods);
             }
             $order_goods = OrderGoodsModel::insert($goods);
             //订单商品入库

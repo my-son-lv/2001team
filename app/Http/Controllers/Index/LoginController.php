@@ -176,7 +176,7 @@ class LoginController extends Controller
         //     return json_encode(['code'=>'0001','msg'=>'发送次数已上线,请明日再试']);
         // }
         
-        echo $callback.'(123)';die;
+        // echo $callback.'(123)';die;
     }
     //短信发送验证码
     public function sendSms($user_tel,$code){
