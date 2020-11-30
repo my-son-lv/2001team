@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "c35d1052e7e5fb3b20894682f7d8d1b3",
+    "content-hash": "5b94fcb026c5bbc2726bc51ddacf9a4f",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -1094,7 +1095,17 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/lcobucci/jwt/zipball/320b9f05741b24acbbaf1106ed267ff3817fd74d",
                 "reference": "320b9f05741b24acbbaf1106ed267ff3817fd74d",
+<<<<<<< HEAD
                 "shasum": ""
+=======
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+>>>>>>> 088c65d0b7eb7cd909f605e6797713341ffc89c3
             },
             "require": {
                 "ext-mbstring": "*",

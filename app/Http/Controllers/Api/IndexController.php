@@ -20,7 +20,7 @@ class IndexController extends Controller
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         $goods_id=request()->goods_id;
-//        dd($goods_id);
+//        dd($goods_id);exit;
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
 //        dd($goodsimg);
 
@@ -30,9 +30,49 @@ class IndexController extends Controller
        //规格
         $specs_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
-        $specs_info = $specs_model->get();
-        $specs_val_info = $specs_val_model->get();
-        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info];
+//        $specs_info = $specs_model->get();
+//        $specs_val_info = $specs_val_model->get();
+        $specs_model_model = new SpecsModel();
+        $specs_info = $specs_model_model->where('goods_id',$goods_id)->get();
+        $data = [];
+        if($specs_info){
+            $specs_info = $specs_info->toArray();
+
+//            $data = [];
+            foreach($specs_info as $k=>$v){
+                $res = explode(':',$v['specs']);
+                if($res){
+                    $r = count($res);
+                    for($i=0;$i<$r;$i++){
+                        array_push($data,$res[$i]);
+                    }
+                }
+            }
+            $data = array_unique($data);
+//            dd($data);
+//            $da = [];
+            foreach($data as $k=>$v){
+                if($v){
+                    $data[$k] = explode(',',$v);
+//                    dump($data[$k][1]);
+                    $data[$k]['specs_name'] = $specs_model->where('specs_id',$v[0])->value('specs_name');
+                    $data[$k]['specs_id'] = $v[0];
+                    $data[$k]['specs_val'] = $specs_val_model->where('id',$data[$k][1])->value('specs_val');
+                    $data[$k]['specs_val_id'] = $data[$k][1];
+                    unset($data[$k][0]);
+                    unset($data[$k][1]);
+                }
+            }
+        }
+//        dd($data);
+        $newdata = [];
+        foreach($data as $k=>$v){
+            $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
+            $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
+
+        }
+//        dd($newdata);
+        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata];
         return $cate;
     }
 //加入购物车
@@ -237,4 +277,12 @@ class IndexController extends Controller
         $data = ["cate"=>$cate];
         return $data;
     }
+
+    //头部导航
+    public function searchnav(){
+        $callback=request()->callback;
+        $val=request()->search_val;
+        // dd($val);
+        echo $callback.'('.$val.')';die;
+    } 
 }

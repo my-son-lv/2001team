@@ -5,23 +5,29 @@
             <div class="py-container">
                 <div class="shortcut">
                     <ul class="fl">
-                        <li class="f-item">品优购欢迎您！</li>
                         @php  
                             if(isset($_COOKIE['token'])){
                                 $cookie=$_COOKIE['token'];
                             }else{
                                 $cookie='';
                             }
+                            if(isset($_COOKIE['user_name'])){
+                                $user_name=$_COOKIE['user_name'];
+                            }else{
+                                $user_name='';
+                            }
                         @endphp
                         @if($cookie)
+                            <li class="f-item">欢迎<a href="javascript:;" style="color:red;">&nbsp;{{$user_name}}&nbsp;</a>登录</li>
+                            <li class="f-item"><a href="/loginout">&nbsp;&nbsp;退出登录</a></li>
+                        @else
+                            <li class="f-item">品优购欢迎您！</li>
                             <li class="f-item">请<a href="/login">登录</a>
                             <span><a href="/reg">免费注册</a></span></li>
-                        @else
-                            <li class="f-item"><a href="/loginout">退出登录</a></li>
                         @endif
                     </ul>
                     <ul class="fr">
-                        <li class="f-item"><a href="/index/home">我的订单</a></li>
+                        <li class="f-item"><a href="/index/home">个人中心</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">我的品优购</li>
                         <li class="f-item space"></li>
@@ -56,11 +62,11 @@
                     </div>
                     <div class="yui3-u Center searchArea">
                         <div class="search">
-                            <form action="" class="sui-form form-inline">
+                            <form action="" class="sui-form form-inline search_nav">
                                 <!--searchAutoComplete-->
                                 <div class="input-append">
-                                    <input type="text" id="autocomplete" type="text" class="input-error input-xxlarge" />
-                                    <button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+                                    <input type="text" id="autocomplete" type="text" class="input-error input-xxlarge search_val" />
+                                    <button class="sui-btn btn-xlarge btn-danger search_but" type="button">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -112,3 +118,14 @@
         </div>
     </div>
 </div>
+<script src="/status/js/plugins/jquery/jquery.min.js"></script>
+<script>
+$(document).on('click',".search_but",function(){
+    var search_val = $(".search_val").val();
+    var url = "http://www.2001api.com/api/searchnav?callback=?";
+    $.getJSON(url,{search_val:search_val},function(res){
+        alert(res);
+    })
+    // alert(search_val);
+})
+</script>

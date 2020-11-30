@@ -45,7 +45,7 @@ class LoginController extends Controller
                 //     }else{
                 //         dd('0909');
                 //     }
-                return json_encode($arr=['code'=>'0000','msg'=>'登录成功','token'=>$token,'user_id'=>$user_id]);
+                return json_encode($arr=['code'=>'0000','msg'=>'登录成功','token'=>$token,'user_id'=>$user_id,'user_name'=>$all['user_name']]);
             }else{
                 return json_encode($arr=['code'=>'0001','msg'=>'密码错误']);
             }

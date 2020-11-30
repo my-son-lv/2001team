@@ -110,6 +110,10 @@ Route::prefix('/admin')->group(function(){
     //后台的商家管理
     Route::any('/saller','Examine\ExamineController@saller')->middleware("login");
 
+    //订单管理
+    Route::any('/saller/order','Order\OrderController@order')->middleware("login");
+    Route::any('/order/content','Order\OrderController@content')->middleware("login");
+
 });
 
 
