@@ -118,25 +118,25 @@ class IndexController extends Controller
     }
 //API post curl
     public function postcurl($url,$postfield=[],$headerArray=[]){
-    if(is_array($postfield)){
-        $postfield  = json_encode($postfield);
+        if(is_array($postfield)){
+            $postfield  = json_encode($postfield);
+        }
+        $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        if(is_null(json_decode($result,true))){
+            return $result;
+        }
+        return json_decode($result,true);
     }
-    $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
-    curl_setopt($ch,CURLOPT_POST,true);
-    curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
-    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-    curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
-    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-    curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-    $result = curl_exec($ch);
-    curl_close($ch);
-    if(is_null(json_decode($result,true))){
-        return $result;
-    }
-    return json_decode($result,true);
-}
 
     public function user_colle(){
         if(isset($_COOKIE["token"])){
