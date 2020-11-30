@@ -21,7 +21,7 @@ class IndexController extends Controller
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         // dd($cate);
         $goods_id=request()->goods_id;
-//        dd($goods_id);
+//        dd($goods_id);exit;
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
 //        dd($goodsimg);
 
@@ -31,14 +31,55 @@ class IndexController extends Controller
        //规格
         $specs_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
-        $specs_info = $specs_model->get();
-        $specs_val_info = $specs_val_model->get();
         //相关分类
         $cateinfo=GoodsModel::where('cate_id',$goods['cate_id'])->limit(5)->get();
         // dd($cateinfo);
         //热卖商品
         $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
-        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo,'hot'=>$hot];
+       
+//        $specs_info = $specs_model->get();
+//        $specs_val_info = $specs_val_model->get();
+        $specs_model_model = new SpecsModel();
+        $specs_info = $specs_model_model->where('goods_id',$goods_id)->get();
+        $data = [];
+        if($specs_info){
+            $specs_info = $specs_info->toArray();
+
+//            $data = [];
+            foreach($specs_info as $k=>$v){
+                $res = explode(':',$v['specs']);
+                if($res){
+                    $r = count($res);
+                    for($i=0;$i<$r;$i++){
+                        array_push($data,$res[$i]);
+                    }
+                }
+            }
+            $data = array_unique($data);
+//            dd($data);
+//            $da = [];
+            foreach($data as $k=>$v){
+                if($v){
+                    $data[$k] = explode(',',$v);
+//                    dump($data[$k][1]);
+                    $data[$k]['specs_name'] = $specs_model->where('specs_id',$v[0])->value('specs_name');
+                    $data[$k]['specs_id'] = $v[0];
+                    $data[$k]['specs_val'] = $specs_val_model->where('id',$data[$k][1])->value('specs_val');
+                    $data[$k]['specs_val_id'] = $data[$k][1];
+                    unset($data[$k][0]);
+                    unset($data[$k][1]);
+                }
+            }
+        }
+//        dd($data);
+        $newdata = [];
+        foreach($data as $k=>$v){
+            $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
+            $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
+
+        }
+//        dd($newdata);
+        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
         return $cate;
     }
 //加入购物车
@@ -184,7 +225,6 @@ class IndexController extends Controller
         $data=request()->all();
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
-
         if($address){
             return json_encode(['code'=>'0000','msg'=>"添加收货地址成功",'data'=>[]]);
         }

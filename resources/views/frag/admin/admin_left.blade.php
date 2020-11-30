@@ -184,7 +184,29 @@
                     </li>
                 </ul>
             </li>
+            {{--订单--}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>订单管理</span>
+				        <span class="pull-right-container">
+				       		<i class="fa fa-angle-left pull-right"></i>
+				   		</span>
+                </a>
+                <ul class="treeview-menu">
 
+                    <li id="admin-login">
+                        <a href="/admin/saller/order" >
+                            <i class="fa fa-circle-o"></i>订单
+                        </a>
+                    </li>
+                    {{--<li id="admin-login">--}}
+                        {{--<a href="/admin/goods" >--}}
+                            {{--<i class="fa fa-circle-o"></i>商品展示--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                </ul>
+            </li>
             </ul>
             <!-- 菜单 /-->
     </section>

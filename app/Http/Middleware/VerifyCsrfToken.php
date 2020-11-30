@@ -79,5 +79,8 @@ class VerifyCsrfToken extends Middleware
         "/index/order",
         "/user_colle",
         "/saller/shipment",
+        "/index/orderdel",
+        "/index/updorder",
+        "/index/is_moren"
     ];
 }

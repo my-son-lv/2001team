@@ -75,10 +75,10 @@
 			                          </tr>
 									@endforeach
 			                      </tbody>
-								  {{$goods_info->links()}}
+
 			                  </table>
-			                  <!--数据列表/-->                        
-							  
+			                  <!--数据列表/-->
+							{{$goods_info->links()}}
 							 
                         </div>
                         <!-- 数据表格 /-->

@@ -110,6 +110,10 @@ Route::prefix('/admin')->group(function(){
     //后台的商家管理
     Route::any('/saller','Examine\ExamineController@saller')->middleware("login");
 
+    //订单管理
+    Route::any('/saller/order','Order\OrderController@order')->middleware("login");
+    Route::any('/order/content','Order\OrderController@content')->middleware("login");
+
 });
 
 
@@ -155,6 +159,9 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/cart','Index\CartController@cart');//购物车
     Route::any('/index/order','Index\CartController@order');//订单
     Route::any('/index/settl','Index\CartController@settl');//结算页
+    Route::any('/index/orderdel','Index\CartController@orderdel');//收货地址删除
+    Route::any('/index/updorder','Index\CartController@updorder');//收货地址修改
+    Route::any('/index/is_moren','Index\CartController@is_moren');//默认收货地址
     Route::get('/index/pay','Index\PayController@pay');//支付
     Route::get('/pay/return_url','Index\PayController@return_url');//支付
 

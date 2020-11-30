@@ -172,7 +172,6 @@
                                         </div>
                                     </li>
                                     @endforeach
-
                                 </ul>
                             </div>
                         </div>
@@ -204,6 +203,7 @@
         $(".cart_id:checked").each(function(){
             cart_id.push($(this).val());
         });
+
         $.ajax({
             url:"/index/manydel",
             data:{cart_id:cart_id},
@@ -244,12 +244,15 @@
         }
     })
 
-
+    //结算
     $(document).on("click",".sum-btn",function(){
             var cart_id=new Array();
         $(".cart_id:checked").each(function(){
             cart_id.push($(this).val());
         });
+        if(cart_id==""){
+            alert("请选择需要结算的商品");return;
+        }
         window.location.href="settl?cart_id="+cart_id;
     })
     //+

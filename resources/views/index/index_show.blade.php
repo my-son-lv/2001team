@@ -114,7 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
-                        @foreach($cate["specs_info"] as $v)
+                        @foreach($cate["newdata"] as $k=>$v)
                         <dl>
                             <dt>
                             <div class="fl title">
@@ -122,13 +122,10 @@
                             </div>
                             </dt>
                             @php $i=0; @endphp
-                            @foreach($cate['specs_val_info'] as  $vv)
-
-                                @if($v['specs_id']==$vv['specs_id'])
-                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$v['specs_id']}}" goods_attr_id="{{$vv['id']}}" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
+                            @foreach($v['specs'] as  $kk=>$vv)
+                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$k}}" goods_attr_id="{{$kk}}" >{{$vv}}<span title="点击取消选择">&nbsp;</span>
                                     </a></dd>
                                     @php $i++; @endphp
-                                @endif
                             @endforeach
                         </dl>
                         @endforeach
@@ -184,7 +181,7 @@
                                     <div class="price">
                                         <strong>
                                             <em>¥</em>
-                                            <i>6088.00</i>
+                                            <i>{{$v['goods_price']}}</i>
                                         </strong>
                                     </div>
                                     <div class="operate">
@@ -201,6 +198,7 @@
                 </div>
             </div>
             <div class="fr detail">
+
                 <div class="clearfix fitting">
                     <h4 class="kt">热卖商品</h4>
                     <div class="good-suits">
@@ -468,8 +466,12 @@ $(document).on('blur','.itxt',function(){
         },function(){
             $("#shopcarlist").hide();
         });
-
-        //加入购物车9
+        $('dd a').click(function(){
+            $(this).parent().siblings().find('a').removeClass("selected");
+            $(this).addClass("selected");
+//            getgoodsprice();
+        });
+        //加入购物车
         $(document).on("click",".addshopcar",function(){
             var goods_id = "{{$cate['goods']['goods_id']}}";
             var goods_number = $('.itxt').val();
@@ -477,7 +479,11 @@ $(document).on('blur','.itxt',function(){
             $('.selected').each(function(){
                 goods_attr_id+=$(this).attr('sepcs_id')+','+$(this).attr('goods_attr_id')+':';
             });
-            goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            if(goods_attr_id==''){
+                goods_attr_id='';
+            }else{
+                goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            }
             $.ajax({
                 url:"/index/addcart",
                 data:{goods_id:goods_id,goods_number:goods_number,goods_attr_id:goods_attr_id},
