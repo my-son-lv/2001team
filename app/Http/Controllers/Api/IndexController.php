@@ -19,6 +19,7 @@ class IndexController extends Controller
     public function index_show(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        // dd($cate);
         $goods_id=request()->goods_id;
 //        dd($goods_id);
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
@@ -26,21 +27,27 @@ class IndexController extends Controller
 
 //        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
-
+        
        //规格
         $specs_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
         $specs_info = $specs_model->get();
         $specs_val_info = $specs_val_model->get();
-        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info];
+        //相关分类
+        $cateinfo=GoodsModel::where('cate_id',$goods['cate_id'])->limit(5)->get();
+        // dd($cateinfo);
+        //热卖商品
+        $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
+        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'specs_info'=>$specs_info,'specs_val_info'=>$specs_val_info,'cateinfo'=>$cateinfo,'hot'=>$hot];
         return $cate;
     }
 //加入购物车
     public  function  addcart(){
-        $uid=1;
+        // $uid=1;
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
+        $uid=request()->uid;
         if(!$goods_id || !$goods_number){
             return json_encode(['code'=>'0001','msg'=>"缺少参数"]);
         }
@@ -55,6 +62,7 @@ class IndexController extends Controller
             }
         }else{
             $specs=SpecsModel::where(['goods_id'=>$goods_id,'specs'=>$goods_attr_id])->first();
+            // dd($specs);
             if(!$specs){
                 return json_encode(['code'=>'0001','msg'=>"库存不足"]);
             }else{
@@ -63,7 +71,6 @@ class IndexController extends Controller
                 }
             }
         }
-
         $where1 = [];
         $where1[] = ['user_id','=',$uid];
         $where1[] = ['goods_id','=',$goods_id];

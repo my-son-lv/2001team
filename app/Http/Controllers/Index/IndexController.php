@@ -109,10 +109,9 @@ class IndexController extends Controller
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
         // dd($data);
-        $cateinfo=GoodsModel::where('cate_id',$data['goods']['cate_id'])->limit(5)->get();
-        $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
+       
         // dd($cateinfo);
-        return view("index.index_show",["cate"=>$data,'home'=>$home,'cateinfo'=>$cateinfo,'hot'=>$hot]);
+        return view("index.index_show",["cate"=>$data,'home'=>$home]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$header=[]){

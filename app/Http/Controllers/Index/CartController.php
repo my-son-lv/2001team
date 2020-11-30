@@ -10,20 +10,34 @@ use App\Models\OrderModel;
 use App\Models\SpecsModel;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Redis;
+
+
 class CartController extends Controller
 {
+    //获取用户id
+    public function uid(){
+        if(!isset($_COOKIE['token'])){
+            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+        }
+        $uid=Redis::Hget('token',$_COOKIE['token']);
+        return $uid;
+    }
     public function  addcart(){
+        $uid=$this->uid();
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
+        // dd($goods_attr_id);
         $url=env('API_URL')."api/index/addcart";
-        $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id]);
+        $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id,'uid'=>$uid]);
+        // dd($cart);
         return json_encode($cart);
     }
 
     //购物车列表
     public function cart(){
-        $uid=1;
+        $uid=$this->uid();
         $url=env('API_URL')."api/index/cart";
         $cart=$this->postcurl($url,['user_id',$uid]);
         $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
@@ -32,7 +46,7 @@ class CartController extends Controller
     }
     //结算页
     public function settl(){
-        $uid=1;
+        $uid=$this->uid();
         $cart_id=request()->cart_id;
         $url=env('API_URL')."api/index/settl";
         $cart=$this->postcurl($url,['user_id'=>$uid,'cart_id'=>$cart_id]);
@@ -40,7 +54,7 @@ class CartController extends Controller
     }
         //收货地址添加
     public  function  getorder(){
-        $uid=1;
+        $uid=$this->uid();
         $data=request()->all();
         $data['user_id']=$uid;
         $url=env('API_URL')."api/index/getorder";
