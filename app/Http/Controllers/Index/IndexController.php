@@ -15,7 +15,7 @@ class IndexController extends Controller
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
-//        dd($cate);
+    //    dd($cate);
 //        return view("index.index",["cate"=>$cate]);
         $goods=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
         // dd($goods);
@@ -57,7 +57,7 @@ class IndexController extends Controller
             }
         }
         // dump($where);
-        $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(3);
+        $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(4);
         // dd($cate_id);
         $goods_price=GoodsModel::where(['is_shelf'=>1,'is_del'=>1,'cate_id'=>$cate_id])->max('goods_price');
         if ($goods_price) {
@@ -98,8 +98,8 @@ class IndexController extends Controller
 
     //详情
     public function index_show(){
-//        $url = "http://www.2001api.com/api/home";
-//        $cate = $this->postcurl($url);
+       $url = "http://www.2001api.com/api/home";
+       $home = $this->postcurl($url);
         $goods_id=request()->goods_id;
 //        $toekn = $_COOKIE["token"];
 //        $Foot_Model = new FootModel();
@@ -108,7 +108,11 @@ class IndexController extends Controller
 //        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        return view("index.index_show",["cate"=>$data]);
+        // dd($data);
+        $cateinfo=GoodsModel::where('cate_id',$data['goods']['cate_id'])->limit(5)->get();
+        $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
+        // dd($cateinfo);
+        return view("index.index_show",["cate"=>$data,'home'=>$home,'cateinfo'=>$cateinfo,'hot'=>$hot]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$header=[]){
