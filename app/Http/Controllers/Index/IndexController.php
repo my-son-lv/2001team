@@ -121,6 +121,7 @@ class IndexController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
+//        echo $result;
         curl_close($ch);
         return json_decode($result,true);
     }

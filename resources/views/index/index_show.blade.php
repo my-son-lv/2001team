@@ -280,60 +280,7 @@
                 </div>
             </div>
             <div class="fr detail">
-                <div class="clearfix fitting">
-                    <h4 class="kt">选择搭配</h4>
-                    <div class="good-suits">
-                        <div class="fl master">
-                            <div class="list-wrap">
-                                <div class="p-img">
-                                    <img src="/status/img/_/l-m01.png" />
-                                </div>
-                                <em>￥5299</em>
-                                <i>+</i>
-                            </div>
-                        </div>
-                        <div class="fl suits">
-                            <ul class="suit-list">
-                                <li class="">
-                                    <div id="">
-                                        <img src="/status/img/_/dp01.png" />
-                                    </div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>39</span>
-                                    </label>
-                                </li>
-                                <li class="">
-                                    <div id=""><img src="/status/img/_/dp02.png" /> </div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>50</span>
-                                    </label>
-                                </li>
-                                <li class="">
-                                    <div id=""><img src="/status/img/_/dp03.png" /></div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>59</span>
-                                    </label>
-                                </li>
-                                <li class="">
-                                    <div id=""><img src="/status/img/_/dp04.png" /></div>
-                                    <i>Feless费勒斯VR</i>
-                                    <label data-toggle="checkbox" class="checkbox-pretty">
-                                        <input type="checkbox"><span>99</span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="fr result">
-                            <div class="num">已选购0件商品</div>
-                            <div class="price-tit"><strong>套餐价</strong></div>
-                            <div class="price">￥5299</div>
-                            <button class="sui-btn  btn-danger addshopcar">加入购物车</button>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="tab-main intro">
                     <ul class="sui-nav nav-tabs tab-wraped">
                         <li class="active">
@@ -346,10 +293,10 @@
                     <div class="tab-content tab-wraped">
                         <div id="one" class="tab-pane active">
                             <ul class="goods-intro unstyled">
-                                <li>分辨率：1920*1080(FHD)</li>
+                                <li>{{$cate['goods']['goods_name']}}</li>
                             </ul>
                             <div class="intro-detail">
-                                <img src="/status/img/_/intro01.png" />
+                                <img src="{{env("JUSTME_URL")}}{{$cate['goods']['goods_img']}}" />
                             </div>
                         </div>
                     </div>

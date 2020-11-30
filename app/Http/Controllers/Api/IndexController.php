@@ -177,7 +177,6 @@ class IndexController extends Controller
         $data=request()->all();
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
-
         if($address){
             return json_encode(['code'=>'0000','msg'=>"添加收货地址成功",'data'=>[]]);
         }

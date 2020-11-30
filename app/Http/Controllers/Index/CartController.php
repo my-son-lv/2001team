@@ -48,6 +48,35 @@ class CartController extends Controller
         return json_encode($cart,true);
     }
 
+    //删除收货地址
+    public  function  orderdel(){
+        $address_id=request()->address_id;
+        $address=AddressModel::where("address_id",$address_id)->delete();
+        if($address){
+            return json_encode(['code'=>'0000','msg'=>"删除成功"]);
+        }
+    }
+
+        //默认地址
+        public function is_moren(){
+            $uid=1;
+            $address_id=request()->address_id;
+            $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>1]);
+            if($res){
+                return json_encode(['code'=>'0000','msg'=>"设置成功"]);
+            }
+
+        }
+
+
+
+
+    //修改收货地址
+    // public function updorder(){
+    //     $address_id=request()->address_id;
+    //     dd($address_id);
+    // }
+
     #+
     public  function  getTypePrice(){
         $type=request()->type;
@@ -249,7 +278,7 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
 //执行
         $result = curl_exec($ch);
-//        echo $result;exit;
+    
         $result = json_decode($result,true);
 //关闭
         curl_close($ch);

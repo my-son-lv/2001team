@@ -22,4 +22,7 @@ class Specsname_Model extends Model
     public function specs_name_first($specs_id){
         return Specsname_Model::where(['specs_id'=>$specs_id])->first();
     }
+    public function specs_name($specs_id){
+        return Specsname_Model::where('specs_id',$specs_id)->value('specs_name');
+    }
 }
