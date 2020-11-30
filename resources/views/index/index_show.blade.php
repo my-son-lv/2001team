@@ -114,7 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
-                        @foreach($cate["specs_info"] as $v)
+                        @foreach($cate["newdata"] as $k=>$v)
                         <dl>
                             <dt>
                             <div class="fl title">
@@ -122,13 +122,10 @@
                             </div>
                             </dt>
                             @php $i=0; @endphp
-                            @foreach($cate['specs_val_info'] as  $vv)
-
-                                @if($v['specs_id']==$vv['specs_id'])
-                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$v['specs_id']}}" goods_attr_id="{{$vv['id']}}" >{{$vv['specs_val']}}<span title="点击取消选择">&nbsp;</span>
+                            @foreach($v['specs'] as  $kk=>$vv)
+                                <dd><a href="javascript:;"  @if($i==0) class="selected" @endif sepcs_id="{{$k}}" goods_attr_id="{{$kk}}" >{{$vv}}<span title="点击取消选择">&nbsp;</span>
                                     </a></dd>
                                     @php $i++; @endphp
-                                @endif
                             @endforeach
                         </dl>
                         @endforeach
@@ -427,8 +424,12 @@
         },function(){
             $("#shopcarlist").hide();
         });
-
-        //加入购物车9
+        $('dd a').click(function(){
+            $(this).parent().siblings().find('a').removeClass("selected");
+            $(this).addClass("selected");
+//            getgoodsprice();
+        });
+        //加入购物车
         $(document).on("click",".addshopcar",function(){
             var goods_id = "{{$cate['goods']['goods_id']}}";
             var goods_number = $('.itxt').val();
