@@ -18,7 +18,8 @@ class CartController extends Controller
     //获取用户id
     public function uid(){
         if(!isset($_COOKIE['token'])){
-            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+            // return json_encode(['code'=>'0003','msg'=>"请登录"]);
+            return  redirect('/login')->withErrors(['请登录']);
         }
         $uid=Redis::Hget('token',$_COOKIE['token']);
         return $uid;
@@ -37,6 +38,7 @@ class CartController extends Controller
 
     //购物车列表
     public function cart(){
+        
         $uid=$this->uid();
         $url=env('API_URL')."api/index/cart";
         $cart=$this->postcurl($url,['user_id'=>$uid]);

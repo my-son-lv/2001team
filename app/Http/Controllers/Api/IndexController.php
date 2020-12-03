@@ -30,7 +30,7 @@ class IndexController extends Controller
         $cateinfo=GoodsModel::where('cate_id',$goods['cate_id'])->limit(5)->get();
         // dd($cateinfo);
         //热卖商品
-        $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
+        $hot=GoodsModel::where(['is_hot'=>'1','is_del'=>'1','is_shelf'=>'1','goods_status'=>'1'])->orderBy('goods_id','desc')->limit(4)->get();
         $specs_model_model = new SpecsModel();
         $specs_info = $specs_model_model->where('goods_id',$goods_id)->get();
         $data = [];
@@ -226,7 +226,7 @@ class IndexController extends Controller
             return json_encode(['code'=>'0000','msg'=>"添加收货地址成功",'data'=>[]]);
         }
     }
-//秒杀
+    //秒杀
     public function api_kill(){
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         $kill = KillModel::leftjoin("goods","kill.goods_id","=","goods.goods_id")->get();
@@ -288,6 +288,30 @@ class IndexController extends Controller
         $callback=request()->callback;
         $val=request()->search_val;
         // dd($val);
-        echo $callback.'('.$val.')';die;
+        $goods=GoodsModel::where('goods_name','like',"%$val%")->orderby('goods_id','desc')->pluck('goods_id')->first();
+        // dd($goods);
+        if($goods){
+            $arr = json_encode(['code'=>'0000','goods_id'=>$goods]);
+        }else{
+            $arr = json_encode(['code'=>'0001','msg'=>'未查询到此商品']);
+        }
+        // echo $callback.'('.$goods.')';die;
+        echo $callback.'('.$arr.')';exit;
     } 
+    //购物车导航
+    public function cartnav(){
+        $callback=request()->callback;
+        $val=request()->search_val;
+        // dd($val);
+        $cart=CartModel::where('goods_name','like',"%$val%")->orderby('cart_id','desc')->pluck('goods_id')->first();
+        // dd($cart);
+        if($cart){
+            $arr = json_encode(['code'=>'0000','goods_id'=>$cart]);
+        }else{
+            $arr = json_encode(['code'=>'0001','msg'=>'未查询到此商品']);
+        }
+        // echo $callback.'('.$goods.')';die;
+        echo $callback.'('.$arr.')';exit;
+
+    }
 }
