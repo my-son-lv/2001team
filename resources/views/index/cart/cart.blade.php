@@ -60,8 +60,8 @@
         <div class="fr search">
             <form class="sui-form form-inline">
                 <div class="input-append">
-                    <input type="text" type="text" class="input-error input-xxlarge" placeholder="品优购自营" />
-                    <button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+                    <input type="text" type="text" class="input-error input-xxlarge search_val" placeholder="品优购自营" />
+                    <button class="sui-btn btn-xlarge btn-danger search_but" type="button">搜索</button>
                 </div>
             </form>
         </div>
@@ -193,6 +193,24 @@
     }
 </script>
 <script>
+    //购物车导航
+    $(document).on('click',".search_but",function(){
+        var search_val = $(".search_val").val();
+        // alert(search_val);return;
+        var url = "http://www.2001api.com/api/cartnav?callback=?";
+        $.getJSON(url,{search_val:search_val},function(res){
+            // alert('此功能暂未开发');
+            // alert(res);
+            if(res.code=='0000'){
+                if(confirm('购物车有此商品，确认跳转到详情页吗？')){
+                    location.href="/index/index_show?goods_id="+res.goods_id;
+                }
+            }else{
+                alert(res.msg);
+            }
+        })
+        // alert(search_val);
+    })
     //复选框
     $(document).on("click",".cart_id",function(){
         var cart_id=new Array();
