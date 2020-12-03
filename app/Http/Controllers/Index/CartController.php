@@ -31,7 +31,7 @@ class CartController extends Controller
 //         dd($goods_attr_id);
         $url=env('API_URL')."api/index/addcart";
         $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id,'uid'=>$uid]);
-         dd($cart);
+
         return json_encode($cart);
     }
 
