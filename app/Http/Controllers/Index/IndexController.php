@@ -17,8 +17,14 @@ class IndexController extends Controller
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
         $Butti = Butti::get();
-        $goods=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
+        $goods=GoodsModel::where(['is_hot'=>'1','is_del'=>'1','is_shelf'=>'1','goods_status'=>'1'])->orderBy('goods_id','desc')->limit(4)->get();
         $brand = Brand_Model::limit(10)->get();
+        // ob_start();
+        // echo view('index.index',compact('cate','goods','brand','Butti'));
+        // $contents = ob_get_contents();
+        // $filename = 'index.html';
+        // file_put_contents($filename,$contents);
+        // ob_clean();
         return view("index.index",["cate"=>$cate,'goods'=>$goods,"brand"=>$brand,"Butti"=>$Butti]);
     }//首页
 
