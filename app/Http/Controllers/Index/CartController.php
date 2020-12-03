@@ -39,9 +39,9 @@ class CartController extends Controller
     public function cart(){
         $uid=$this->uid();
         $url=env('API_URL')."api/index/cart";
-        $cart=$this->postcurl($url,['user_id',$uid]);
+        $cart=$this->postcurl($url,['user_id'=>$uid]);
         $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
-//        dd($cart);
+    //    dd($cart);
         return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods]);
     }
     //结算页

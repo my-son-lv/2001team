@@ -31,16 +31,12 @@ class IndexController extends Controller
         // dd($cateinfo);
         //热卖商品
         $hot=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
-       
-//        $specs_info = $specs_model->get();
-//        $specs_val_info = $specs_val_model->get();
         $specs_model_model = new SpecsModel();
         $specs_info = $specs_model_model->where('goods_id',$goods_id)->get();
         $data = [];
         if($specs_info){
             $specs_info = $specs_info->toArray();
 
-//            $data = [];
             foreach($specs_info as $k=>$v){
                 $res = explode(':',$v['specs']);
                 if($res){
@@ -51,12 +47,9 @@ class IndexController extends Controller
                 }
             }
             $data = array_unique($data);
-//            dd($data);
-//            $da = [];
             foreach($data as $k=>$v){
                 if($v){
                     $data[$k] = explode(',',$v);
-//                    dump($data[$k][1]);
                     $data[$k]['specs_name'] = $specs_model->where('specs_id',$v[0])->value('specs_name');
                     $data[$k]['specs_id'] = $v[0];
                     $data[$k]['specs_val'] = $specs_val_model->where('id',$data[$k][1])->value('specs_val');
@@ -65,17 +58,20 @@ class IndexController extends Controller
                     unset($data[$k][1]);
                 }
             }
-//             dd($data);
             $newdata = [];
             foreach($data as $k=>$v){
-                $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
-                $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
+            $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
+            $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
 
             }
         }
 
+
+        
+    
 //        dd($newdata);
-        $cate = ['goods'=>$goods,'cate'=>$cate,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
+        // dd($goodsimg);
+        $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
         return $cate;
     }
 //加入购物车
@@ -85,7 +81,6 @@ class IndexController extends Controller
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
         $uid=request()->uid;
-//        print_r($uid);exit;
         if(!$goods_id || !$goods_number){
             return json_encode(['code'=>'0001','msg'=>"缺少参数"]);
         }
@@ -93,17 +88,13 @@ class IndexController extends Controller
         if($goods['is_shelf']!==1){
             return json_encode(['code'=>'0001','msg'=>"商品已下架"]);
         }
-//        dd($goods_attr_id);
         if($goods_attr_id==""){
             $res=GoodsModel::where("goods_id",$goods_id)->first();
-//            dd($res);
             if($res['goods_number']<$goods_number){
                 return json_encode(['code'=>'0001','msg'=>"商品库存不足"]);
             }
         }else{
-//            dd(123123);
             $specs=SpecsModel::where(['goods_id'=>$goods_id,'specs'=>$goods_attr_id])->first();
-            // dd($specs);
             if(!$specs){
                 return json_encode(['code'=>'0001','msg'=>"库存不足"]);
             }else{
@@ -162,7 +153,7 @@ class IndexController extends Controller
 
     //购物车列表
     public  function  cart(){
-        $uid=1;
+        $uid=request()->user_id;
         $cart=CartModel::select('cart.*','goods.goods_img')
             ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
             ->where(['user_id'=>$uid])
@@ -187,13 +178,12 @@ class IndexController extends Controller
                 }
             }
         }
-
         return json_encode($cart,true);
     }
 
     #结算
     public  function  settl(){
-        $uid=1;
+        $uid=request()->user_id;
         $cart_id=request()->cart_id;
         $cart_id = explode(',',$cart_id);
         $address=AddressModel::where('user_id',$uid)->get();
@@ -228,8 +218,8 @@ class IndexController extends Controller
     }
     //地址
     public  function  getorder(){
-        $uid=1;
         $data=request()->all();
+        $uid=$data['user_id'];
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
         if($address){

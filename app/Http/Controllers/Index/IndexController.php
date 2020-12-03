@@ -98,6 +98,7 @@ class IndexController extends Controller
     //详情
     public function index_show(){
        $url = env('API_URL')."api/home";
+       //猜你喜欢
        $home = $this->postcurl($url);
         $goods_id=request()->goods_id;
 //        dd($goods_id);
@@ -109,7 +110,7 @@ class IndexController extends Controller
 //        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        // dd($cateinfo);
+        // dd($data);
         return view("index.index_show",["cate"=>$data,'home'=>$home]);
     }
 //API post curl

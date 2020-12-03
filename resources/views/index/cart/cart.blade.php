@@ -95,9 +95,11 @@
                                     <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
                                     <div class="item-msg">{{$v['goods_name']}}
                                         <br>
-                                        @foreach($v['specs'] as $vv)
+                                        @if(isset($v['specs']))
+                                            @foreach($v['specs'] as $vv)
                                             {{$vv['specs_name']}}:{{$vv['specs_val']}}
                                             @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </li>
