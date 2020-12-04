@@ -23,6 +23,12 @@ class LoginController extends Controller
     public function logindo(){
         $username = request()->username;
         $password = request()->password;
+        if($username!==""){
+            return json_encode(['code'=>'0001','msg'=>'账号不能为空','data'=>[]]);
+        }
+        if($password!==""){
+            return json_encode(['code'=>'0001','msg'=>'密码不能为空','data'=>[]]);
+        }
         $saller_model = new SallerModel();
         $where = [
             ['username','=',$username]
@@ -50,6 +56,9 @@ class LoginController extends Controller
      */
     public function regdo(){
         $data = request()->all();
+        if($data['username']==""||$data['password']==""||$data['saller_name']==""||$data['comp_name']==""||$data['comp_tel']==""||$data['comp_content']==""||$data['user_name']==""||$data['user_qq']==""||$data['user_tel']==""||$data['user_email']==""||$data['license']==""||$data['taxation']==""||$data['code']==""||$data['legal_name']==""||$data['legal_number']==""||$data['bank_name']==""||$data['bank_bank_name']==""||$data['account_name']==""){
+            return json_encode(['code'=>'30000','msg'=>'参数缺失','data'=>[]]);
+        }
         $data2 = [
             'username'=>$data['username'],
             'password'=>bcrypt($data['password']),

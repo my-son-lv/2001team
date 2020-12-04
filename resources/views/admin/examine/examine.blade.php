@@ -24,8 +24,8 @@
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-                                    商品名称：<input >
-									<button class="btn btn-default" >查询</button>                                    
+                                    商品名称：<input name="goods_name" value="{{$goods_name}}" >
+									<button class="btn btn-default where" >查询</button>
                                 </div>
                             </div>
                             <!--工具栏/-->
@@ -140,6 +140,14 @@
 				});
 			}
 
+		});
+		$(document).on('click','.where',function(){
+			var goods_name = $("input[name='goods_name']").val();
+			var str = "";
+			if(goods_name!==''){
+				str+='goods_name='+goods_name;
+			}
+			window.location.href="{{url('/admin/examine?')}}"+str;
 		});
 	})
 </script>

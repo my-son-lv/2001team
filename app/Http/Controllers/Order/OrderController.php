@@ -15,10 +15,15 @@ class OrderController extends Controller
      * 后台的自营订单管理
      */
     public function order(){
+        $shipping_status = request()->shipping_status;
+        $where = [];
+        if($shipping_status){
+            $where[] = ['shipping_status','=',$shipping_status];
+        }
         $order_model = new OrderModel();
-        $order_info = $order_model->order_index(0);
+        $order_info = $order_model->order_index(0,$where);
 //        dd($order_info);
-        return view('admin.order.order',['order_info'=>$order_info]);
+        return view('admin.order.order',['order_info'=>$order_info,'shipping_status'=>$shipping_status]);
     }
 
     /**
@@ -36,7 +41,7 @@ class OrderController extends Controller
         $specs_name_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
         foreach($order_goods_info as $k=>$v){
-            if($v['specs_id']!==""){
+            if($v['specs_id']){
 //                dd($v['order']);
                 $specs = explode(':',$v['specs_id']);
                 $res = [];
