@@ -9,7 +9,7 @@ use App\Models\PositionModel;
 class AdvertController extends Controller
 {
     public function advert(){
-        $data = AdvertModel::where(["advert_del"=>1])->get();
+        $data = AdvertModel::where(["advert_del"=>1])->paginate(2);
         return view("admin.adver.admin_advert",["data"=>$data]);
     }
 
@@ -52,7 +52,7 @@ class AdvertController extends Controller
     }
 
     public function position(){
-        $data = PositionModel::where(["position_del"=>1])->get();
+        $data = PositionModel::where(["position_del"=>1])->paginate(2);
         return view("admin.adver.position",["data"=>$data]);
     }
 

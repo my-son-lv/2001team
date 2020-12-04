@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>产品详情页</title>
-    <link rel="icon" href="assets//status/img/favicon.ico">
+    <link rel="icon" href="assets/status/img/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="/status/css/pages-item.css" />
@@ -42,7 +42,7 @@
                     <!--默认第一个预览-->
                     <div id="preview" class="spec-preview">
                         <span class="jqzoom">
-                                <img src="{{env('JUSTME_URL')}}{{$cate['goods']["goods_img"]}}" width="405px" height="395px"/>
+                                <img src="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}" width="405px" height="395px"/>
                         </span>
                     </div>
                     <!--下方的缩略图-->
@@ -54,7 +54,7 @@
                                 @if($cate['goodsimg'])
                                 @foreach($cate['goodsimg'] as $v)
                                 <li>
-                                    <img src="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
+                                    <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
                                 </li>
                                 @endforeach
                                     @endif
@@ -62,7 +62,7 @@
                         </div>
                         <a class="next">&gt;</a>
                     </div>
-                </div>
+                </div>   
             </div>
             <div class="fr itemInfo-wrap">
                 <div class="sku-name">
@@ -114,6 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
+                        @if($cate["newdata"])
                         @foreach($cate["newdata"] as $k=>$v)
                         <dl>
                             <dt>
@@ -129,11 +130,12 @@
                             @endforeach
                         </dl>
                         @endforeach
+                        @endif
                     </div>
                         <div class="fl title">
                             <div class="control-group">
                                 <div class="controls">
-                                    <input autocomplete="off" type="text" value="1" minnum="1" class="itxt" />
+                                    <input autocomplete="off" type="text" value="1" minnum="1" class="itxt num" />
                                     <a href="javascript:void(0)" class="increment plus">+</a>
                                     <a href="javascript:void(0)" class="increment mins">-</a>
                                 </div>
@@ -169,23 +171,23 @@
                     <div id="index" class="tab-pane active">
                        
                         <ul class="goods-list unstyled">
-                        @foreach($cateinfo as $v)
+                        @foreach($cate['cateinfo'] as $v)
                             <li>
                                 <div class="list-wrap">
                                     <div class="p-img">
-                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}" width="150px"/></a>
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" width="150px"/></a>
                                     </div>
                                     <div class="attr">
-                                        <em>{{$v->goods_name}}</em>
+                                        <em>{{$v['goods_name']}}</em>
                                     </div>
                                     <div class="price">
                                         <strong>
                                             <em>¥</em>
-                                            <i>6088.00</i>
+                                            <i>{{$v['goods_price']}}</i>
                                         </strong>
                                     </div>
                                     <div class="operate">
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="sui-btn btn-bordered">查看详情</a>
                                     </div>
                                 </div>
                             </li>
@@ -200,16 +202,16 @@
             <div class="fr detail">
 
                 <div class="clearfix fitting">
-                    <h4 class="kt">选择搭配</h4>
+                    <h4 class="kt">热卖商品</h4>
                     <div class="good-suits">
-                    @foreach($hot as $v)
+                    @foreach($cate['hot'] as $v)
                         <div class="fl master">
                        
                             <div class="list-wrap">
                                 <div class="p-img">
                                 <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="pic"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" width="150px" /></a>
                                 </div>
-                                <p>{{$v->goods_name}}</p>
+                                <p>{{$v['goods_name']}}</p>
                                 <em>￥5299</em>
                             </div>
                        
@@ -229,11 +231,12 @@
                     <div class="tab-content tab-wraped">
                         <div id="one" class="tab-pane active">
                             <ul class="goods-intro unstyled">
-                                <li>{{$cate['goods']['goods_name']}}</li>
+                                <li>{{$cate['goods']['content']}}</li>
                             </ul>
                             <div class="intro-detail">
-                                <img src="{{env("JUSTME_URL")}}{{$cate['goods']['goods_img']}}" />
-                                <img src="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}" />
+                            @foreach($cate['goodsimg'] as $v)
+                                <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" />
+                            @endforeach
                             </div>
                         </div>
                     </div>
@@ -415,6 +418,45 @@
 
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
+   //购买数量+
+   $(document).on('click','.plus',function (){
+	var buy_number = parseInt($('.itxt').val());
+	var goods_num = parseInt("{{$cate['goods']['goods_number']}}");
+	
+	if(buy_number>=goods_num){
+		$('.itxt').val(goods_num);
+	}else{
+		buy_number = buy_number + 1;
+		$('.itxt').val(buy_number);
+	}
+	// alert(buy_number)
+})
+//购买数量-
+$(document).on('click','.mins',function (){
+	var buy_number = parseInt($('.itxt').val());
+	if(buy_number<=1){
+		$('.itxt').val(1);
+	}else{
+		buy_number = buy_number - 1;
+		$('.itxt').val(buy_number);
+	}
+	// alert(buy_number)
+})
+//购买数量文本框
+$(document).on('blur','.itxt',function(){
+	var buy_number = parseInt($(this).val());
+	var goods_num = parseInt("{{$cate['goods']['goods_number']}}");
+	var reg = /^\d{1,}$/;
+	if(buy_number==''){
+		$(this).val(1);
+	}else if(!reg.test(buy_number)){
+		$(this).val(1);
+	}else if(buy_number>=goods_num){
+		$(this).val(goods_num);
+	}else{
+		$(this).val(parseInt(buy_number));
+	}
+})
     $(function(){
         $("#service").hover(function(){
             $(".service").show();
@@ -439,7 +481,11 @@
             $('.selected').each(function(){
                 goods_attr_id+=$(this).attr('sepcs_id')+','+$(this).attr('goods_attr_id')+':';
             });
-            goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            if(goods_attr_id==''){
+                goods_attr_id='';
+            }else{
+                goods_attr_id = goods_attr_id.substr(0,goods_attr_id.length-1);
+            }
             $.ajax({
                 url:"/index/addcart",
                 data:{goods_id:goods_id,goods_number:goods_number,goods_attr_id:goods_attr_id},
@@ -447,8 +493,14 @@
                 dataType:"json",
                 success:function(res){
                     if(res.code=='0000'){
-                        alert(res.msg);
-                        window.location.href=res.url;
+                        if(confirm('添加成功，是否去购物车结算')){
+                            // alert(res.msg);
+                            window.location.href='/index/cart';
+                        }
+                    }else if(res.code=='0003'){
+                        if(confirm('是否去登录')){
+                            window.location.href='/login';
+                        }
                     }else{
                         alert(res.msg);
                     }

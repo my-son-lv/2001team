@@ -1,1 +1,1 @@
-<img src='{{env("JUSTME_URL")}}images/yfBSmiADteEJEPPEpcixLUFtvRMbBYe30BfBe7gX.png' style='width: 225px;height: 205px'>
+<a href="/login"><img src='{{env("JUSTME_URL")}}images/yfBSmiADteEJEPPEpcixLUFtvRMbBYe30BfBe7gX.png' style='width: 225px;height: 205px'></a>

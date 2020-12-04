@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/status/css/pages-JD-index.css"/>
     <link rel="stylesheet" type="text/css" href="/status/css/widget-jquery.autocomplete.css"/>
     <link rel="stylesheet" type="text/css" href="/status/css/widget-cartPanelView.css"/>
+
 </head>
 
 <body>
@@ -67,83 +68,41 @@
                             <a href="http://taobao.com/">
                                 <img src="/status/img/banner3.jpg"  />
                             </a>
-
                         </div>
                     </div><a href="#myCarousel" data-slide="prev" class="carousel-control left">‹</a><a href="#myCarousel" data-slide="next" class="carousel-control right">›</a>
                 </div>
             </div>
             <div class="yui3-u Right">
                 <div class="news">
-                    <h4><em class="fl">品优购快报</em><span class="fr tip">更多 ></span></h4>
+                    <h4><em class="fl">快报</em><span class="fr tip"><a href="">更多</a> ></span></h4>
                     <div class="clearix"></div>
                     <ul class="news-list unstyled">
+                        @foreach($Butti as $v)
                         <li>
-                            <span class="bold">[特惠]</span>备战开学季 全民半价购数码
+                            <span class="bold">[{{$v->butti_people}}]</span>{{$v->butti_name}}
                         </li>
-                        <li>
-                            <span class="bold">[公告]</span>备战开学季 全民半价购数码
+                            @endforeach
+                    </ul>
+                    <ul class="yui3-g Lifeservice">
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-1"></i>
+                            <span class="service-intro">话费</span>
                         </li>
-                        <li>
-                            <span class="bold">[特惠]</span>备战开学季 全民半价购数码
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-2"></i>
+                            <span class="service-intro">机票</span>
                         </li>
-                        <li>
-                            <span class="bold">[公告]</span>备战开学季 全民半价购数码
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-3"></i>
+                            <span class="service-intro">电影票</span>
                         </li>
-                        <li>
-                            <span class="bold">[特惠]</span>备战开学季 全民半价购数码
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-4"></i>
+                            <span class="service-intro">游戏</span>
                         </li>
                     </ul>
+                
                 </div>
-                <ul class="yui3-g Lifeservice">
-                    <li class="yui3-u-1-4 life-item tab-item">
-                        <i class="list-item list-item-1"></i>
-                        <span class="service-intro">话费</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item tab-item">
-                        <i class="list-item list-item-2"></i>
-                        <span class="service-intro">机票</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item tab-item">
-                        <i class="list-item list-item-3"></i>
-                        <span class="service-intro">电影票</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item tab-item">
-                        <i class="list-item list-item-4"></i>
-                        <span class="service-intro">游戏</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-5"></i>
-                        <span class="service-intro">彩票</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-6"></i>
-                        <span class="service-intro">加油站</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-7"></i>
-                        <span class="service-intro">酒店</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-8"></i>
-                        <span class="service-intro">火车票</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item  notab-item">
-                        <i class="list-item list-item-9"></i>
-                        <span class="service-intro">众筹</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-10"></i>
-                        <span class="service-intro">理财</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-11"></i>
-                        <span class="service-intro">礼品卡</span>
-                    </li>
-                    <li class="yui3-u-1-4 life-item notab-item">
-                        <i class="list-item list-item-12"></i>
-                        <span class="service-intro">白条</span>
-                    </li>
-                </ul>
                 <div class="life-item-content">
                     <div class="life-detail">
                         <i class="close">关闭</i>
@@ -166,9 +125,7 @@
                         <button class="sui-btn btn-danger game">去·娱乐</button>
                     </div>
                 </div>
-                <div class="ads">
-                    <img src="/status/img/ad1.png" />
-                </div>
+                
             </div>
         </div>
     </div>
@@ -184,11 +141,12 @@
                 </div>
             </li>
             @foreach($goods as $v)
-                <li class="yui3-u-5-24">
+                <li class="yui3-u-5-24">           
                     <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}"><img src="{{env('JUST_URL')}}{{$v->goods_img}}" /></a>
                     <h4 style="color:red;">{{$v->goods_price}}</h4>
                     <p>{{$v->goods_name}}</p>
                 </li>
+               
             @endforeach
         </ul>
     </div>
@@ -270,30 +228,13 @@
 <div id="floor-1" class="floor">
     <div class="py-container">
         <div class="title floors">
-            <h3 class="fl">家用电器</h3>
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
+                    @foreach($cate["cate"] as $v)
                     <li class="active">
-                        <a href="#tab1" data-toggle="tab">热门</a>
+                        <a href="#tab1" data-toggle="tab">{{$v["cate_name"]}}</a>
                     </li>
-                    <li>
-                        <a href="#tab2" data-toggle="tab">大家电</a>
-                    </li>
-                    <li>
-                        <a href="#tab3" data-toggle="tab">生活电器</a>
-                    </li>
-                    <li>
-                        <a href="#tab4" data-toggle="tab">厨房电器</a>
-                    </li>
-                    <li>
-                        <a href="#tab5" data-toggle="tab">应季电器</a>
-                    </li>
-                    <li>
-                        <a href="#tab6" data-toggle="tab">空气/净水</a>
-                    </li>
-                    <li>
-                        <a href="#tab7" data-toggle="tab">高端电器</a>
-                    </li>
+                        @endforeach
                 </ul>
             </div>
         </div>
@@ -302,12 +243,11 @@
                 <div class="yui3-g Floor-1">
                     <div class="yui3-u Left blockgary">
                         <ul class="jd-list">
-                            <li>节能补贴</li>
-                            <li>4K电视</li>
-                            <li>空气净化器</li>
-                            <li>IH电饭煲</li>
-                            <li>滚筒洗衣机</li>
-                            <li>电热水器</li>
+                            @foreach($cate["cate"] as $v)
+                                <li class="active">
+                                    {{$v["cate_name"]}}
+                                </li>
+                            @endforeach
                         </ul>
                         @include("advert.11_1")
                     </div>
@@ -374,30 +314,13 @@
 <div id="floor-2" class="floor">
     <div class="py-container">
         <div class="title floors">
-            <h3 class="fl">手机通讯</h3>
             <div class="fr">
                 <ul class="sui-nav nav-tabs">
-                    <li class="active">
-                        <a href="#tab8" data-toggle="tab">热门</a>
-                    </li>
-                    <li>
-                        <a href="#tab9" data-toggle="tab">品质优选</a>
-                    </li>
-                    <li>
-                        <a href="#tab10" data-toggle="tab">新机尝鲜</a>
-                    </li>
-                    <li>
-                        <a href="#tab11" data-toggle="tab">高性价比</a>
-                    </li>
-                    <li>
-                        <a href="#tab12" data-toggle="tab">合约机</a>
-                    </li>
-                    <li>
-                        <a href="#tab13" data-toggle="tab">手机卡</a>
-                    </li>
-                    <li>
-                        <a href="#tab14" data-toggle="tab">手机配件</a>
-                    </li>
+                    @foreach($cate["cate"] as $v)
+                        <li class="active">
+                            <a href="#tab1" data-toggle="tab">{{$v["cate_name"]}}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -406,12 +329,9 @@
                 <div class="yui3-g Floor-1">
                     <div class="yui3-u Left blockgary">
                         <ul class="jd-list">
-                            <li>节能补贴</li>
-                            <li>4K电视</li>
-                            <li>空气净化器</li>
-                            <li>IH电饭煲</li>
-                            <li>滚筒洗衣机</li>
-                            <li>电热水器</li>
+                            @foreach($cate["cate"] as $v)
+                            <li>{{$v["cate_name"]}}</li>
+                                @endforeach
                         </ul>
                         @include("advert.11_1")
                     </div>
@@ -482,18 +402,9 @@
 <div class="brand">
     <div class="py-container">
         <ul class="Brand-list blockgary">
-            <li class="Brand-item">
-                <img src="/status/img/brand_21.png" />
-            </li>
-            <li class="Brand-item"><img src="/status/img/brand_03.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_05.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_07.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_09.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_11.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_13.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_15.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_17.png" /></li>
-            <li class="Brand-item"><img src="/status/img/brand_19.png" /></li>
+            @foreach($brand as $v)
+            <li class="Brand-item" title="{{$v->brand_name}}"><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"/></li>
+            @endforeach
         </ul>
     </div>
 </div>
@@ -501,31 +412,6 @@
 <!--页面底部-->
 @include("frag.index.index_foot")
         <!--页面底部END-->
-<!-- 楼层位置 -->
-<div id="floor-index" class="floor-index">
-    <ul>
-        <li>
-            <a class="num" href="javascript:;" style="display: none;">1F</a>
-            <a class="word" href="javascript;;" style="display: block;">家用电器</a>
-        </li>
-        <li>
-            <a class="num" href="javascript:;" style="display: none;">2F</a>
-            <a class="word" href="javascript;;" style="display: block;">手机通讯</a>
-        </li>
-        <li>
-            <a class="num" href="javascript:;" style="display: none;">3F</a>
-            <a class="word" href="javascript;;" style="display: block;">电脑办公</a>
-        </li>
-        <li>
-            <a class="num" href="javascript:;" style="display: none;">4F</a>
-            <a class="word" href="javascript;;" style="display: block;">家居家具</a>
-        </li>
-        <li>
-            <a class="num" href="javascript:;" style="display: none;">5F</a>
-            <a class="word" href="javascript;;" style="display: block;">运动户外</a>
-        </li>
-    </ul>
-</div>
 <!--侧栏面板开始-->
 <div class="J-global-toolbar">
     <div class="toolbar-wrap J-wrap">

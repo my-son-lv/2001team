@@ -1,17 +1,13 @@
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>我的购物车</title>
-
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="/status/css/pages-cart.css" />
 </head>
-
 <body>
 <!--head-->
 <div class="top">
@@ -40,7 +36,7 @@
                         @endif
                     </ul>
             <ul class="fr">
-                <li class="f-item">我的订单</li>
+                <li class="f-item"><a href="/index/home">个人中心</a></li>
                 <li class="f-item space"></li>
                 <li class="f-item">我的品优购</li>
                 <li class="f-item space"></li>
@@ -64,8 +60,8 @@
         <div class="fr search">
             <form class="sui-form form-inline">
                 <div class="input-append">
-                    <input type="text" type="text" class="input-error input-xxlarge" placeholder="品优购自营" />
-                    <button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+                    <input type="text" type="text" class="input-error input-xxlarge search_val" placeholder="品优购自营" />
+                    <button class="sui-btn btn-xlarge btn-danger search_but" type="button">搜索</button>
                 </div>
             </form>
         </div>
@@ -75,7 +71,7 @@
         <h4>全部商品<span>11</span></h4>
         <div class="cart-main">
             <div class="yui3-g cart-th">
-                <div class="yui3-u-1-4"><input type="checkbox" name="" id="" value="" /> 全部</div>
+                <div class="yui3-u-1-4"><button onclick="getMove()">全选</button><button onclick="getMov()">取消全选</button></div>
                 <div class="yui3-u-1-4">商品</div>
                 <div class="yui3-u-1-8">单价（元）</div>
                 <div class="yui3-u-1-8">数量</div>
@@ -108,6 +104,29 @@
                                             </div>
                                         </div>
                                     </li>
+                    <input type="checkbox" name="" id="" value=""/>
+                    <span class="shopname">神州数码专营店</span>
+                </div>
+                <div class="cart-body">
+                    <div class="cart-list">
+                        @foreach($cart as $v)
+                        <ul class="goods-list yui3-g">
+                            <li class="yui3-u-1-24">
+                                <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
+                            </li>
+                            <li class="yui3-u-11-24">
+                                <div class="good-item">
+                                    <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
+                                    <div class="item-msg">{{$v['goods_name']}}
+                                        <br>
+                                        @if(isset($v['specs']))
+                                            @foreach($v['specs'] as $vv)
+                                            {{$vv['specs_name']}}:{{$vv['specs_val']}}
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </li>
 
                                     <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
                                     <li class="yui3-u-1-8">
@@ -129,10 +148,6 @@
             </div>
         </div>
         <div class="cart-tool">
-            <div class="select-all">
-                <input type="checkbox" name="" id="" value="" class="checkbox" />
-                <span>全选</span>
-            </div>
             <div class="option">
                 <a href="#none">删除选中的商品</a>
                 <a href="#none">移到我的关注</a>
@@ -150,7 +165,6 @@
             </div>
         </div>
         <div class="clearfix"></div>
-
         <div class="liked">
             <ul class="sui-nav nav-tabs">
                 <li class="active">
@@ -165,14 +179,13 @@
                             <div class="active item">
                                 <ul>
                                     @foreach($goods as $v)
-
                                     <li>
                                         <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
                                         <div class="intro">
                                             <i>{{$v['goods_name']}}</i>
                                         </div>
                                         <div class="money">
-                                            <span>${{$v['goods_price']}}</span>
+                                            <span>￥{{$v['goods_price']}}</span>
                                         </div>
                                     </li>
                                     @endforeach
@@ -190,8 +203,6 @@
         </div>
     </div>
 </div>
-<!-- 底部栏位 -->
-<!--页面底部-->
 @include("frag.index.index_foot")
 <!--页面底部END-->
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
@@ -200,7 +211,32 @@
 <script type="text/javascript" src="/status/js/widget/nav.js"></script>
 </body>
 <script>
-
+    function getMove(){
+        $(".cart_id").prop('checked',true);
+    }
+    function getMov(){
+        $(".cart_id").prop('checked',false);
+    }
+</script>
+<script>
+    //购物车导航
+    $(document).on('click',".search_but",function(){
+        var search_val = $(".search_val").val();
+        // alert(search_val);return;
+        var url = "http://www.2001api.com/api/cartnav?callback=?";
+        $.getJSON(url,{search_val:search_val},function(res){
+            // alert('此功能暂未开发');
+            // alert(res);
+            if(res.code=='0000'){
+                if(confirm('购物车有此商品，确认跳转到详情页吗？')){
+                    location.href="/index/index_show?goods_id="+res.goods_id;
+                }
+            }else{
+                alert(res.msg);
+            }
+        })
+        // alert(search_val);
+    })
     //复选框
     $(document).on("click",".cart_id",function(){
         var cart_id=new Array();

@@ -98,6 +98,9 @@
                         <a href="/admin/kill">
                             <i class="fa fa-circle-o"></i>秒杀
                         </a>
+                        <a href="/admin/barg">
+                            <i class="fa fa-circle-o"></i>砍价
+                        </a>
                     </li>
                 </ul>
             </li>

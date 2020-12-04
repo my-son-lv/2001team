@@ -89,11 +89,11 @@
                                 <span class="car"></span>
                                 <a class="sui-btn btn-default btn-xlarge" href="/index/cart">
                                     <span>我的购物车</span>
-                                    <i class="shopnum">0</i>
+                                    <!-- <i class="shopnum">0</i> -->
                                 </a>
                                 <div class="clearfix shopcarlist" id="shopcarlist" style="display:none">
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
+                                    <p>"啊哦，去购物车看看吧！"</p>
+                                    <p>"啊哦，去购物车看看吧！"</p>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,8 @@
                             @foreach($cate["cate"] as $k=>$v)
                                 <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
                             @endforeach
-                            <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>
+                                <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>
+                                <li class="f-item"><a href="" target="_blank">砍价</a></li>
                         </ul>
                     </div>
                     <div class="yui3-u Right"></div>
@@ -124,7 +125,13 @@ $(document).on('click',".search_but",function(){
     var search_val = $(".search_val").val();
     var url = "http://www.2001api.com/api/searchnav?callback=?";
     $.getJSON(url,{search_val:search_val},function(res){
-        alert(res);
+        // alert('此功能暂未开发');
+        // alert(res);
+        if(res.code=='0000'){
+            location.href="/index/index_show?goods_id="+res.goods_id;
+        }else{
+            alert(res.msg);
+        }
     })
     // alert(search_val);
 })
