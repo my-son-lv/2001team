@@ -104,29 +104,7 @@
                                             </div>
                                         </div>
                                     </li>
-                    <input type="checkbox" name="" id="" value=""/>
-                    <span class="shopname">神州数码专营店</span>
-                </div>
-                <div class="cart-body">
-                    <div class="cart-list">
-                        @foreach($cart as $v)
-                        <ul class="goods-list yui3-g">
-                            <li class="yui3-u-1-24">
-                                <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
-                            </li>
-                            <li class="yui3-u-11-24">
-                                <div class="good-item">
-                                    <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
-                                    <div class="item-msg">{{$v['goods_name']}}
-                                        <br>
-                                        @if(isset($v['specs']))
-                                            @foreach($v['specs'] as $vv)
-                                            {{$vv['specs_name']}}:{{$vv['specs_val']}}
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                </div>
-                            </li>
+            
 
                                     <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
                                     <li class="yui3-u-1-8">
@@ -180,7 +158,7 @@
                                 <ul>
                                     @foreach($goods as $v)
                                     <li>
-                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
                                         <div class="intro">
                                             <i>{{$v['goods_name']}}</i>
                                         </div>

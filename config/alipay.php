@@ -9,7 +9,7 @@ return[
     'notify_url' => "http://工程公网访问地址/alipay.trade.wap.pay-PHP- -8/notify_url.php",
 
     //同步跳转
-    'return_url' => "http://2001team.com/pay/return_url",
+    'return_url' => env('JUSTMES_URL')."pay/return_url",
 
     //编码格式
     'charset' => "UTF-8",

@@ -140,8 +140,8 @@ class IndexController extends Controller
                     }
 //                dd($goods_number);
                 }
-                $res = CartModel::where("cart_id", $cart->cart_id)->update(['buy_number' => $goods_number]);
             }
+            $res = CartModel::where("cart_id", $cart->cart_id)->update(['buy_number' => $goods_number]);
         } else{
                 $saller_id = GoodsModel::where("goods_id", $goods_id)->value('saller_id');
                 $data = [
@@ -165,12 +165,13 @@ class IndexController extends Controller
     //购物车列表
     public  function  cart(){
         $uid=request()->user_id;
+        // print_r($uid);
         $cart=CartModel::select('cart.*','goods.goods_img')
             ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
             ->where(['user_id'=>$uid])
             ->get();
-
-//        dd($cart);
+        // dump(123);
+    //    dd($cart);
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
         foreach($cart as $k=>$v){
@@ -190,6 +191,7 @@ class IndexController extends Controller
                 }
             }
         }
+        // dd($cart);
         return json_encode($cart,true);
     }
 
