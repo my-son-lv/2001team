@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/status/plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="/status/css/style.css">
     <script src="/status/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="/status/plugins/jQueryUI/jquery-ui.min.js"></script>
+    {{--<script src="/status/plugins/jQueryUI/jquery-ui.min.js"></script>--}}
     <script src="/status/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/status/plugins/adminLTE/js/app.min.js"></script>
 </head>
@@ -26,12 +26,19 @@
         <!DOCTYPE html>
         <html>
         <body class="hold-transition skin-red sidebar-mini">
+        <form id="brandform">
+            <input type="hidden" name="brand_id" value="{{$info->brand_id}}">
             <div class="tab-pane active" id="home">
                 <input type="hidden" id="brand_id" value="{{$info->brand_id}}">
                 <div class="row data-type">
                     <div class="col-md-2 title">品牌名称</div>
                     <div class="col-md-10 data">
                         <input type="text" class="form-control"  name="brand_name" id="brand_name"  value="{{$info->brand_name}}">
+                    </div>
+                    <div class="col-md-2 title">品牌图片</div>
+                    <div class="col-md-10 data">
+                        <input id="brand_logo" name="brand_logo" class="form-control" type="file">
+                        <img src="{{env('JUSTME_URL')}}{{$info['brand_logo']}}"  width="50px" height="50px">
                     </div>
                     <div class="col-md-2 title">品牌首字母</div>
                     <div class="col-md-10 data">
@@ -44,35 +51,41 @@
                         </div>
                     </div>
                     <div class="btn-toolbar list-toolbar">
-                        <button class="btn btn-primary"  type="button"><i class="fa fa-save"></i>修改品牌</button>
+                        <button class="btn btn-primary"   id="but" type="button"><i class="fa fa-save"></i>修改品牌</button>
                     </div>
             </div>
             <!--tab内容/-->
             <!--表单内容/-->
     </div>
-</div>
+        </form>
+    </div>
 @include("frag.admin.admin_foot")
 </body>
 <script>
-    $(document).on("click",".btn",function(){
-        var brand_id=$("#brand_id").val();
-        var brand_name=$("#brand_name").val();
-        var brand_first_letter=$("#brand_first_letter").val();
-        var brand_url=$("#brand_url").val();
+    $(document).on("click","#but",function(){
+        var formData = new FormData($("#brandform")[0]);
         $.ajax({
-            url:"/admin/brand/update_do",
-            data:{brand_id:brand_id,brand_name:brand_name,brand_first_letter:brand_first_letter,brand_url:brand_url},
-            type:"post",
-            dataType:"json",
-            success:function(res){
-                if(res.code=="0000"){
-                    alert(res.msg);
-                    window.location.href=res.url;
+            url:'/admin/brand/update_do',
+            dataType:'json',
+            type:'POST',
+            async: false,
+            data: formData,
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success: function(data){
+                if(data.code=="0000"){
+                    alert(data.msg);
+                    window.location.href=data.url;
                 }else{
-                    alert(res.msg);
+                    alert(data.msg);
                 }
+            },
+            error:function(response){
+                console.log(response);
             }
-        })
+        });
     })
+
+
 </script>
 </html>

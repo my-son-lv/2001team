@@ -11,7 +11,6 @@ class PayController extends Controller
 {
     public  function  pay(){
         $config=config('alipay');
-
         require_once app_path('Common/lib/alipay1/pagepay/service/AlipayTradeService.php');
         require_once app_path('Common/lib/alipay1/pagepay//buildermodel/AlipayTradePagePayContentBuilder.php');
 

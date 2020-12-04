@@ -95,6 +95,8 @@ Route::prefix('/admin')->group(function(){
     Route::any('/coupon/create','Coupon\CouponController@create')->middleware("login");
     Route::any('/coupon/store','Coupon\CouponController@store')->middleware("login");
     Route::any('/coupon/del','Coupon\CouponController@del')->middleware("login");
+    Route::any('/coupon/upd','Coupon\CouponController@upd')->middleware("login");
+    Route::any('/coupon/update_do','Coupon\CouponController@update_do')->middleware("login");
 
     //商品审核 examine
     Route::any('/examine','Examine\ExamineController@examine')->middleware("login");

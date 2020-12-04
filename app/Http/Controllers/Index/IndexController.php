@@ -100,9 +100,12 @@ class IndexController extends Controller
     public function index_show(){
        $url = env('API_URL')."api/home";
        $home = $this->postcurl($url);
-        $goods_id=request()->goods_id;
-//        dd($goods_id);
+       $goods_id=request()->goods_id;
 
+        $his=Redis::zincrby('hit',1,'hit_'.$goods_id);
+
+
+//        dd($goods_id);
 //        $toekn = $_COOKIE["token"];
 //        $Foot_Model = new FootModel();
 //        $Foot_Model->user_id = Redis::hget("token",$toekn);
@@ -128,7 +131,7 @@ class IndexController extends Controller
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         $result = curl_exec($ch);
-//        echo $result;
+//        echo $result;exit;
         curl_close($ch);
         return json_decode($result, true);
 

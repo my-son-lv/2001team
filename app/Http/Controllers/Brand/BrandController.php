@@ -68,6 +68,13 @@ class BrandController extends Controller
     public  function  update_do(){
         $brand_id=request()->brand_id;
         $data=request()->all();
+        if (request()->hasFile('brand_logo')){
+            $file = request()->file('brand_logo');
+            if ($file->isValid()){
+                $path = $file->store('images');
+            }
+            $data["brand_logo"] = $path;
+        }
         $brand_upd_info=Brand_Model::where("brand_id",$brand_id)->update($data);
         if($brand_upd_info){
             $arr=[

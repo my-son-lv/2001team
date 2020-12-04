@@ -35,6 +35,14 @@
             </div>
             <!--工具栏/-->
             <!--数据列表-->
+            <form>
+                <table>
+                    <tr>
+                        <td><input type="text" name="coupon_name" value="{{$res->coupon_name??''}}" placeholder="请输入要搜索的内容..."></td>
+                        <td><input type="submit" value="搜索"></td>
+                    </tr>
+                </table>
+            </form>
             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                 <thead>
                 <tr>
@@ -64,11 +72,13 @@
                         <td> {{$v->goods_id}}</td>
                         <td class="text-center">
                             <button type="button" class="btn bg-olive btn-xs del" data-target="#editModal"  >删除</button>
+                            <a href="{{url('admin/coupon/upd/?coupon_id='.$v->coupon_id)}}"><button type="button" class="btn bg-olive btn-xs" data-target="#editModal">修改</button></a>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            <td>{{$res->links()}}</td>
             <!--数据列表/-->
         </div>
         <!-- 数据表格 /-->

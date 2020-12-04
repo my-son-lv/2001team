@@ -8,6 +8,7 @@ use App\Models\GoodsModel;
 use App\Models\OrderGoodsModel;
 use App\Models\OrderModel;
 use App\Models\SpecsModel;
+use App\Models\SallerInfoModel;
 use Illuminate\Http\Request;
 use DB;
 class CartController extends Controller
@@ -26,9 +27,22 @@ class CartController extends Controller
         $uid=1;
         $url=env('API_URL')."api/index/cart";
         $cart=$this->postcurl($url,['user_id',$uid]);
+        $data = [];
+        foreach($cart as $k=>$v){
+            $data[] = $v['saller_id'];
+        }
+        $data = array_unique($data);
         $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
-//        dd($cart);
-        return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods]);
+        $sallerinfo=SallerInfoModel::select('saller_id','saller_name')->whereIn('saller_id',$data)->get();
+            if($sallerinfo){
+                $sallerinfo = $sallerinfo->toArray();
+            }
+        $res = count($sallerinfo);
+        $sallerinfo[$res]['saller_id'] = 0;
+        $sallerinfo[$res]['saller_name'] = '品优购自营';
+//      dump($sallerinfo);
+//      dd($cart);
+        return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods,'sallerinfo'=>$sallerinfo]);
     }
     //结算页
     public function settl(){
@@ -58,18 +72,15 @@ class CartController extends Controller
     }
 
         //默认地址
-        public function is_moren(){
+    public function is_moren(){
             $uid=1;
             $address_id=request()->address_id;
-            $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>1]);
+            $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>2]);
             if($res){
                 return json_encode(['code'=>'0000','msg'=>"设置成功"]);
             }
 
         }
-
-
-
 
     //修改收货地址
     // public function updorder(){
@@ -276,7 +287,7 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
 //执行
         $result = curl_exec($ch);
-    
+//    echo $result;exit;
         $result = json_decode($result,true);
 //关闭
         curl_close($ch);
