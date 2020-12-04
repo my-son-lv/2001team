@@ -19,14 +19,19 @@ class CartController extends Controller
     //获取用户id
     public function uid(){
         if(!isset($_COOKIE['token'])){
-            // return json_encode(['code'=>'0003','msg'=>"请登录"]);
-            return  redirect('/login')->withErrors(['请登录']);
-        }
-        $uid=Redis::Hget('token',$_COOKIE['token']);
+            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+            // return  redirect('/login')->withErrors(['请登录']);
+        }else{
+             $uid=Redis::Hget('token',$_COOKIE['token']);
         return $uid;
+        }
+       
     }
     public function  addcart(){
         $uid=$this->uid();
+        if(strpos($uid,'{')!==false){
+            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+        }
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
@@ -41,13 +46,18 @@ class CartController extends Controller
     public function cart(){
         
         $uid=$this->uid();
+        // dd($uid);
         $url=env('API_URL')."api/index/cart";
-        $cart=$this->postcurl($url,['user_id',$uid]);
+        // dd($url);
+        $cart=$this->postcurl($url,['user_id'=>$uid]);
+        // dump(12312312);
+        // dd($cart);
         $data = [];
         foreach($cart as $k=>$v){
             $data[] = $v['saller_id'];
         }
         $data = array_unique($data);
+        // dd($data);
         $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
         $sallerinfo=SallerInfoModel::select('saller_id','saller_name')->whereIn('saller_id',$data)->get();
             if($sallerinfo){
@@ -56,13 +66,8 @@ class CartController extends Controller
         $res = count($sallerinfo);
         $sallerinfo[$res]['saller_id'] = 0;
         $sallerinfo[$res]['saller_name'] = '品优购自营';
-//      dump($sallerinfo);
-//      dd($cart);
+        // dump($sallerinfo);
         return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods,'sallerinfo'=>$sallerinfo]);
-        $cart=$this->postcurl($url,['user_id'=>$uid]);
-        $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
-    //    dd($cart);
-        return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods]);
     }
     //结算页
     public function settl(){
@@ -253,10 +258,11 @@ class CartController extends Controller
                 unset($goods[$k]['cart_id']);
                 unset($goods[$k]['user_id']);
                 unset($goods[$k]['add_time']);
-            //   unset($goods[$k]['specs_id']);
+              unset($goods[$k]['saller_id']);
                 unset($goods[$k]['goods_img']);
             //   dd($goods);
             }
+            // dd($goods);
             $order_goods = OrderGoodsModel::insert($goods);
             //订单商品入库
             $order_goods = $data['order_id'] = $order_id;
@@ -310,7 +316,8 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
 //    echo $result;exit;
-        // $result = json_decode($result,true);
+        // $result = ;
+        // dd($result);
 //关闭
         curl_close($ch);
         if(is_null(json_decode($result,true))){
