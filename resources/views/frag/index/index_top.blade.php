@@ -106,7 +106,7 @@
                     </div>
                     <div class="yui3-u Center navArea">
                         <ul class="nav">
-                            @foreach($cate["cate"] as $k=>$v)
+                            @foreach($cate["cate"] as $v)
                                 <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
                             @endforeach
                                 <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>

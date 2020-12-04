@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001team.com')->group(function(){ //域名分组
+Route::domain('2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -153,20 +153,16 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/addcart','Index\CartController@addcart');//加入购物车
     Route::any('/index/index_kill','Index\Index_KillController@index_kill');//秒杀
     Route::any('/user_kill','Index\Index_KillController@user_kill');//用户点击秒杀按钮
-    Route::any('/index/cart','Index\CartController@cart');//购物车
     Route::any('/index/getTypePrice','Index\CartController@getTypePrice');//购物车 +
     Route::any('/index/getTypePrices','Index\CartController@getTypePrices');//购物车 -
     Route::any('/index/getInputPrice','Index\CartController@getInputPrice');//购物车 文本框
     Route::any('/index/del','Index\CartController@del');//购物车 单删
     Route::any('/index/manydel','Index\CartController@manydel');//购物车 复选框
     Route::any('/user_colle','Index\IndexController@user_colle');//用户点击列表收藏
-    Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
-    Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
-    Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
+    Route::any('/index/cart','Index\CartController@cart');//购物车
+    Route::any('/index/order','Index\CartController@order');//订单
+    Route::any('/index/settl','Index\CartController@settl');//结算页
 
-    Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
-    Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
-    Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
     Route::any('/index/orderdel','Index\CartController@orderdel');//收货地址删除
     Route::any('/index/updorder','Index\CartController@updorder');//收货地址修改
     Route::any('/index/is_moren','Index\CartController@is_moren');//默认收货地址
@@ -180,7 +176,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_person','Index\HomeController@home_person')->middleware('IndexLogin');//我的收藏
     Route::any('/index/home_foot','Index\HomeController@home_foot')->middleware('IndexLogin');//我的足迹
     Route::any('/index/home_info','Index\HomeController@home_info')->middleware('IndexLogin');//个人信息
-    Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
     Route::any('/index/getorder','Index\CartController@getorder')->middleware('IndexLogin');//三级联动
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
     Route::any('/index/getorder','Index\CartController@getorder');//收货地址

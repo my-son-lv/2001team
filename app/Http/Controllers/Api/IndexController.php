@@ -20,19 +20,19 @@ class IndexController extends Controller
     public function index_show(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        // dd($cate);
+//         dd($cate);
         $goods_id=request()->goods_id;
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
 //        dd($goodsimg);
             $saller_model = new SallerInfoModel();
 //        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
+//        dd($goods);
         if($goods['saller_id']==0){
             $goods['saller_name'] = '品优购自营';
         }else{
             $goods['saller_name'] = $saller_model->where('saller_id',$goods['saller_id'])->value('saller_name');
         }
-        $goods=GoodsModel::where("goods_id",$goods_id)->first();
        //规格
         $specs_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
@@ -46,7 +46,6 @@ class IndexController extends Controller
         $data = [];
         if($specs_info){
             $specs_info = $specs_info->toArray();
-
             foreach($specs_info as $k=>$v){
                 $res = explode(':',$v['specs']);
                 if($res){
@@ -77,6 +76,7 @@ class IndexController extends Controller
             }
         }
         $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
+//        dd($cate);
         return $cate;
     }
 //加入购物车
@@ -84,6 +84,7 @@ class IndexController extends Controller
     {
         // $uid=1;
         $goods_id = request()->goods_id;
+        dd($goods_id);
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
         $uid = request()->uid;

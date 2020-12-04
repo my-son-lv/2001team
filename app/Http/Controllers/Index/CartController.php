@@ -18,6 +18,7 @@ class CartController extends Controller
 {
     //获取用户id
     public function uid(){
+//        dd(123);
         if(!isset($_COOKIE['token'])){
             // return json_encode(['code'=>'0003','msg'=>"请登录"]);
             return  redirect('/login')->withErrors(['请登录']);
@@ -27,6 +28,7 @@ class CartController extends Controller
     }
     public function  addcart(){
         $uid=$this->uid();
+//        dd($uid);
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
@@ -136,8 +138,6 @@ class CartController extends Controller
         }
 
     }
-
-
     //-
     public  function  getTypePrices(){
         $type=request()->type;
@@ -313,9 +313,9 @@ class CartController extends Controller
         $result = json_decode($result,true);
 //关闭
         curl_close($ch);
-        if(is_null(json_decode($result,true))){
-            return $result;
-        }
-        return json_decode($result,true);
+//        if(is_null(json_decode($result,true))){
+//            return $result;
+//        }
+//        return json_decode($result,true);
     }
 }
