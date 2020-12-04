@@ -15,15 +15,14 @@
 
                     <div class="box-tools pull-right">
                         <div class="has-feedback">
-                            公司名称：<input  >
-                            店铺名称： <input  >
+                            公司名称：<input  type="text" name="comp_name" value="{{$comp_name}}">
+                            店铺名称： <input  type="text" name="saller_name" value="{{$saller_name}}">
                             状态：
-                            <input type="radio" value="" />全部
-                            <input type="radio" value="0" />待审核
-                            <input type="radio" value="1" />已审核
-                            <input type="radio" value="2" />审核未通过
-                            <input type="radio" value="3" />关闭
-                            <button class="btn btn-default" >查询</button>
+                            <input type="radio" name="saller_status" value="0" @if($saller_status==0) checked @endif />未审核
+                            <input type="radio" name="saller_status" value="1" @if($saller_status==1) checked @endif  />已通过
+                            <input type="radio" name="saller_status" value="2" @if($saller_status==2) checked @endif  />审核未通过
+                            <input type="radio" name="saller_status" value="3" @if($saller_status==3) checked @endif  />已关闭
+                            <button class="btn btn-default where" >查询</button>
                         </div>
                     </div>
                     <!--工具栏/-->
@@ -206,3 +205,24 @@
     </div>
 
 @include("frag.admin.admin_foot")
+<script>
+    $(document).on('click','.where',function(){
+        var comp_name = $("input[name='comp_name']").val();
+        var saller_name = $("input[name='saller_name']").val();
+        var saller_status = $("input[name='saller_status']:checked").val();
+        if(saller_status===undefined){
+            saller_status="";
+        }
+        var str = "";
+        if(comp_name!==''){
+            str += 'comp_name='+comp_name+'&';
+        }
+        if(saller_name!==''){
+            str += 'saller_name='+saller_name+'&';
+        }
+        if(saller_status!==''){
+            str += 'saller_status='+saller_status+'&';
+        }
+        window.location.href="{{url('/admin/saller?')}}"+str;
+    });
+</script>

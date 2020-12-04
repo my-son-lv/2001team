@@ -23,18 +23,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-tools pull-right">
-                                <div class="has-feedback">
-                                  状态：<select>
-                                         	<option value="">全部</option>
-                                         	<option value="0">未申请</option>
-                                         	<option value="1">审核通过</option>
-                                         	<option value="2">已驳回</option>
-                                        </select>
-							                  商品名称：<input >									
-									<button class="btn btn-default" >查询</button>                                    
-                                </div>
-                            </div>
+							<div class="box-tools pull-right">
+								<div class="has-feedback">
+									状态：<select id="goods_status">
+										<option value="">全部</option>
+										<option value="0" @if($goods_status==0) selected @endif>未审核</option>
+										<option value="1" @if($goods_status==1) selected @endif>已通过</option>
+										<option value="2" @if($goods_status==2) selected @endif>已驳回</option>
+									</select>
+									商品名称：<input name="goods_name" value="{{$goods_name}}">
+									<button class="btn btn-default where" >查询</button>
+								</div>
+							</div>
                             <!--工具栏/-->
 
 			                  <!--数据列表-->
@@ -132,6 +132,11 @@
 			})
 
 		});
+		$(document).on('click','.where',function(){
+			var goods_status = $("#goods_status").val();
+			var goods_name = $("input[name='goods_name']").val();
+			window.location.href="{{url('/saller/goods?goods_status=')}}"+goods_status+'&goods_name='+goods_name;
+		})
 	});
 </script>
 @include('admin.saller.public.foot')

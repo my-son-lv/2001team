@@ -286,6 +286,7 @@
 					window.location.href = "{{url('/saller/login')}}";
 				}else{
 					alert(res.msg);
+					return ;
 				}
 			}
 		});
