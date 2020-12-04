@@ -310,7 +310,7 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
 //    echo $result;exit;
-        $result = json_decode($result,true);
+        // $result = json_decode($result,true);
 //关闭
         curl_close($ch);
         if(is_null(json_decode($result,true))){
