@@ -71,6 +71,7 @@
                             </form>
                         </div>
                         <div class="hotwords">
+
                         </div>
                     </div>
                     <div class="yui3-u Right shopArea">
@@ -100,7 +101,7 @@
                                 <li class="f-item" value="{{$v['cate_id']}}"><a href="{{url('/index/index_list/'.$v['cate_id'])}}"  style="color:black;">{{$v['cate_name']}}</a></li>
                             @endforeach
                                 <li class="f-item"><a href="/index/index_kill" target="_blank">秒杀</a></li>
-                                <li class="f-item"><a href="" target="_blank">砍价</a></li>
+                                <li class="f-item"><a href="/index/brag" target="_blank">砍价</a></li>
                         </ul>
                     </div>
                     <div class="yui3-u Right"></div>

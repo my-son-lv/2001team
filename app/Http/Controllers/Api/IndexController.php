@@ -254,10 +254,22 @@ class IndexController extends Controller
         return $data;
     }
 
+    public function cut(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function cut_show(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
     public function home(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->get()->toArray();
+        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(4)->get()->toArray();
         $info = $this->GetIndo($cate_cate);
         $data = ["cate"=>$cate,"data"=>$data,"info"=>$info];
         return $data;
