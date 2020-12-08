@@ -8,7 +8,12 @@ use App\Models\Butti;
 class ButtiController extends Controller
 {
     public  function  create(){
-        $butti=Butti::get();
+        $butti_name=request()->butti_name;
+        $where=[];
+        if($butti_name){
+            $where[]=['butti_name','like',"%$butti_name%"];
+        }
+        $butti=Butti::where($where)->paginate(4);
         return view("/admin/butti/create",['butti'=>$butti]);
     }
 

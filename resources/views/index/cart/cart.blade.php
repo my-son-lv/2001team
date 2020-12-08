@@ -60,8 +60,8 @@
         <div class="fr search">
             <form class="sui-form form-inline">
                 <div class="input-append">
-                    <input type="text" type="text" class="input-error input-xxlarge" placeholder="品优购自营" />
-                    <button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+                    <input type="text" type="text" class="input-error input-xxlarge search_val" placeholder="品优购自营" />
+                    <button class="sui-btn btn-xlarge btn-danger search_but" type="button">搜索</button>
                 </div>
             </form>
         </div>
@@ -79,44 +79,50 @@
                 <div class="yui3-u-1-8">操作</div>
             </div>
             <div class="cart-item-list">
+                @foreach($sallerinfo as $k1=>$v1)
                 <div class="cart-shop">
-                    <input type="checkbox" name="" id="" value=""/>
-                    <span class="shopname">神州数码专营店</span>
+                    <span class="shopname">{{$v1['saller_name']}}</span>
                 </div>
                 <div class="cart-body">
                     <div class="cart-list">
-                        @foreach($cart as $v)
-                        <ul class="goods-list yui3-g">
-                            <li class="yui3-u-1-24">
-                                <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
-                            </li>
-                            <li class="yui3-u-11-24">
-                                <div class="good-item">
-                                    <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
-                                    <div class="item-msg">{{$v['goods_name']}}
-                                        <br>
-                                        @foreach($v['specs'] as $vv)
-                                            {{$vv['specs_name']}}:{{$vv['specs_val']}}
-                                            @endforeach
-                                    </div>
-                                </div>
-                            </li>
+                        @foreach($cart as $k=>$v)
+                            @if($v["saller_id"]==$v1['saller_id'])
+                                <ul class="goods-list yui3-g">
+                                    <li class="yui3-u-1-24">
+                                        <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
+                                    </li>
+                                    <li class="yui3-u-11-24">
+                                        <div class="good-item">
+                                            <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
+                                            <div class="item-msg">{{$v['goods_name']}}
+                                                <br>
+                                                @if(isset($v['specs']))
+                                                @foreach($v['specs'] as $vv)
+                                                    {{$vv['specs_name']}}:{{$vv['specs_val']}}
+                                                    @endforeach
+                                                    @endif
+                                            </div>
+                                        </div>
+                                    </li>
+            
 
-                            <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
-                            <li class="yui3-u-1-8">
-                                <a href="javascript:void(0)" class="increment mins" cart_id="{{$v['cart_id']}}">-</a>
-                                <input autocomplete="off" type="text" cart_id="{{$v['cart_id']}}" value="{{$v['buy_number']}}" minnum="1" class="itxt" />
-                                <a href="javascript:void(0)" class="increment plus" cart_id="{{$v['cart_id']}}">+</a>
-                            </li>
-                            <li class="yui3-u-1-8"><span class="sum">{{$v['goods_price']*$v['buy_number']}}</span></li>
-                            <li class="yui3-u-1-8">
-                                <a href="javascript:void(0)" cart_id="{{$v['cart_id']}}" id="del">删除</a><br />
-                                <a href="#none">移到我的关注</a>
-                            </li>
-                        </ul>
-                            @endforeach
+                                    <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
+                                    <li class="yui3-u-1-8">
+                                        <a href="javascript:void(0)" class="increment mins" cart_id="{{$v['cart_id']}}">-</a>
+                                        <input autocomplete="off" type="text" cart_id="{{$v['cart_id']}}" value="{{$v['buy_number']}}" minnum="1" class="itxt" />
+                                        <a href="javascript:void(0)" class="increment plus" cart_id="{{$v['cart_id']}}">+</a>
+                                    </li>
+                                    <li class="yui3-u-1-8"><span class="sum" cart_id="{{$v['cart_id']}}">{{$v['goods_price']*$v['buy_number']}}</span></li>
+                                    <li class="yui3-u-1-8">
+                                        <a href="javascript:void(0)" cart_id="{{$v['cart_id']}}" id="del">删除</a><br />
+                                        <a href="#none">移到我的关注</a>
+                                    </li>
+                                </ul>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
         <div class="cart-tool">
@@ -152,7 +158,7 @@
                                 <ul>
                                     @foreach($goods as $v)
                                     <li>
-                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" width="200px" height="200px" /></a>
                                         <div class="intro">
                                             <i>{{$v['goods_name']}}</i>
                                         </div>
@@ -191,6 +197,24 @@
     }
 </script>
 <script>
+    //购物车导航
+    $(document).on('click',".search_but",function(){
+        var search_val = $(".search_val").val();
+        // alert(search_val);return;
+        var url = "http://www.2001api.com/api/cartnav?callback=?";
+        $.getJSON(url,{search_val:search_val},function(res){
+            // alert('此功能暂未开发');
+            // alert(res);
+            if(res.code=='0000'){
+                if(confirm('购物车有此商品，确认跳转到详情页吗？')){
+                    location.href="/index/index_show?goods_id="+res.goods_id;
+                }
+            }else{
+                alert(res.msg);
+            }
+        })
+        // alert(search_val);
+    })
     //复选框
     $(document).on("click",".cart_id",function(){
         var cart_id=new Array();
@@ -263,8 +287,8 @@
 //                console.log(res);return;
                     if(res.code=='0000'){
                         $("input[cart_id='"+cart_id+"']").val(res.buy_number);
-                        $(".sum").text(res.total.total);
-//                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
+//                        $(".sum").text(res.total.total);
+                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
                     }
             }
         })
@@ -282,8 +306,8 @@
             success:function(res){
                 if(res.code=='0000'){
                     $("input[cart_id='"+cart_id+"']").val(res.buy_number);
-                    $(".sum").text(res.total.total);
-//                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
+//                    $(".sum").text(res.total.total);
+                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
                 }
             }
         })
@@ -304,7 +328,9 @@
             success:function(res){
                 if(res.code=='0000'){
                     $("input[cart_id='"+cart_id+"']").val(res.buy_number);
-                    $(".sum").text(res.total.total);
+                    $("span[cart_id='"+cart_id+"']").text(res.total.total);
+
+//                    $(".sum").text(res.total.total);
                 }
             }
         })

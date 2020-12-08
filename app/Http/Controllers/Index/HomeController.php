@@ -20,7 +20,8 @@ class HomeController extends Controller
             $user_id = Redis::hget("token",$token);
             $data = OrderModel::leftjoin("order_goods","order_info.order_id","=","order_goods.order_id")->where(["order_info.user_id"=>$user_id])->get();
         }else{
-            return json_encode(["code"=>0001,"message"=>"请登录"],JSON_UNESCAPED_UNICODE);
+            // return json_encode(["code"=>0001,"message"=>"请登录"],JSON_UNESCAPED_UNICODE);
+            return  redirect('/login')->withErrors(['请登录']);
         }
         return view("index.home.home",["cate"=>$cate,"data"=>$data,"goods"=>$goods]);
     }//我的订单

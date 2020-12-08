@@ -159,7 +159,7 @@
                             <div class="sendGoods">
                                 <ul class="yui3-g">
                                     <li class="yui3-u-1-6">
-                                        <span><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}"/></span>
+                                        <span><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"/></span>
                                     </li>
                                     <li class="yui3-u-7-12">
                                         <div class="desc">

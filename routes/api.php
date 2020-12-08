@@ -36,5 +36,6 @@ Route::domain('www.2001api.com')->group(function(){
     Route::any('/searchnav','Api\IndexController@searchnav');//头部搜索
     Route::any('/cut','Api\IndexController@cut');
     Route::any('/cut_show','Api\IndexController@cut_show');
+    Route::any('/cartnav','Api\IndexController@cartnav');//购物车头部搜索
 });
 

@@ -12,11 +12,16 @@ class ExamineController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * 后台商品审核
+     * 后台商家审核
      */
     public function examine(){
+        $goods_name = request()->goods_name;
+        $where = [];
+        if($goods_name){
+            $where[] = ['goods_name','like',"%$goods_name%"];
+        }
         $goods_model = new GoodsModel();
-        $goods_info = $goods_model->goods_info();
+        $goods_info = $goods_model->goods_info($where);
         $goods_info_model = new SallerInfoModel();
         foreach($goods_info as $k=>$v){
             if($v['saller_id']==0){
@@ -26,7 +31,7 @@ class ExamineController extends Controller
             }
         }
 //        dd($goods_info);
-        return view('admin.examine.examine',['goods_info'=>$goods_info]);
+        return view('admin.examine.examine',['goods_info'=>$goods_info,'goods_name'=>$goods_name]);
     }
 
     /**
@@ -77,10 +82,19 @@ class ExamineController extends Controller
      * 商家审核
      */
     public function saller_exam(){
+        $comp_name = request()->comp_name;
+        $saller_name = request()->saller_name;
+        $where = [];
+        if($comp_name){
+            $where[] = ['comp_name','like',"%$comp_name%"];
+        }
+        if($saller_name){
+            $where[] = ['saller_name','like',"%$saller_name%"];
+        }
         $saller_model = new SallerModel();
-        $saller_info = $saller_model->saller_info();
+        $saller_info = $saller_model->saller_info($where);
 //        dd($saller_info);
-        return view('admin.examine.saller_exam',['saller_info'=>$saller_info]);
+        return view('admin.examine.saller_exam',['saller_info'=>$saller_info,'comp_name'=>$comp_name,'saller_id'=>$saller_name]);
     }
     /**
      * 商家审核
@@ -148,9 +162,22 @@ class ExamineController extends Controller
      * 商家管理
      */
     public function saller(){
+        $comp_name = request()->comp_name;
+        $saller_name = request()->saller_name;
+        $saller_status = request()->saller_status;
+        $where = [];
+        if($comp_name){
+            $where[] = ['comp_name','like',"%$comp_name%"];
+        }
+        if($saller_name){
+            $where[] = ['saller_name','like',"%$saller_name%"];
+        }
+        if($saller_status){
+            $where[] = ['saller_status','=',$saller_status];
+        }
         $saller_model = new SallerModel();
-        $saller_info = $saller_model->saller_infos();
+        $saller_info = $saller_model->saller_infos($where);
 //        dd($saller_info);
-        return view('admin.examine.saller',['saller_info'=>$saller_info]);
+        return view('admin.examine.saller',['saller_info'=>$saller_info,'comp_name'=>$comp_name,'saller_name'=>$saller_name,'saller_status'=>$saller_status]);
     }
 }

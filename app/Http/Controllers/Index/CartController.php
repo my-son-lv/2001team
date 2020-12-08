@@ -9,6 +9,7 @@ use App\Models\OrderGoodsModel;
 use App\Models\OrderModel;
 use App\Models\SpecsModel;
 use App\Models\BargModel;
+use App\Models\SallerInfoModel;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Redis;
@@ -18,33 +19,59 @@ class CartController extends Controller
 {
     //获取用户id
     public function uid(){
+//        dd(123);
         if(!isset($_COOKIE['token'])){
             return json_encode(['code'=>'0003','msg'=>"请登录"]);
-        }
-        $uid=Redis::Hget('token',$_COOKIE['token']);
+            // return  redirect('/login')->withErrors(['请登录']);
+        }else{
+             $uid=Redis::Hget('token',$_COOKIE['token']);
         return $uid;
+        }
+       
     }
 
     public function  addcart(){
         $uid=$this->uid();
+//        dd($uid);
+        if(strpos($uid,'{')!==false){
+            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+        }
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
-        // dd($goods_attr_id);
+//         dd($goods_attr_id);
         $url=env('API_URL')."api/index/addcart";
         $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id,'uid'=>$uid]);
-        // dd($cart);
+
         return json_encode($cart);
     }
 
     //购物车列表
     public function cart(){
+        
         $uid=$this->uid();
+        // dd($uid);
         $url=env('API_URL')."api/index/cart";
-        $cart=$this->postcurl($url,['user_id',$uid]);
+        // dd($url);
+        $cart=$this->postcurl($url,['user_id'=>$uid]);
+        // dump(12312312);
+        // dd($cart);
+        $data = [];
+        foreach($cart as $k=>$v){
+            $data[] = $v['saller_id'];
+        }
+        $data = array_unique($data);
+        // dd($data);
         $goods=GoodsModel::where("is_hot",1)->limit(4)->get();
-//        dd($cart);
-        return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods]);
+        $sallerinfo=SallerInfoModel::select('saller_id','saller_name')->whereIn('saller_id',$data)->get();
+            if($sallerinfo){
+                $sallerinfo = $sallerinfo->toArray();
+            }
+        $res = count($sallerinfo);
+        $sallerinfo[$res]['saller_id'] = 0;
+        $sallerinfo[$res]['saller_name'] = '品优购自营';
+        // dump($sallerinfo);
+        return view("index.cart.cart",['cart'=>$cart,'goods'=>$goods,'sallerinfo'=>$sallerinfo]);
     }
     //结算页
     public function settl(){
@@ -77,13 +104,12 @@ class CartController extends Controller
     public function is_moren(){
             $uid=1;
             $address_id=request()->address_id;
-            $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>1]);
+            $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>2]);
             if($res){
                 return json_encode(['code'=>'0000','msg'=>"设置成功"]);
             }
 
         }
-
     #+
     public  function  getTypePrice(){
         $type=request()->type;
@@ -112,7 +138,6 @@ class CartController extends Controller
         }
 
     }
-
     //-
     public  function  getTypePrices(){
         $type=request()->type;
@@ -228,10 +253,11 @@ class CartController extends Controller
                 unset($goods[$k]['cart_id']);
                 unset($goods[$k]['user_id']);
                 unset($goods[$k]['add_time']);
-            //   unset($goods[$k]['specs_id']);
+              unset($goods[$k]['saller_id']);
                 unset($goods[$k]['goods_img']);
             //   dd($goods);
             }
+            // dd($goods);
             $order_goods = OrderGoodsModel::insert($goods);
             //订单商品入库
             $order_goods = $data['order_id'] = $order_id;
@@ -283,23 +309,33 @@ class CartController extends Controller
     }//砍价模板
 
     //API post curl
-    public function postcurl($url,$postfield=[],$header=[]){
 //初始化
+    /**
+     *
+     * API post curl
+     */
+    public function postcurl($url,$postfield=[],$headerArray=[]){
+        if(is_array($postfield)){
+            $postfield  = json_encode($postfield);
+        }
+        $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $ch = curl_init();
-//设置
         curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-//执行
         $result = curl_exec($ch);
-    
-        $result = json_decode($result,true);
+//    echo $result;exit;
+        // $result = ;
+        // dd($result);
 //关闭
         curl_close($ch);
-        return $result;
+//        if(is_null(json_decode($result,true))){
+//            return $result;
+//        }
+//        return json_decode($result,true);
     }
 }

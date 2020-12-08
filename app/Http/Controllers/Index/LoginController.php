@@ -35,7 +35,6 @@ class LoginController extends Controller
 //             dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-//              dd($res);
             // dd($res);
             if($res['code']=='0000'){
                 Redis::Hset('token',$res['token'],$res['user_id']);
@@ -131,7 +130,7 @@ class LoginController extends Controller
         $output = json_decode($output,true);//将json串转换为数组
         return $output;
     }
-    //API post curl
+//     //API post curl
     public function postcurl($url,$data=[]){
 // $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $headerArray=[];
@@ -147,6 +146,27 @@ class LoginController extends Controller
         curl_close($curl);
         return json_decode($output,true);
     }
+    //API post curl
+    // public function postcurl($url,$postfield=[],$headerArray=[]){
+    //     if(is_array($postfield)){
+    //         $postfield  = json_encode($postfield);
+    //     }
+    //     $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
+    //     $ch = curl_init();
+    //     curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
+    //     curl_setopt($ch,CURLOPT_POST,true);
+    //     curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
+    //     curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    //     curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
+    //     curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+    //     curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+    //     $result = curl_exec($ch);
+    //     curl_close($ch);
+    //     if(is_null(json_decode($result,true))){
+    //         return $result;
+    //     }
+    //     return json_decode($result,true);
+    // }
     //发送短信验证码
     public function sendcode(){  
         $callback=request()->callback; 

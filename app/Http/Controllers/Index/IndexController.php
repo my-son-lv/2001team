@@ -16,9 +16,16 @@ class IndexController extends Controller
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
+//        dd($cate);
         $Butti = Butti::get();
-        $goods=GoodsModel::where('is_hot',1)->orderBy('goods_id','desc')->limit(4)->get();
+        $goods=GoodsModel::where(['is_hot'=>'1','is_del'=>'1','is_shelf'=>'1','goods_status'=>'1'])->orderBy('goods_id','desc')->limit(4)->get();
         $brand = Brand_Model::limit(10)->get();
+        // ob_start();
+        // echo view('index.index',compact('cate','goods','brand','Butti'));
+        // $contents = ob_get_contents();
+        // $filename = 'index.html';
+        // file_put_contents($filename,$contents);
+        // ob_clean();
         return view("index.index",["cate"=>$cate,'goods'=>$goods,"brand"=>$brand,"Butti"=>$Butti]);
     }//首页
 
@@ -98,10 +105,11 @@ class IndexController extends Controller
     //详情
     public function index_show(){
        $url = env('API_URL')."api/home";
+       //猜你喜欢
        $home = $this->postcurl($url);
-        $goods_id=request()->goods_id;
+       $goods_id=request()->goods_id;
+        $his=Redis::zincrby('hits',1,'hits_'.$goods_id);
 //        dd($goods_id);
-
 //        $toekn = $_COOKIE["token"];
 //        $Foot_Model = new FootModel();
 //        $Foot_Model->user_id = Redis::hget("token",$toekn);
@@ -109,25 +117,30 @@ class IndexController extends Controller
 //        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        // dd($cateinfo);
-        return view("index.index_show",["cate"=>$data,'home'=>$home]);
+//         dd($data);
+        return view("index.index_show",["cate"=>$data,'home'=>$home,'his'=>$his]);
     }
-    //API post curl
-    public function postcurl($url,$postfield=[],$header=[])
-    {
+//API post curl
+    public function postcurl($url,$postfield=[],$headerArray=[]){
+        if(is_array($postfield)){
+            $postfield  = json_encode($postfield);
+        }
+        $headerArray =["Content-type:application/json;charset='utf-8'","Accept:application/json"];
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);//获取url路径
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfield);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch,CURLOPT_URL,$url);//获取url路径
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$postfield);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
-//        echo $result;
+//        echo $result;exit;
         curl_close($ch);
-        return json_decode($result, true);
-
+        if(is_null(json_decode($result,true))){
+            return $result;
+        }
+        return json_decode($result,true);
     }
     public function user_colle(){
         if(isset($_COOKIE["token"])){

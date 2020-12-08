@@ -15,9 +15,9 @@
                             
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							        公司名称：<input  >
-									店铺名称： <input  >									
-									<button class="btn btn-default" >查询</button>                                    
+							        公司名称：<input type="text" name="comp_name" value="{{$comp_name}}" >
+									店铺名称： <input type="text" name="saller_name" value="{{$saller_id}}" >
+									<button class="btn btn-default where" >查询</button>
                                 </div>
                             </div>
                             <!--工具栏/-->
@@ -69,3 +69,17 @@
 				</div>
 </div>
 @include("frag.admin.admin_foot")
+<script>
+	$(document).on('click','.where',function(){
+		var comp_name = $("input[name='comp_name']").val();
+		var saller_name = $("input[name='saller_name']").val();
+		var str = "";
+		if(comp_name!==""){
+			str+='comp_name='+comp_name+'&';
+		}
+		if(saller_name!==""){
+			str+='saller_name='+saller_name+'&';
+		}
+		window.location.href="{{url('/admin/saller_exam?')}}"+str;
+	});
+</script>

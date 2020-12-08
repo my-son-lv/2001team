@@ -12,29 +12,28 @@
                         <div class="table-box">
 
                             <!--工具栏-->
-                            {{--<div class="pull-left">--}}
-                                {{--<div class="form-group form-inline">--}}
-                                    {{--<div class="btn-group">--}}
+                            <div class="pull-left">
+                                <div class="form-group form-inline">
+                                    <div class="btn-group">
                                         {{--<button type="button" class="btn btn-default create" title="新建" ><i class="fa fa-file-o"></i> 新建</button>--}}
                                         {{--<button type="button" class="btn btn-default del" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>--}}
                                         {{--<button type="button" class="btn btn-default" title="提交审核" ><i class="fa fa-check"></i> 提交审核</button>--}}
                                         {{--<button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>--}}
-                                        {{--<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="box-tools pull-right">--}}
-                                {{--<div class="has-feedback">--}}
-                                  {{--状态：<select>--}}
-                                         	{{--<option value="">全部</option>--}}
-                                         	{{--<option value="0">未申请</option>--}}
-                                         	{{--<option value="1">审核通过</option>--}}
-                                         	{{--<option value="2">已驳回</option>--}}
-                                        {{--</select>--}}
-							                  {{--商品名称：<input >--}}
-									{{--<button class="btn btn-default" >查询</button>                                    --}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-tools pull-right">
+                                <div class="has-feedback">
+                                  状态：<select id="shipping_status">
+                                         	<option value="0" @if($shipping_status==0) selected @endif>未发货</option>
+                                         	<option value="1" @if($shipping_status==1) selected @endif>已发货</option>
+                                         	<option value="2" @if($shipping_status==2) selected @endif>已收货</option>
+                                         	<option value="4" @if($shipping_status==4) selected @endif>退货</option>
+                                        </select>
+									<button class="btn btn-default where" >查询</button>
+                                </div>
+                            </div>
                             <!--工具栏/-->
 
 			                  <!--数据列表-->
@@ -121,6 +120,14 @@
 					}
 				}
 			})
+		});
+		$(document).on('click','.where',function(){
+			var shipping_status = $('#shipping_status').val();
+			var str = "";
+			if(shipping_status){
+				str+='shipping_status='+shipping_status;
+			}
+			window.location.href="{{url('/admin/saller/order?')}}"+str;
 		});
 	});
 </script>

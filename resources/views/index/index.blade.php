@@ -74,7 +74,7 @@
             </div>
             <div class="yui3-u Right">
                 <div class="news">
-                    <h4><em class="fl">优惠卷</em><span class="fr tip"><a href="">更多</a> ></span></h4>
+                    <h4><em class="fl">快报</em><span class="fr tip"><a href="">更多</a> ></span></h4>
                     <div class="clearix"></div>
                     <ul class="news-list unstyled">
                         @foreach($Butti as $v)
@@ -83,8 +83,49 @@
                         </li>
                             @endforeach
                     </ul>
+                    <ul class="yui3-g Lifeservice">
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-1"></i>
+                            <span class="service-intro">话费</span>
+                        </li>
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-2"></i>
+                            <span class="service-intro">机票</span>
+                        </li>
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-3"></i>
+                            <span class="service-intro">电影票</span>
+                        </li>
+                        <li class="yui3-u-1-4 life-item tab-item">
+                            <i class="list-item list-item-4"></i>
+                            <span class="service-intro">游戏</span>
+                        </li>
+                    </ul>
+                
                 </div>
-
+                <div class="life-item-content">
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>话费充值</p>
+                        <button class="sui-btn btn-danger invest">去·充值</button>
+                    </div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>机票预定</p>
+                        <button class="sui-btn btn-danger plane">去·预定</button>
+                    </div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>各式大片等你来看</p>
+                        <button class="sui-btn btn-danger film">去·观看</button>
+                    </div>
+                    <div class="life-detail">
+                        <i class="close">关闭</i>
+                        <p>在线小游戏等你来战</p>
+                        <button class="sui-btn btn-danger game">去·娱乐</button>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -361,8 +402,8 @@
     <div class="py-container">
         <ul class="Brand-list blockgary">
             @foreach($brand as $v)
-            <li class="Brand-item" title="{{$v->brand_name}}"><img src="{{env('JUSTME_URL')}}{{$v->brand_img}}"/></li>
-                @endforeach
+            <li class="Brand-item" title="{{$v->brand_name}}"><img src="{{env('JUSTME_URL')}}{{$v->brand_logo}}"/></li>
+            @endforeach
         </ul>
     </div>
 </div>

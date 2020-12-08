@@ -37,6 +37,9 @@ class GoodsController extends Controller
      */
     public function store(){
         $data = request()->all();
+        if($data['content']==""||$data['goods_name']==""||$data['goods_price']==""||$data['goods_number']==""||$data['goods_points']==""||$data['goods_img']==""||$data['goods_imgs']==""||$data['img_name']==""||$data['brand_id']==""){
+            return json_encode(['success'=>false,'msg'=>'参数不齐','data'=>[]],true);
+        }
         $sku = $data['sku'];
         $goods_model = new GoodsModel();
         $goods_imgs = $data['goods_imgs'];
@@ -121,14 +124,23 @@ class GoodsController extends Controller
      * 后台商品的展示
      */
     public function goods(){
+        $goods_status = request()->goods_status;
+        $goods_name = request()->goods_name;
+        $where = [];
+        if($goods_status){
+            $where[] = ['goods_status','=',$goods_status];
+        }
+        if($goods_name){
+            $where[] = ['goods_name','like',"%$goods_name%"];
+        }
         $goods_model = new GoodsModel();
         $goods_imgs_model = new GoodsImgsModel();
         $saller_id = 0;
-        $goods_info = $goods_model->goods_infos($saller_id);
+        $goods_info = $goods_model->goods_infos($saller_id,$where);
         foreach($goods_info as $k=>$v){
             $goods_info[$k]['goods_imgs'] = $goods_imgs_model->goods_imgs_get($v->goods_id);
         }
-        return view('admin.goods.index',['goods_info'=>$goods_info]);
+        return view('admin.goods.index',['goods_info'=>$goods_info,'goods_status'=>$goods_status,'goods_name'=>$goods_name]);
     }
     /**
      * 后台商品的批量删除

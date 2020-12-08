@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>产品详情页</title>
-    <link rel="icon" href="assets//status/img/favicon.ico">
+    <link rel="icon" href="assets/status/img/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="/status/css/pages-item.css" />
@@ -42,7 +42,7 @@
                     <!--默认第一个预览-->
                     <div id="preview" class="spec-preview">
                         <span class="jqzoom">
-                                <img src="{{env('JUSTME_URL')}}{{$cate['goods']["goods_img"]}}" width="405px" height="395px"/>
+                                <img src="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}" width="405px" height="395px"/>
                         </span>
                     </div>
                     <!--下方的缩略图-->
@@ -54,7 +54,7 @@
                                 @if($cate['goodsimg'])
                                 @foreach($cate['goodsimg'] as $v)
                                 <li>
-                                    <img src="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$cate['goodsimg'][0]['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
+                                    <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
                                 </li>
                                 @endforeach
                                     @endif
@@ -62,7 +62,7 @@
                         </div>
                         <a class="next">&gt;</a>
                     </div>
-                </div>
+                </div>   
             </div>
             <div class="fr itemInfo-wrap">
                 <div class="sku-name">
@@ -80,12 +80,12 @@
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
-                            <i>累计评价</i><em>612188</em>
+                            <i>访问量</i><em>{{$his}}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">
                         <div class="fl title">
-                            <i>促　　销</i>
+                            <i>优惠券</i>
                         </div>
                         <div class="fl fix-width">
                             <i class="red-bg">加价购</i>
@@ -97,10 +97,10 @@
                 <div class="support">
                     <div class="summary-wrap">
                         <div class="fl title">
-                            <i>支　　持</i>
+                            <i>商家名称</i>
                         </div>
                         <div class="fl fix-width">
-                            <em class="t-gray">以旧换新，闲置手机回收  4G套餐超值抢  礼品购</em>
+                            <em class="t-gray saller" saller_id="{{$cate['goods']['saller_id']}}">{{$cate['goods']['saller_name']}}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">
@@ -114,6 +114,7 @@
                 </div>
                 <div class="clearfix choose">
                     <div id="specification" class="summary-wrap clearfix">
+                        @if($cate["newdata"])
                         @foreach($cate["newdata"] as $k=>$v)
                         <dl>
                             <dt>
@@ -129,6 +130,7 @@
                             @endforeach
                         </dl>
                         @endforeach
+                        @endif
                     </div>
                         <div class="fl title">
                             <div class="control-group">
@@ -185,7 +187,7 @@
                                         </strong>
                                     </div>
                                     <div class="operate">
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
+                                        <a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}" class="sui-btn btn-bordered">查看详情</a>
                                     </div>
                                 </div>
                             </li>
@@ -505,9 +507,6 @@ $(document).on('blur','.itxt',function(){
                 }
             })
         })
-
-
-
     })
 </script>
 <script type="text/javascript" src="/status/js/model/cartModel.js"></script>

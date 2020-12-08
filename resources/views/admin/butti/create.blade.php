@@ -34,6 +34,10 @@
             </div>
             <!--工具栏/-->
             <!--数据列表-->
+            <form>
+                <td><input type="text" name="butti_name" value="{{$butti->butti_name??''}}"></td>
+                <td><input type="submit" value="搜索"></td>
+            </form>
             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                 <thead>
                 <tr>
@@ -66,6 +70,7 @@
                     @endforeach
                 </tbody>
             </table>
+            <td>{{$butti->links()}}</td>
             <!--数据列表/-->
         </div>
         <!-- 数据表格 /-->

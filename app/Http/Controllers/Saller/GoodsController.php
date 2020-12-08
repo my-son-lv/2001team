@@ -45,6 +45,9 @@ class GoodsController extends Controller
      */
     public function store(){
         $data = request()->all();
+        if($data['content']==""||$data['goods_name']==""||$data['goods_price']==""||$data['goods_number']==""||$data['goods_points']==""||$data['goods_img']==""||$data['goods_imgs']==""||$data['img_name']==""||$data['brand_id']==""){
+            return json_encode(['success'=>false,'msg'=>'参数不齐','data'=>[]],true);
+        }
         $data['saller_id']=session('saller_info')->saller_id;
         $sku = $data['sku'];
         $goods_model = new GoodsModel();
@@ -129,20 +132,23 @@ class GoodsController extends Controller
      * 商家 商品展示
      */
     public function goods(){
-        $saller_id = session('saller_info')->saller_id;
-        $saller_model = new SallerModel();
-        $saller_status = $saller_model->saller_status_true($saller_id);
-        if($saller_status!==1){
-            return redirect('/saller');
+        $goods_status = request()->goods_status;
+        $goods_name = request()->goods_name;
+        $where = [];
+        if($goods_status){
+            $where[] = ['goods_status','=',$goods_status];
+        }
+        if($goods_name){
+            $where[] = ['goods_name','like',"%$goods_name%"];
         }
         $goods_model = new GoodsModel();
-        $saller_id = session('saller_info')->saller_id;
         $goods_imgs_model = new GoodsImgsModel();
-        $goods_info = $goods_model->goods_infos($saller_id);
+        $saller_id = session('saller_info')->saller_id;
+        $goods_info = $goods_model->goods_infos($saller_id,$where);
         foreach($goods_info as $k=>$v){
             $goods_info[$k]['goods_imgs'] = $goods_imgs_model->goods_imgs_get($v->goods_id);
         }
-        return view('admin.saller.goods.index',['goods_info'=>$goods_info]);
+        return view('admin.saller.goods.index',['goods_info'=>$goods_info,'goods_status'=>$goods_status,'goods_name'=>$goods_name]);
     }
     /**
      * 商家修改展示
