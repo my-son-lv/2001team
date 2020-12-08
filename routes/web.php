@@ -24,6 +24,8 @@ Route::domain('www.2001.com')->group(function(){ //域名分组
     Route::any('/kaoshi_do','KaoShi\KaoShiController@kaoshi_do');
     Route::any('/aaaa','KaoShi\KaoShiController@aaaa');
 
+
+
 Route::any('/admin','Admin\AdminController@home')->middleware("login");
 Route::any('/admin_login','Admin\AdminController@admin_login');
 Route::any('/admin_login_do','Admin\AdminController@admin_login_do');

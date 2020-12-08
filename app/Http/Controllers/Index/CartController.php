@@ -328,14 +328,7 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
-//    echo $result;exit;
-        // $result = ;
-        // dd($result);
-//关闭
         curl_close($ch);
-//        if(is_null(json_decode($result,true))){
-//            return $result;
-//        }
-//        return json_decode($result,true);
+        return json_decode($result,true);
     }
 }
