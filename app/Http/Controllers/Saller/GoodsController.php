@@ -381,4 +381,20 @@ class GoodsController extends Controller
         }
         return $string;
     }
+    /**
+     * 商品修改是否上下架
+     */
+    public function is_shelf(){
+        $goods_id = request()->goods_id;
+        $is_shelf = request()->is_shelf;
+        if($is_shelf==1){
+            $res=2;
+        }else{
+            $res=1;
+        }
+        $str = GoodsModel::where('goods_id',$goods_id)->update(['is_shelf'=>$res]);
+        if($str!==false){
+            return json_encode(['success'=>true,'msg'=>'修改成功','data'=>['is_shelf'=>$res]],true);
+        }
+    }
 }

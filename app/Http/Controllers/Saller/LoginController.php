@@ -23,10 +23,10 @@ class LoginController extends Controller
     public function logindo(){
         $username = request()->username;
         $password = request()->password;
-        if($username!==""){
+        if($username===""){
             return json_encode(['code'=>'0001','msg'=>'账号不能为空','data'=>[]]);
         }
-        if($password!==""){
+        if($password===""){
             return json_encode(['code'=>'0001','msg'=>'密码不能为空','data'=>[]]);
         }
         $saller_model = new SallerModel();
@@ -36,13 +36,12 @@ class LoginController extends Controller
         $saller_info = $saller_model->saller_name($where);
         if($saller_info){
             if(!Hash::check($password,$saller_info['password'])){
-
                 return json_encode(['code'=>'0001','msg'=>'商家密码不正确','data'=>[]]);
             }
             session(['saller_info'=>$saller_info]);
             return json_encode(['code'=>'0000','msg'=>'登录成功','data'=>[]]);
         }else{
-            return json_encode(['code'=>'0001','msg'=>'商家账号不能为空','data'=>[]]);
+            return json_encode(['code'=>'0001','msg'=>'错误','data'=>[]]);
         }
     }
     /*

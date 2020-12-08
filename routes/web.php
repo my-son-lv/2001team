@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001team.com')->group(function(){ //域名分组
+Route::domain('2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -182,7 +182,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/getorder','Index\CartController@getorder')->middleware('IndexLogin');//三级联动
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
     Route::any('/index/getorder','Index\CartController@getorder');//收货地址
-
     /**
      * 商家模块
      */
@@ -204,6 +203,7 @@ Route::prefix("admin")->group(function(){
         Route::any('/goods/store', 'Saller\GoodsController@store');//商家模块 商品添加方法
         Route::any('/goods/update', 'Saller\GoodsController@update');//商家模块 修改
         Route::any('/goods/del', 'Saller\GoodsController@del');//商家模块 批量删除
+        Route::any('/goods/is_shelf', 'Saller\GoodsController@is_shelf');//商家模块 批量删除
         Route::any('/order', 'Saller\OrderController@order');//商家模块 订单管理
         Route::any('/shipment', 'Saller\OrderController@shipment');//商家模块 确认发货
         Route::any('/order/content', 'Saller\OrderController@content');//商家模块 订单详情

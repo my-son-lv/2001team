@@ -18,14 +18,18 @@ class CartController extends Controller
     //获取用户id
     public function uid(){
         if(!isset($_COOKIE['token'])){
-            // return json_encode(['code'=>'0003','msg'=>"请登录"]);
-            return  redirect('/login')->withErrors(['请登录']);
+             return json_encode(['code'=>'0003','msg'=>"请登录"]);
+//            return  redirect('/login')->withErrors(['请登录']);
+        }else{
+            $uid=Redis::Hget('token',$_COOKIE['token']);
+            return $uid;
         }
-        $uid=Redis::Hget('token',$_COOKIE['token']);
-        return $uid;
     }
     public function  addcart(){
         $uid=$this->uid();
+        if(strpos($uid,'{')!==false){
+            return json_encode(['code'=>'0003','msg'=>"请登录"]);
+        }
         $goods_id = request()->goods_id;
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
