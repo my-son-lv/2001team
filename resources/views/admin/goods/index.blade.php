@@ -47,8 +47,6 @@
 									      <th class="sorting">商品价格</th>
 									      <th class="sorting">商品库存</th>
 									      <th class="sorting">是否上下架</th>
-									      <th class="sorting">商品图片</th>
-									      <th class="sorting">商品相册</th>
 									      <th class="sorting">状态</th>									     						
 					                      <th class="text-center">操作</th>
 			                          </tr>
@@ -61,18 +59,11 @@
 									      <td>{{$v->goods_name}}</td>
 									      <td>{{$v->goods_price}}</td>
 									      <td>{{$v->goods_number}}</td>
-									      <td>@if($v->is_shelf==1) 是 @else 否 @endif</td>
-									      <td><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}" width="120px" height="80px"></td>
-									      <td>
-											  @foreach($v->goods_imgs as $vv)
-												  <img src="{{env('JUSTME_URL')}}{{$vv->goods_imgs}}" alt="" title="{{$vv->goods_title}}" width="120px" height="80px">
-											  @endforeach
-										  </td>
+									      <td>@if($v->is_shelf==1) √ @else × @endif</td>{{-- 是否上下架--}}
 		                                  <td>
 		                                  	<span>
 												@if($v->goods_status==0) 未审核 @elseif($v->goods_status==1) 已通过 @elseif($v->goods_status==2) 驳回 @endif
 		                                  	</span>
-
 		                                  </td>		                                  
 		                                  <td class="text-center">                                          
 		                                 	  <button type="button" class="btn bg-olive btn-xs"><a href="{{url('/admin/goods/update?goods_id='.$v->goods_id)}}">修改</a></button>

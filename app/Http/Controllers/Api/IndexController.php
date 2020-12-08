@@ -20,13 +20,14 @@ class IndexController extends Controller
     public function index_show(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        // dd($cate);
+//         dd($cate);
         $goods_id=request()->goods_id;
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
 //        dd($goodsimg);
             $saller_model = new SallerInfoModel();
 //        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
+//        dd($goods);
         if($goods['saller_id']==0){
             $goods['saller_name'] = '品优购自营';
         }else{
@@ -45,7 +46,6 @@ class IndexController extends Controller
         $data = [];
         if($specs_info){
             $specs_info = $specs_info->toArray();
-
             foreach($specs_info as $k=>$v){
                 $res = explode(':',$v['specs']);
                 if($res){
@@ -71,11 +71,10 @@ class IndexController extends Controller
             foreach($data as $k=>$v){
             $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
             $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
-
-
             }
         }
         $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
+//        dd($cate);
         return $cate;
     }
 //加入购物车
@@ -83,8 +82,10 @@ class IndexController extends Controller
     {
         // $uid=1;
         $goods_id = request()->goods_id;
+//        dd($goods_id);
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
+//        $uid=1;
         $uid = request()->uid;
         if (!$goods_id || !$goods_number) {
             return json_encode(['code' => '0001', 'msg' => "缺少参数"]);
@@ -162,6 +163,7 @@ class IndexController extends Controller
 
     //购物车列表
     public  function  cart(){
+//        $uid=1;
         $uid=request()->user_id;
         // print_r($uid);
         $cart=CartModel::select('cart.*','goods.goods_img')
@@ -196,6 +198,7 @@ class IndexController extends Controller
     #结算
     public  function  settl(){
         $uid=request()->user_id;
+//        $uid=1;
         $cart_id=request()->cart_id;
         $cart_id = explode(',',$cart_id);
         $address=AddressModel::where('user_id',$uid)->get();
@@ -226,18 +229,18 @@ class IndexController extends Controller
             $total+=$v['buy_number']*$v['goods_price'];
         }
         return json_encode(['code'=>'0001','msg'=>"成功",'data'=>['address'=>$address,'cartinfo'=>$cartinfo,'total'=>$total]]);
-
     }
     //地址
     public  function  getorder(){
         $data=request()->all();
+        $uid=1;
         $data['is_moren']=1;
         $uid = $data['user_id'];
 //        dd($data);
         if($data['is_moren']==1){
             $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         }
-        $uid=$data['user_id'];
+//        $uid=$data['user_id'];
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
         if($address){
@@ -249,6 +252,18 @@ class IndexController extends Controller
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
         $kill = KillModel::leftjoin("goods","kill.goods_id","=","goods.goods_id")->get();
         $data = ["cate"=>$cate,"kill"=>$kill];
+        return $data;
+    }
+
+    public function cut(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function cut_show(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
         return $data;
     }
 

@@ -121,7 +121,7 @@
                                             <label class="control-label">邮箱：</label>
                                             <div class="controls">
                                                 <input type="text" class="input-medium  email " name="email">
-                                            </div>-
+                                            </div>
                                         </div>
                                     </form>
                                 </div>

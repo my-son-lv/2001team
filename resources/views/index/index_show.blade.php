@@ -57,7 +57,7 @@
                                     <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
                                 </li>
                                 @endforeach
-                                    @endif
+                                @endif
                             </ul>
                         </div>
                         <a class="next">&gt;</a>
@@ -80,7 +80,7 @@
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
-                            <i>访问量</i><em>612188</em>
+                            <i>访问量</i><em>{{$his}}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">

@@ -13,7 +13,7 @@ use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
 class GoodsController extends Controller
 {
-    /**
+       /**
      * 后台商品添加
      */
     public function create(){
@@ -137,9 +137,7 @@ class GoodsController extends Controller
         $goods_imgs_model = new GoodsImgsModel();
         $saller_id = 0;
         $goods_info = $goods_model->goods_infos($saller_id,$where);
-        foreach($goods_info as $k=>$v){
-            $goods_info[$k]['goods_imgs'] = $goods_imgs_model->goods_imgs_get($v->goods_id);
-        }
+//        dd($goods_info);
         return view('admin.goods.index',['goods_info'=>$goods_info,'goods_status'=>$goods_status,'goods_name'=>$goods_name]);
     }
     /**

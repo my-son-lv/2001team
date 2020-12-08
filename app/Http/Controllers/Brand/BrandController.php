@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Brand;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand_Model;
+use App\Models\GoodsModel;
 class BrandController extends Controller
 {
     public  function  brand(){
+        $brand_name=request()->brand_name;
+//        dd($brand_name);
         $brand_info= Brand_Model::get();
+        dd($brand_info);
         return view("admin.brand.admin_brand",['brand_info'=>$brand_info]);
     }
 
@@ -41,20 +45,37 @@ class BrandController extends Controller
 
     public  function  del(){
         $brand_id=request()->brand_id;
-       $info= Brand_Model::where("brand_id",$brand_id)->delete();
-        if($info){
-            $arr=[
-                'code'=>"0000",
-                'msg'=>"删除成功",
-                'url'=>"/admin/brand"
-            ];
+        $brand=GoodsModel::where('brand_id',$brand_id)->first();
+        if($brand){
+            return json_encode(['code'=>'0001','msg'=>"此品牌下有商品 不能删除！！！",'url'=>'/admin/brand']);
         }else{
-            $arr=[
-                'code'=>"0001",
-                'msg'=>"删除失败",
-            ];
+            $info= Brand_Model::where("brand_id",$brand_id)->delete();
+            if($info){
+                $arr=[
+                    'code'=>"0000",
+                    'msg'=>"删除成功",
+                    'url'=>"/admin/brand"
+                ];
+            }else{
+                $arr=[
+                    'code'=>"0001",
+                    'msg'=>"删除失败",
+                ];
+            }
+            return json_encode($arr);
         }
-        return json_encode($arr);
+    }
+
+    //批删
+    public  function  dels(){
+        $brand_id=request()->brand_id;
+       $brand= Brand_Model::whereIn('brand_id',$brand_id)->delete();
+        if($brand){
+            return json_encode(['code'=>'0000','msg'=>"删除成功",'url'=>'/admin/brand']);
+        }else{
+            return json_encode(['code'=>'0001','msg'=>"删除失败",'url'=>'/admin/brand']);
+
+        }
     }
 
 

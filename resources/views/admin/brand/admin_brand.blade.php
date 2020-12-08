@@ -24,7 +24,7 @@
                     <div class="form-group form-inline">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i>新建</button>
-                            <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+                            <button type="button" class="btn btn-default dels" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
                             <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                         </div>
                     </div>
@@ -34,6 +34,10 @@
                 </div>
                 <!--工具栏/-->
                 <!--数据列表-->
+                <form>
+                    <td><input type="text" name="brand_name" value="{{$brand_info->brand_name??''}}"></td>
+                    <td><input type="submit" value="搜索"></td>
+                </form>
                 <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                     <thead>
                     <tr>
@@ -51,7 +55,7 @@
                     <tbody>
                     @foreach($brand_info as $v)
                     <tr brand_id="{{$v->brand_id}}">
-                        <td><input  type="checkbox" ></td>
+                        <td><input  type="checkbox"  name="brandel" value="{{$v->brand_id}}"></td>
                         <td>{{$v->brand_id}}</td>
                         <td>{{$v->brand_name}}</td>
                         <td>{{$v->brand_first_letter}}</td>
@@ -149,6 +153,31 @@
             dataType:"json",
             success:function(res){
                 if(res.code=="0000"){
+                    alert(res.msg);
+                    window.location.href=res.url;
+                }else if(res.code=='0001'){
+                    alert(res.msg);
+                    window.location.href=res.url;
+                }else{
+                    alert(res.msg);
+                }
+            }
+        })
+    })
+
+    //批删
+    $(document).on("click",".dels",function(){
+        var brand_id=new Array();
+        $('input[name="brandel"]:checked').each(function(i,k){
+            brand_id.push($(this).val());
+        });
+        $.ajax({
+            url:"/admin/brand/dels",
+            data:{brand_id:brand_id},
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.code=='0000'){
                     alert(res.msg);
                     window.location.href=res.url;
                 }else{
