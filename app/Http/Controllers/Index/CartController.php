@@ -8,6 +8,7 @@ use App\Models\GoodsModel;
 use App\Models\OrderGoodsModel;
 use App\Models\OrderModel;
 use App\Models\SpecsModel;
+use App\Models\BargModel;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Redis;
@@ -23,6 +24,7 @@ class CartController extends Controller
         $uid=Redis::Hget('token',$_COOKIE['token']);
         return $uid;
     }
+
     public function  addcart(){
         $uid=$this->uid();
         $goods_id = request()->goods_id;
@@ -72,7 +74,7 @@ class CartController extends Controller
     }
 
         //默认地址
-        public function is_moren(){
+    public function is_moren(){
             $uid=1;
             $address_id=request()->address_id;
             $res=AddressModel::where(['user_id'=>$uid,'address_id'=>$address_id,'is_del'=>1])->update(['is_moren'=>1]);
@@ -81,15 +83,6 @@ class CartController extends Controller
             }
 
         }
-
-
-
-
-    //修改收货地址
-    // public function updorder(){
-    //     $address_id=request()->address_id;
-    //     dd($address_id);
-    // }
 
     #+
     public  function  getTypePrice(){
@@ -119,7 +112,6 @@ class CartController extends Controller
         }
 
     }
-
 
     //-
     public  function  getTypePrices(){
@@ -168,6 +160,7 @@ class CartController extends Controller
             return json_encode(['code'=>'0000',"msg"=>"删除成功"]);
         }
     }
+
     //复选框
     public  function  manydel(){
         $cart_id = request()->cart_id;
@@ -192,7 +185,6 @@ class CartController extends Controller
             }
         }
     }
-
 
     //订单页面
     public function order(){
@@ -269,12 +261,26 @@ class CartController extends Controller
         }
         return $order_sn;
     }
+
     //订单号出现的次数
     public  function  isHaveOrdersn($order_sn){
 
         return  OrderModel::where('order_sn',$order_sn)->count();
     }
 
+    public function brag(){
+        $url = "http://www.2001api.com/api/cut";
+        $cate = $this->postcurl($url);
+        $data = BargModel::leftjoin("goods","barg.goods_id","=","goods.goods_id")->get();
+        return view("index.barg",["data"=>$data,"cate"=>$cate]);
+    }//砍价模板
+
+    public function brag_show(){
+        $url = "http://www.2001api.com/api/cut_show";
+        $cate = $this->postcurl($url);
+        $data = BargModel::leftjoin("goods","barg.goods_id","=","goods.goods_id")->get();
+        return view("index.barg",["data"=>$data,"cate"=>$cate]);
+    }//砍价模板
 
     //API post curl
     public function postcurl($url,$postfield=[],$header=[]){

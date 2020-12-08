@@ -34,5 +34,7 @@ Route::domain('www.2001api.com')->group(function(){
     Route::post('/index/settl','Api\IndexController@settl');//结算 收货地址
     Route::post('/index/getorder','Api\IndexController@getorder');//结算 收货地址
     Route::any('/searchnav','Api\IndexController@searchnav');//头部搜索
+    Route::any('/cut','Api\IndexController@cut');
+    Route::any('/cut_show','Api\IndexController@cut_show');
 });
 

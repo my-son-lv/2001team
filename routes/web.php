@@ -20,6 +20,9 @@ Route::domain('www.2001.com')->group(function(){ //域名分组
     /**
         后台首页
     */
+    Route::any('/kaoshi','KaoShi\KaoShiController@kaoshi');
+    Route::any('/kaoshi_do','KaoShi\KaoShiController@kaoshi_do');
+    Route::any('/aaaa','KaoShi\KaoShiController@aaaa');
 
 Route::any('/admin','Admin\AdminController@home')->middleware("login");
 Route::any('/admin_login','Admin\AdminController@admin_login');
@@ -66,6 +69,10 @@ Route::prefix('/admin')->group(function(){
     Route::any('brand/update_do', 'Brand\BrandController@update_do')->middleware("login");
 
     Route::any('position','Advert\AdvertController@position')->middleware("login");
+    Route::any('position_do','Advert\AdvertController@position_do')->middleware("login");
+    Route::any('position_advert/{position_id}','Advert\AdvertController@position_advert')->middleware("login");
+    Route::any('position_advert_do','Advert\AdvertController@position_advert_do')->middleware("login");
+
     Route::any('advert','Advert\AdvertController@advert')->middleware("login");//后台广告添加
     Route::any('advert_do','Advert\AdvertController@advert_do')->middleware("login");//后台广告添加执行
     Route::any('advert_del','Advert\AdvertController@advert_del')->middleware("login");//后台广告删除执行
@@ -163,6 +170,10 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
 
     Route::any('/index/cart','Index\CartController@cart');//购物车
+    Route::any('/index/brag','Index\CartController@brag');//砍价
+    Route::any('/user_brag_do','Index\BargController@user_brag_do');//砍价
+    Route::any('/index/brag_show','Index\BargController@brag_show');//砍价详情
+    Route::any('/index/brag_do','Index\BargController@brag_do');//砍价按钮
     Route::any('/index/order','Index\CartController@order');//订单
     Route::any('/index/settl','Index\CartController@settl');//结算页
     Route::any('/index/orderdel','Index\CartController@orderdel');//收货地址删除
