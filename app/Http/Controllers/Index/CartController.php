@@ -8,6 +8,7 @@ use App\Models\GoodsModel;
 use App\Models\OrderGoodsModel;
 use App\Models\OrderModel;
 use App\Models\SpecsModel;
+use App\Models\Area;
 use App\Models\SallerInfoModel;
 use Illuminate\Http\Request;
 use DB;
@@ -29,6 +30,7 @@ class CartController extends Controller
        
     }
     public function  addcart(){
+//        $uid=1;
         $uid=$this->uid();
 //        dd($uid);
         if(strpos($uid,'{')!==false){
@@ -40,13 +42,12 @@ class CartController extends Controller
 //         dd($goods_attr_id);
         $url=env('API_URL')."api/index/addcart";
         $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id,'uid'=>$uid]);
-
         return json_encode($cart);
     }
 
     //购物车列表
     public function cart(){
-        
+//        $uid=1;
         $uid=$this->uid();
         // dd($uid);
         $url=env('API_URL')."api/index/cart";
@@ -56,6 +57,7 @@ class CartController extends Controller
         // dd($cart);
         $data = [];
         foreach($cart as $k=>$v){
+//            dd($v);
             $data[] = $v['saller_id'];
         }
         $data = array_unique($data);
@@ -74,15 +76,20 @@ class CartController extends Controller
     //结算页
     public function settl(){
         $uid=$this->uid();
+//        $uid=1;
         $cart_id=request()->cart_id;
+//        $area=Area::where('pid','0')->get();
         $url=env('API_URL')."api/index/settl";
         $cart=$this->postcurl($url,['user_id'=>$uid,'cart_id'=>$cart_id]);
+//        dd($cart);
         return view("index.cart.settl",['cart'=>$cart['data']['address'],'cartinfo'=>$cart['data']['cartinfo'],'total'=>$cart['data']['total']]);
     }
         //收货地址添加
     public  function  getorder(){
+//        $uid=1;
         $uid=$this->uid();
         $data=request()->all();
+
         $data['user_id']=$uid;
         $url=env('API_URL')."api/index/getorder";
         $cart=$this->postcurl($url,$data);
@@ -106,14 +113,14 @@ class CartController extends Controller
             if($res){
                 return json_encode(['code'=>'0000','msg'=>"设置成功"]);
             }
+    }
+    //三级联动
+//    public  function  getOrderArea(){
+//        $res=Area::where('pid',0)->get();
+//        dd($res);
+//    }
 
-        }
 
-    //修改收货地址
-    // public function updorder(){
-    //     $address_id=request()->address_id;
-    //     dd($address_id);
-    // }
 
     #+
     public  function  getTypePrice(){
@@ -125,23 +132,28 @@ class CartController extends Controller
             if($cart->specs_id){
                 $specs_number=SpecsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id'],'specs'=>$cart['specs_id']])->first();
                 if($buy_number>=$specs_number['goods_number']){
+//                    dd(123);
                     $buy_number=$specs_number['goods_number'];
+                    return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已购买最大库存量']);
                 }else{
+//                    dd(456);
+
                     $buy_number=$buy_number+1;
                 }
                 return $this->getNumberPrice($cart_id,$buy_number);
             }else{
                 $goods_number=GoodsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id']])->first();
                 if($buy_number>=$goods_number['goods_number']){
+//                    dd(789);
                     $buy_number=$goods_number['goods_number'];
+                    return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已购买最大库存量']);
                 }else{
+//                    dd(111);
                     $buy_number=$goods_number+1;
                 }
                 return $this->getNumberPrice($cart_id,$buy_number);
-
             }
         }
-
     }
     //-
     public  function  getTypePrices(){
@@ -323,6 +335,6 @@ class CartController extends Controller
 //        if(is_null(json_decode($result,true))){
 //            return $result;
 //        }
-//        return json_decode($result,true);
+        return json_decode($result,true);
     }
 }

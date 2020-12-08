@@ -71,8 +71,6 @@ class IndexController extends Controller
             foreach($data as $k=>$v){
             $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
             $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
-
-
             }
         }
         $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
@@ -84,9 +82,10 @@ class IndexController extends Controller
     {
         // $uid=1;
         $goods_id = request()->goods_id;
-        dd($goods_id);
+//        dd($goods_id);
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
+//        $uid=1;
         $uid = request()->uid;
         if (!$goods_id || !$goods_number) {
             return json_encode(['code' => '0001', 'msg' => "缺少参数"]);
@@ -164,6 +163,7 @@ class IndexController extends Controller
 
     //购物车列表
     public  function  cart(){
+//        $uid=1;
         $uid=request()->user_id;
         // print_r($uid);
         $cart=CartModel::select('cart.*','goods.goods_img')
@@ -198,6 +198,7 @@ class IndexController extends Controller
     #结算
     public  function  settl(){
         $uid=request()->user_id;
+//        $uid=1;
         $cart_id=request()->cart_id;
         $cart_id = explode(',',$cart_id);
         $address=AddressModel::where('user_id',$uid)->get();
@@ -228,17 +229,17 @@ class IndexController extends Controller
             $total+=$v['buy_number']*$v['goods_price'];
         }
         return json_encode(['code'=>'0001','msg'=>"成功",'data'=>['address'=>$address,'cartinfo'=>$cartinfo,'total'=>$total]]);
-
     }
     //地址
     public  function  getorder(){
         $data=request()->all();
+        $uid=1;
         $data['is_moren']=1;
 //        dd($data);
         if($data['is_moren']==1){
             $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         }
-        $uid=$data['user_id'];
+//        $uid=$data['user_id'];
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
         if($address){

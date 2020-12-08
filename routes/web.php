@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('2001team.com')->group(function(){ //域名分组
+Route::domain('www.2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -64,6 +64,7 @@ Route::prefix('/admin')->group(function(){
     Route::any('brand/del', 'Brand\BrandController@del')->middleware("login");
     Route::any('brand/upd', 'Brand\BrandController@upd')->middleware("login");
     Route::any('brand/update_do', 'Brand\BrandController@update_do')->middleware("login");
+    Route::any('brand/dels', 'Brand\BrandController@dels')->middleware("login");
 
     Route::any('position','Advert\AdvertController@position')->middleware("login");
     Route::any('advert','Advert\AdvertController@advert')->middleware("login");//后台广告添加
@@ -162,10 +163,11 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/cart','Index\CartController@cart');//购物车
     Route::any('/index/order','Index\CartController@order');//订单
     Route::any('/index/settl','Index\CartController@settl');//结算页
-
+    Route::any('/index/getorder','Index\CartController@getorder');//收货地址添加
     Route::any('/index/orderdel','Index\CartController@orderdel');//收货地址删除
     Route::any('/index/updorder','Index\CartController@updorder');//收货地址修改
     Route::any('/index/is_moren','Index\CartController@is_moren');//默认收货地址
+    Route::any('/index/getOrderArea','Index\CartController@getOrderArea');//三级联动
     Route::any('/index/pay','Index\PayController@pay');//支付
     Route::get('/pay/return_url','Index\PayController@return_url');//支付
     Route::any('/index/home','Index\HomeController@home')->middleware('IndexLogin');//个人中心
@@ -176,7 +178,6 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/home_person','Index\HomeController@home_person')->middleware('IndexLogin');//我的收藏
     Route::any('/index/home_foot','Index\HomeController@home_foot')->middleware('IndexLogin');//我的足迹
     Route::any('/index/home_info','Index\HomeController@home_info')->middleware('IndexLogin');//个人信息
-    Route::any('/index/getorder','Index\CartController@getorder')->middleware('IndexLogin');//三级联动
     Route::any('/index/home_address','Index\HomeController@home_address')->middleware('IndexLogin');//地址管理
     Route::any('/index/getorder','Index\CartController@getorder');//收货地址
 
