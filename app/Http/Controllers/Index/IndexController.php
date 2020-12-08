@@ -16,6 +16,7 @@ class IndexController extends Controller
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
+        // dd($cate);
         $Butti = Butti::get();
         $goods=GoodsModel::where(['is_hot'=>'1','is_del'=>'1','is_shelf'=>'1','goods_status'=>'1'])->orderBy('goods_id','desc')->limit(4)->get();
         $brand = Brand_Model::limit(10)->get();
@@ -43,8 +44,11 @@ class IndexController extends Controller
         //分类导航
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url); 
-        // $soncate_id=CateModel::where('pid',$cate_id)->pluck('cate_id');
-        // $soncate_id=$soncate_id?$soncate_id->toArray():[];
+        $soncate_id=CateModel::where('pid',$cate_id)->pluck('cate_id');
+        $soncate_id=$soncate_id?$soncate_id->toArray():[];
+        array_push($soncate_id,intval($cate_id));
+        // dump($soncate_id);
+        // dump($cate_id);
         $query=request()->all();
         // dump($query);
         $where=[];
@@ -62,9 +66,12 @@ class IndexController extends Controller
                 $where[]=['goods_price','<',$price_array[1]];
             }
         }
-        // dump($where);
-        $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(4);
-        // dd($cate_id);
+        $where2=[['is_shelf','=','1'],['is_del','=','1']];
+        $where=array_merge($where,$where2);
+        // dd($where);
+        // $goods=GoodsModel::where($where)->where(['cate_id'=>$cate_id,'is_shelf'=>1,'is_del'=>1])->paginate(4);
+        $goods=GoodsModel::where($where)->whereIn('cate_id',$soncate_id)->paginate(4);
+        // dump($goods);
         $goods_price=GoodsModel::where(['is_shelf'=>1,'is_del'=>1,'cate_id'=>$cate_id])->max('goods_price');
         if ($goods_price) {
             $price=$this->getPrice($goods_price); 
@@ -82,7 +89,7 @@ class IndexController extends Controller
         // dd($brand);
         return view("index.index_list",['cate'=>$cate,'goods'=>$goods,'goods_hot'=>$goods_hot,'cate_name'=>$cate_name,'brand'=>$brand,'price'=>$price,'query'=>$query]);
     }
-
+    //获取价格
     public function getPrice($goods_price){
         // dd($goods_price);
         $length=strlen($goods_price);

@@ -203,7 +203,7 @@ class IndexController extends Controller
                 ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
                 ->whereIn('cart_id',$cart_id)
                 ->get();
-//        dd($cartinfo);
+    //    dd($address);
         $total=0;
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
@@ -232,6 +232,7 @@ class IndexController extends Controller
     public  function  getorder(){
         $data=request()->all();
         $data['is_moren']=1;
+        $uid = $data['user_id'];
 //        dd($data);
         if($data['is_moren']==1){
             $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
@@ -254,7 +255,7 @@ class IndexController extends Controller
     public function home(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->get()->toArray();
+        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(6)->get()->toArray();
         $info = $this->GetIndo($cate_cate);
         $data = ["cate"=>$cate,"data"=>$data,"info"=>$info];
         return $data;

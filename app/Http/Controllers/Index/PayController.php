@@ -15,18 +15,44 @@ class PayController extends Controller
         require_once app_path('Common/lib/alipay1/pagepay//buildermodel/AlipayTradePagePayContentBuilder.php');
 
         $order_id=request()->order_id;
-        $orde_info=OrderModel::where("order_id",$order_id)->first();
+        if(strpos($order_id,',')){
+            $order_id = explode(',',$order_id);
+        }
+        if(is_array($order_id)){
+            $out_trade_no = "";
+            $goods_name = "";
+            $total_amount = 0;
+            foreach($order_id as $k=>$v){
+                $orde_info=OrderModel::where("order_id",$v)->first();
+                $out_trade_no .= $orde_info['order_sn'].',';
+                $name = OrderGoodsModel::where(['order_id'=>$v])->value("goods_name");
+                $goods_name .= $name.',';
+                $total_amount += $orde_info['order_price'];
+            }
+            // substr($out_trade_no,strlen($out_trade_no)-1,1);
+            // substr($goods_name,strlen($goods_name)-1,1);
+        }else{
+            $orde_info=OrderModel::where("order_id",$order_id)->first();
+            //商品订单号
+            $out_trade_no = $orde_info['order_sn'];
+            //商品名称
+            $goods_name=OrderGoodsModel::where(['order_id'=>$order_id])->value("goods_name");
+            //付款金额
+            $total_amount = $orde_info['order_price'];
+
+        }
+        // dd($order_id);
+        
         //商户订单号，商户网站订单系统中唯一订单号，必填
-        $out_trade_no = $orde_info['order_sn'];
+        $out_trade_no = $out_trade_no;
 
-        //订单名称，必填
-        $goods_name=OrderGoodsModel::where(['order_id'=>$order_id])->pluck("goods_name")->toArray();
+        //
+        $goods_name = $goods_name;
 //        dd($goods_name);
-        $subject = implode('\r\n',$goods_name);
-
+        $subject = $goods_name;
+        // implode('\r\n',$goods_name)
         //付款金额，必填
-        $total_amount = $orde_info['order_price'];
-
+        $total_amount = $total_amount;
         //商品描述，可空
         $body = '';
 
@@ -57,6 +83,7 @@ class PayController extends Controller
         $config=config('alipay');
         require_once app_path('Common/lib/alipay1/pagepay/service/AlipayTradeService.php');
         $arr=$_GET;
+        // dd($arr);
         $alipaySevice = new \AlipayTradeService($config);
         $result = $alipaySevice->check($arr);
 
@@ -69,10 +96,10 @@ class PayController extends Controller
         if($result) {//验证成功
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
-            $count=OrderModel::where(['order_sn'=>$arr['out_trade_no'],'order_price'=>$arr['total_amount']])->count();
-            if(!$count){
-                return '发生重大事故：订单号'.$arr['out_trade_no'].'和订单金额'.$arr['total_amount'].'不在当前系统中！请联系客服';
-            }
+            // $count=OrderModel::where(['order_sn'=>$arr['out_trade_no'],'order_price'=>$arr['total_amount']])->count();
+            // if(!$count){
+            //     return '发生重大事故：订单号'.$arr['out_trade_no'].'和订单金额'.$arr['total_amount'].'不在当前系统中！请联系客服';
+            // }
             if($arr['seller_id']!=config('alipay.seller_id')){
                 return '发生重大事故：商家UID'.$arr['seller_id'].'和系统商家不符！请联系客服';
             }
@@ -96,7 +123,13 @@ class PayController extends Controller
                 'pay_status'=>2,
                 'order_status'=>1
             ];
-            $res=OrderModel::where(['order_sn'=>$arr['out_trade_no']])->update($data);
+            if(strpos($arr['out_trade_no'],',')!==false){
+                $arr['out_trade_no'] = explode(',',$arr['out_trade_no']);
+                $len = count($arr['out_trade_no'])-1;
+                unset($arr['out_trade_no'][$len]);
+            }
+            // dd($arr);
+            $res=OrderModel::whereIn('order_sn',$arr['out_trade_no'])->update($data);
             if($res){
                 return redirect('/index/home');
             }

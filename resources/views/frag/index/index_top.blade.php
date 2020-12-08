@@ -71,16 +71,7 @@
                             </form>
                         </div>
                         <div class="hotwords">
-                            <ul>
-                                <li class="f-item">品优购首发</li>
-                                <li class="f-item">亿元优惠</li>
-                                <li class="f-item">9.9元团购</li>
-                                <li class="f-item">每满99减30</li>
-                                <li class="f-item">亿元优惠</li>
-                                <li class="f-item">9.9元团购</li>
-                                <li class="f-item">办公用品</li>
-
-                            </ul>
+                            
                         </div>
                     </div>
                     <div class="yui3-u Right shopArea">
@@ -123,6 +114,9 @@
 <script>
 $(document).on('click',".search_but",function(){
     var search_val = $(".search_val").val();
+    if(search_val==''){
+        alert('没有查到搜索条件');return;
+    }
     var url = "http://www.2001api.com/api/searchnav?callback=?";
     $.getJSON(url,{search_val:search_val},function(res){
         // alert('此功能暂未开发');

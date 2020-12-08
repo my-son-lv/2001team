@@ -163,10 +163,7 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
     Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
     Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
-
-    Route::any('/index/cart','Index\CartController@cart')->middleware('IndexLogin');//购物车
-    Route::any('/index/order','Index\CartController@order')->middleware('IndexLogin');//订单
-    Route::any('/index/settl','Index\CartController@settl')->middleware('IndexLogin');//结算页
+    
     Route::any('/index/orderdel','Index\CartController@orderdel');//收货地址删除
     Route::any('/index/updorder','Index\CartController@updorder');//收货地址修改
     Route::any('/index/is_moren','Index\CartController@is_moren');//默认收货地址

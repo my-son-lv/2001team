@@ -101,7 +101,6 @@
                             <span class="service-intro">游戏</span>
                         </li>
                     </ul>
-                
                 </div>
                 <div class="life-item-content">
                     <div class="life-detail">
@@ -125,7 +124,6 @@
                         <button class="sui-btn btn-danger game">去·娱乐</button>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>

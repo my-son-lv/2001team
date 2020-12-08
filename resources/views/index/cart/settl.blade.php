@@ -165,9 +165,11 @@
                                         <div class="desc">
                                             {{$v['goods_name']}}
                                             <br>
+                                            @if(isset($v['specs']))
                                             @foreach($v['specs'] as $vv)
                                                 {{$vv['specs_name']}}:{{$vv['specs_val']}}
                                             @endforeach
+                                            @endif
                                         </div>
                                     </li>
                                     <li class="yui3-u-1-12">
@@ -249,6 +251,7 @@
 </body>
 <script>
     $(document).on("click",".sui-btn",function(){
+        // alert(12312312);return;
         var address_name=$(".address_name").val();
        var address=$("input[name='address']").val();
         var tel=$(".tel").val();

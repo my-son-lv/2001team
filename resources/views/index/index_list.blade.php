@@ -96,12 +96,6 @@
                         <li class="active">
                             <a href="javascript:;">综合</a>
                         </li>
-                        <li>
-                            <a href="javascript:;">销量</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">新品</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -123,15 +117,13 @@
                                 <em>{{$v->goods_name}}</em>
                             </div>
                             <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
                             </div>
                             <div class="commit">
                                 <i class="command">已有2000人评价</i>
                             </div>
                             <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+                                <a href="{{url('/index/index_show?goods_id='.$v->goods_id)}}" class="sui-btn btn-bordered btn-danger">进入详情</a>
                                 <a href="javascript:void(0);" id="colle" value="{{$v->goods_id}}" class="sui-btn btn-bordered">收藏</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
                             </div>
                         </div>
                     </li>
