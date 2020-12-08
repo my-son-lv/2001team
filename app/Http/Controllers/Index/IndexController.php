@@ -16,6 +16,7 @@ class IndexController extends Controller
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
+//        dd($cate);
         $Butti = Butti::get();
         $goods=GoodsModel::where(['is_hot'=>'1','is_del'=>'1','is_shelf'=>'1','goods_status'=>'1'])->orderBy('goods_id','desc')->limit(4)->get();
         $brand = Brand_Model::limit(10)->get();
@@ -106,9 +107,9 @@ class IndexController extends Controller
        $url = env('API_URL')."api/home";
        //猜你喜欢
        $home = $this->postcurl($url);
-        $goods_id=request()->goods_id;
+       $goods_id=request()->goods_id;
+        $his=Redis::zincrby('hits',1,'hits_'.$goods_id);
 //        dd($goods_id);
-
 //        $toekn = $_COOKIE["token"];
 //        $Foot_Model = new FootModel();
 //        $Foot_Model->user_id = Redis::hget("token",$toekn);
@@ -116,8 +117,8 @@ class IndexController extends Controller
 //        $Foot_Model->save();
         $url=env('API_URL')."api/index/index_show";
         $data=$this->postcurl($url,['goods_id'=>$goods_id]);
-        // dd($data);
-        return view("index.index_show",["cate"=>$data,'home'=>$home]);
+//         dd($data);
+        return view("index.index_show",["cate"=>$data,'home'=>$home,'his'=>$his]);
     }
 //API post curl
     public function postcurl($url,$postfield=[],$headerArray=[]){
@@ -134,6 +135,7 @@ class IndexController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
+//        echo $result;exit;
         curl_close($ch);
         if(is_null(json_decode($result,true))){
             return $result;

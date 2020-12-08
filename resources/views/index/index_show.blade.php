@@ -80,12 +80,12 @@
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
-                            <i>累计评价</i><em>612188</em>
+                            <i>访问量</i><em>{{$his}}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">
                         <div class="fl title">
-                            <i>促　　销</i>
+                            <i>优惠券</i>
                         </div>
                         <div class="fl fix-width">
                             <i class="red-bg">加价购</i>
@@ -97,10 +97,10 @@
                 <div class="support">
                     <div class="summary-wrap">
                         <div class="fl title">
-                            <i>支　　持</i>
+                            <i>商家名称</i>
                         </div>
                         <div class="fl fix-width">
-                            <em class="t-gray">以旧换新，闲置手机回收  4G套餐超值抢  礼品购</em>
+                            <em class="t-gray saller" saller_id="{{$cate['goods']['saller_id']}}">{{$cate['goods']['saller_name']}}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">
@@ -507,9 +507,6 @@ $(document).on('blur','.itxt',function(){
                 }
             })
         })
-
-
-
     })
 </script>
 <script type="text/javascript" src="/status/js/model/cartModel.js"></script>

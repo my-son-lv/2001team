@@ -121,7 +121,7 @@
                                             <label class="control-label">邮箱：</label>
                                             <div class="controls">
                                                 <input type="text" class="input-medium  email " name="email">
-                                            </div>-
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -159,7 +159,7 @@
                             <div class="sendGoods">
                                 <ul class="yui3-g">
                                     <li class="yui3-u-1-6">
-                                        <span><img src="{{env("JUSTME_URL")}}{{$v['goods_img']}}"/></span>
+                                        <span><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}"/></span>
                                     </li>
                                     <li class="yui3-u-7-12">
                                         <div class="desc">

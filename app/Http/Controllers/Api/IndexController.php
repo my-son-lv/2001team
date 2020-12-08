@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\KillModel;
+use App\Models\SallerInfoModel;
 use App\Models\SpecsModel;
 use Illuminate\Http\Request;
 use App\Models\CateModel;
@@ -19,10 +20,19 @@ class IndexController extends Controller
     public function index_show(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        // dd($cate);
+//         dd($cate);
         $goods_id=request()->goods_id;
         $goodsimg=GoodsImgsModel::where("goods_id",$goods_id)->get();
+//        dd($goodsimg);
+            $saller_model = new SallerInfoModel();
+//        dd($goodsimg);
         $goods=GoodsModel::where("goods_id",$goods_id)->first();
+//        dd($goods);
+        if($goods['saller_id']==0){
+            $goods['saller_name'] = '品优购自营';
+        }else{
+            $goods['saller_name'] = $saller_model->where('saller_id',$goods['saller_id'])->value('saller_name');
+        }
        //规格
         $specs_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
@@ -36,7 +46,6 @@ class IndexController extends Controller
         $data = [];
         if($specs_info){
             $specs_info = $specs_info->toArray();
-
             foreach($specs_info as $k=>$v){
                 $res = explode(':',$v['specs']);
                 if($res){
@@ -62,103 +71,107 @@ class IndexController extends Controller
             foreach($data as $k=>$v){
             $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
             $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
-
             }
         }
-
-
-        
-    
-//        dd($newdata);
-        // dd($goodsimg);
         $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
+//        dd($cate);
         return $cate;
     }
 //加入购物车
-    public  function  addcart(){
+    public  function  addcart()
+    {
         // $uid=1;
         $goods_id = request()->goods_id;
+//        dd($goods_id);
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
-        $uid=request()->uid;
-        if(!$goods_id || !$goods_number){
-            return json_encode(['code'=>'0001','msg'=>"缺少参数"]);
+//        $uid=1;
+        $uid = request()->uid;
+        if (!$goods_id || !$goods_number) {
+            return json_encode(['code' => '0001', 'msg' => "缺少参数"]);
         }
-        $goods=GoodsModel::where("goods_id",$goods_id)->first();
-        if($goods['is_shelf']!==1){
-            return json_encode(['code'=>'0001','msg'=>"商品已下架"]);
+        $goods = GoodsModel::where("goods_id", $goods_id)->first();
+        if ($goods['is_shelf'] !== 1) {
+            return json_encode(['code' => '0001', 'msg' => "商品已下架"]);
         }
-        if($goods_attr_id==""){
-            $res=GoodsModel::where("goods_id",$goods_id)->first();
-            if($res['goods_number']<$goods_number){
-                return json_encode(['code'=>'0001','msg'=>"商品库存不足"]);
+        if ($goods_attr_id == "") {
+            $res = GoodsModel::where("goods_id", $goods_id)->first();
+            if ($res['goods_number'] < $goods_number) {
+                return json_encode(['code' => '0001', 'msg' => "商品库存不足"]);
             }
-        }else{
-            $specs=SpecsModel::where(['goods_id'=>$goods_id,'specs'=>$goods_attr_id])->first();
-            if(!$specs){
-                return json_encode(['code'=>'0001','msg'=>"库存不足"]);
-            }else{
-                if($specs['goods_number']<$goods_number){
-                    return json_encode(['code'=>'0001','msg'=>"商品库存不足"]);
+        } else {
+            $specs = SpecsModel::where(['goods_id' => $goods_id, 'specs' => $goods_attr_id])->first();
+            if (!$specs) {
+                return json_encode(['code' => '0001', 'msg' => "库存不足"]);
+            } else {
+                if ($specs['goods_number'] < $goods_number) {
+                    return json_encode(['code' => '0001', 'msg' => "商品库存不足"]);
                 }
             }
         }
         $where1 = [];
-        $where1[] = ['user_id','=',$uid];
-        $where1[] = ['goods_id','=',$goods_id];
-        if($goods_attr_id){
-            $where1[] = ['specs_id','=',$goods_attr_id];
+        $where1[] = ['user_id', '=', $uid];
+        $where1[] = ['goods_id', '=', $goods_id];
+        if ($goods_attr_id) {
+            $where1[] = ['specs_id', '=', $goods_attr_id];
         }
-
 //        dd($where1);
         $cart = CartModel::where($where1)->first();
 //        dd($cart);
-        if($cart){
-            if($goods_attr_id){
+        if ($cart) {
+            if ($goods_attr_id) {
                 //关联
-                if($goods_number+$cart['buy_number']>$specs->goods_number){
-                    $goods_number=$specs->goods_number;
-                }else{
-                    $goods_number=$goods_number+$cart['buy_number'];
+                if ($goods_number + $cart['buy_number'] > $specs->goods_number) {
+                    $goods_number = $specs->goods_number;
+                } else {
+                    $goods_number = $goods_number + $cart['buy_number'];
                 }
 //                dd($goods_number);
-            }else{
+            } else {
                 //商品
+                if ($goods_number + $goods->goods_number > $specs['goods_number']) {
+                    $goods_number = $goods->goods_number;
 //                dd($goods->goods_number);
-                if($goods_number+$cart['buy_number']>$goods->goods_number){
-                    $goods_number=$goods->goods_numbe;
-                }else{
-                    $goods_number=$goods_number+$cart['buy_number'];
-                }
+                    if ($goods_number + $cart['buy_number'] > $goods->goods_number) {
+                        $goods_number = $goods->goods_numbe;
+                    } else {
+                        $goods_number = $goods_number + $cart['buy_number'];
+                    }
 //                dd($goods_number);
+                }
             }
-            $res=CartModel::where("cart_id",$cart->cart_id)->update(['buy_number'=>$goods_number]);
-        }else{
-            $data=[
-                'user_id'=>$uid,
-                'goods_id'=>$goods_id,
-                'buy_number'=>$goods_number,
-                'goods_name'=>$goods->goods_name,
-                'add_time'=>time(),
-                'goods_price'=>$goods->goods_price,
-                'specs_id'=>$goods_attr_id??'',
-            ];
-            $res=CartModel::insert($data);
+            $res = CartModel::where("cart_id", $cart->cart_id)->update(['buy_number' => $goods_number]);
+        } else{
+                $saller_id = GoodsModel::where("goods_id", $goods_id)->value('saller_id');
+                $data = [
+                    'user_id' => $uid,
+                    'goods_id' => $goods_id,
+                    'buy_number' => $goods_number,
+                    'goods_name' => $goods->goods_name,
+                    'add_time' => time(),
+                    'goods_price' => $goods->goods_price,
+                    'specs_id' => $goods_attr_id??'',
+                    'saller_id' => $saller_id,
+                ];
+                $res = CartModel::insert($data);
 //            dd($res);
+            }
+            if ($res) {
+                return json_encode(['code' => '0000', 'msg' => "加入购物车成功"]);
+            }
         }
-        if($res){
-            return json_encode(['code'=>'0000','msg'=>"加入购物车成功"]);
-        }
-    }
 
     //购物车列表
     public  function  cart(){
+//        $uid=1;
         $uid=request()->user_id;
+        // print_r($uid);
         $cart=CartModel::select('cart.*','goods.goods_img')
             ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
             ->where(['user_id'=>$uid])
             ->get();
-//        dd($cart);
+        // dump(123);
+    //    dd($cart);
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
         foreach($cart as $k=>$v){
@@ -178,12 +191,14 @@ class IndexController extends Controller
                 }
             }
         }
+        // dd($cart);
         return json_encode($cart,true);
     }
 
     #结算
     public  function  settl(){
         $uid=request()->user_id;
+//        $uid=1;
         $cart_id=request()->cart_id;
         $cart_id = explode(',',$cart_id);
         $address=AddressModel::where('user_id',$uid)->get();
@@ -191,7 +206,7 @@ class IndexController extends Controller
                 ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
                 ->whereIn('cart_id',$cart_id)
                 ->get();
-//        dd($cart);
+//        dd($cartinfo);
         $total=0;
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
@@ -214,12 +229,17 @@ class IndexController extends Controller
             $total+=$v['buy_number']*$v['goods_price'];
         }
         return json_encode(['code'=>'0001','msg'=>"成功",'data'=>['address'=>$address,'cartinfo'=>$cartinfo,'total'=>$total]]);
-
     }
     //地址
     public  function  getorder(){
         $data=request()->all();
-        $uid=$data['user_id'];
+        $uid=1;
+        $data['is_moren']=1;
+//        dd($data);
+        if($data['is_moren']==1){
+            $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
+        }
+//        $uid=$data['user_id'];
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
         if($address){
@@ -234,10 +254,22 @@ class IndexController extends Controller
         return $data;
     }
 
+    public function cut(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
+    public function cut_show(){
+        $cate = CateModel::where(["pid"=>0])->limit(6)->get();
+        $data = ["cate"=>$cate];
+        return $data;
+    }
+
     public function home(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->get()->toArray();
+        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(4)->get()->toArray();
         $info = $this->GetIndo($cate_cate);
         $data = ["cate"=>$cate,"data"=>$data,"info"=>$info];
         return $data;

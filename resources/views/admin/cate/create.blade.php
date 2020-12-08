@@ -42,7 +42,6 @@
                     </th>
                     <th class="sorting_asc">分类id</th>
                     <th class="sorting">分类名称</th>
-                    <th class="sorting">父级id</th>
                     <th class="sorting">是否展示</th>
                     <th class="sorting">是否导航栏展示</th>
                     <th class="text-center">操作</th>
@@ -57,7 +56,6 @@
                         </td>
                         <td></td>
                         <td>{{str_repeat('|——',$v->level)}}{{$v->cate_name}}</td>
-                        <td>{{$v->pid}}</td>
                         <td class="changeValue" field="cate_show" value="{{$v->cate_show}}"> @if($v->cate_show == 1) √ @else × @endif</td>
                         <td class="changeValue" field="cate_nav_show" value="{{$v->cate_nav_show}}">@if($v->cate_nav_show == 1) √ @else × @endif</td>
                         <td class="text-center">

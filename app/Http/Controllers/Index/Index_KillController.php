@@ -58,7 +58,6 @@ class Index_KillController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
 //执行
         $result = curl_exec($ch);
-//        echo $result;exit;
 //关闭
         curl_close($ch);
         return json_decode($result,true);
