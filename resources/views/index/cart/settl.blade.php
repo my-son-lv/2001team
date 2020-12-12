@@ -18,8 +18,26 @@
     <div class="py-container">
         <div class="shortcut">
             <ul class="fl">
-                <li class="f-item">品优购欢迎您！</li>
-                <li class="f-item">请登录　<span><a href="#">免费注册</a></span></li>
+                        @php  
+                            if(isset($_COOKIE['token'])){
+                                $cookie=$_COOKIE['token'];
+                            }else{
+                                $cookie='';
+                            }
+                            if(isset($_COOKIE['user_name'])){
+                                $user_name=$_COOKIE['user_name'];
+                            }else{
+                                $user_name='';
+                            }
+                        @endphp
+                        @if($cookie)
+                            <li class="f-item">欢迎<a href="javascript:;" style="color:red;">&nbsp;{{$user_name}}&nbsp;</a>登录</li>
+                            <li class="f-item"><a href="/loginout">&nbsp;&nbsp;退出登录</a></li>
+                        @else
+                            <li class="f-item">品优购欢迎您！</li>
+                            <li class="f-item">请<a href="/login">登录</a>
+                            <span><a href="/reg">免费注册</a></span></li>
+                        @endif
             </ul>
             <ul class="fr">
                 <li class="f-item">我的订单</li>

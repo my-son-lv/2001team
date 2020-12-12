@@ -42,6 +42,7 @@ class CartController extends Controller
 //         dd($goods_attr_id);
         $url=env('API_URL')."api/index/addcart";
         $cart=$this->postcurl($url,['goods_id'=>$goods_id,'goods_number'=>$goods_number,'goods_attr_id'=>$goods_attr_id,'uid'=>$uid]);
+        // dd($cart);
         return json_encode($cart);
     }
 
@@ -239,7 +240,7 @@ class CartController extends Controller
             }
             $cart_id = $data['cart_id'];
             $data['user_id'] = $uid;
-            $pay_name = ['2' => "微信"];
+            $pay_name = ['2' => "支付宝"];
             $data['pay_name'] = $pay_name[$data['pay_type']];
             $data['order_sn'] = $this->createOrderSn();
             $cart_model = new CartModel();

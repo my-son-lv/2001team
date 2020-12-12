@@ -14,6 +14,7 @@ use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
 use App\Models\CartModel;
 use App\Models\AddressModel;
+use App\Models\OrderGoodsModel;
 class IndexController extends Controller
 {
     //商品详情
@@ -126,10 +127,10 @@ class IndexController extends Controller
                 } else {
                     $goods_number = $goods_number + $cart['buy_number'];
                 }
-//                dd($goods_number);
+//                dd($goods_number); 
             } else {
                 //商品
-                if ($goods_number + $goods->goods_number > $specs['goods_number']) {
+                if ($goods_number + $goods->goods_number > $goods['goods_number']) {
                     $goods_number = $goods->goods_number;
 //                dd($goods->goods_number);
                     if ($goods_number + $cart['buy_number'] > $goods->goods_number) {
@@ -346,5 +347,17 @@ class IndexController extends Controller
         // echo $callback.'('.$goods.')';die;
         echo $callback.'('.$arr.')';exit;
 
+    }
+    //取消订单
+    public function nopay(){
+        $callback=request()->callback;
+        $order_goods_id=request()->order_goods_id;
+        $res = OrderGoodsModel::where('order_goods_id',$order_goods_id)->update(['is_del'=>'2']);
+        if($res===false){
+            $arr = json_encode(['code'=>'0000','msg'=>'取消失败']);
+        }else{
+            $arr = json_encode(['code'=>'0000','msg'=>'取消成功']);
+        }
+        echo $callback.'('.$arr.')';exit;
     }
 }
