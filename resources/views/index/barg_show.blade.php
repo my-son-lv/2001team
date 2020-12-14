@@ -48,6 +48,32 @@
         float:left;
     }
 </style>
+<style>
+    * {
+        margin:0;
+        padding:0;
+    }
+    .scroll-box {
+        width:400px;
+        height:200px;
+        border:2px solid #000;
+        margin:20px auto;
+        overflow:hidden;
+    }
+    .scroll-box ul {
+        list-style:none;
+        width:100%;
+        height:100%;
+    }
+    .scroll-box ul li {
+        width:100%;
+        height:40px;
+        box-sizing:border-box;
+        line-height:40px;
+        text-align:center;
+    }
+
+</style>
 <!--页面顶部-->
 @include("frag.index.index_top")
 <div class="py-container">
@@ -58,7 +84,7 @@
                 <div class="zoom">
                     <!--默认第一个预览-->
                     <div id="preview" class="spec-preview">
-                        <span class="jqzoom"><img src="{{env('JUSTME_URL')}}{{$barg_goods["goods_img"]}}" style="width: 400px;height: 400px" /></span>
+                        <span class="jqzoom"><img src="{{env('JUSTME_URL')}}{{$barg_goods["goods_img"]}}" style="width: 400px;height: 400px"/></span>
                     </div>
                 </div>
             </div>
@@ -94,17 +120,22 @@
                         <div class="fl">
                             <ul class="btn-choose unstyled">
                                 <li>
-                                    @if(!strlen($user_id))
+                                    @if($user_id==null)
                                     <button id="cut" class="sui-btn btn-danger addshopcar">砍价</button>
                                         @else
                                         <button id="cuts" class="sui-btn btn-danger addshopcar">帮砍</button>
                                     @endif
                                 </li><br>
-                                <div class="time-item hidden" id="hidden">
-                                    <h1>砍价倒计时</h1>
-                                    <strong id="hour_show">0时</strong>
-                                    <strong id="minute_show">0分</strong>
-                                    <strong id="second_show">0秒</strong>
+                                <div class="scroll-box">
+                                    <ul>
+                                        @if(!count($data))
+                                            <p>暂无数据...</p>
+                                        @else
+                                            @foreach($data as $v)
+                                                <li>用户:{{$v->user_name}}-----砍掉:{{$v->barg_user_price}}元</li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
                                 </div>
                                 <p></p><span class="tishi hidden">右侧文本框有地址！您可以把地址分享给好友</span>
                                 <li class="bangkan hidden">
@@ -118,18 +149,6 @@
             </div>
         </div>
         <!--product-detail-->
-        <div class="clearfix product-detail">
-            <div class="fl aside">
-                <ul class="sui-nav nav-tabs tab-wraped">
-                    <li class="active">
-                        <a href="javascript:;"><span>相关分类</span></a>
-                    </li>
-                </ul>
-                <div class="tab-content tab-wraped">
-                    213123
-                </div>
-            </div>
-        </div>
         <!--like-->
         <div class="clearfix"></div>
     </div>
@@ -172,8 +191,39 @@
     };
     with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
 </script>
-
-
+<script>
+    $(function() {
+        //获得当前<ul>
+        var $uList = $(".scroll-box ul");
+        var timer = null;
+        //触摸清空定时器
+        $uList.hover(function() {
+                    clearInterval(timer);
+                },
+                function() { //离开启动定时器
+                    timer = setInterval(function() {
+                                scrollList($uList);
+                            },
+                            1000);
+                }).trigger("mouseleave"); //自动触发触摸事件
+        //滚动动画
+        function scrollList(obj) {
+            //获得当前<li>的高度
+            var scrollHeight = $("ul li:first").height();
+            //滚动出一个<li>的高度
+            $uList.stop().animate({
+                        marginTop: -scrollHeight
+                    },
+                    600,
+                    function() {
+                        //动画结束后，将当前<ul>marginTop置为初始值0状态，再将第一个<li>拼接到末尾。
+                        $uList.css({
+                            marginTop: 0
+                        }).find("li:first").appendTo($uList);
+                    });
+        }
+    });
+</script>
 <script>
     $(document).on("click","#cut",function(){
         if(confirm("确认砍价么？")){
@@ -209,17 +259,8 @@
                         alert(res.message);
                         var url=window.location.href;
                         var user_id = url.substr(url.length-1);//优化
-                        if(res.user_id==user_id){
-                            if($("#hidden").hasClass("hidden")){
-                                $("#cut").addClass("hidden");
-                                $(".time-item").removeClass("hidden");
-                                $(".xian").removeClass("hidden");
-                                $('<style>').html("text-decoration: line-through").appendTo("head");
-                                $(".bdsharebuttonbox").removeClass("hidden");
-                                $(".bangkan").removeClass("hidden");
-                            }
-                        }else{
-                            if($("#hidden").hasClass("hidden")){
+                        if(res.user_id!=user_id){//登录用户的id和浏览器上的id对比如果有那就不显示砍价没有显示帮砍
+//                            if($("#hidden").hasClass("hidden")){
                                 $("#cut").addClass("hidden");
                                 $(".time-item").removeClass("hidden");
                                 $(".xian").removeClass("hidden");
@@ -227,7 +268,15 @@
                                 $(".tishi").removeClass("hidden");
                                 $(".tishis").removeClass("hidden");
                                 $("#urls").val(res.urls);
-                            }
+//                            }
+                        }else{
+//                            if($("#hidden").hasClass("hidden")){
+                                $("#cut").addClass("hidden");
+                                $(".time-item").removeClass("hidden");
+                                $(".xian").removeClass("hidden");
+                                $('<style>').html("text-decoration: line-through").appendTo("head");
+                                $(".bdsharebuttonbox").removeClass("hidden");
+//                            }
                         }
                     }else{
                         alert(res.message)
@@ -237,8 +286,6 @@
         }
     })
 </script>
-
-
 <script>
     $(document).on("click","#cuts",function(){
         var barg_id = $("#barg_id").val();
@@ -250,36 +297,20 @@
             dataType : "json",
             type : "post",
             success:function(res){
-                console.log(res)
+                if(res.code==0002){
+                    if(confirm("还没有登录，是否前往登录")){
+                        location.href=res.url
+                    }
+                }
+                if(res.code==0000){
+                    alert(res.message);
+                    location.href=res.url
+                }else{
+                    alert(res.message);
+                }
             }
         })
     })
-</script>
-
-<script type="text/javascript">
-    var intDiff = parseInt(10800);//倒计时总秒数量
-    function timer(intDiff){
-        window.setInterval(function(){
-            var     day = 0,
-                    hour=0,
-                    minute=0,
-                    second=0;//时间默认值
-            if(intDiff>0){
-                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
-                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
-                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-            }
-            if (minute<=9) minute='0'+minute;
-            if (second<=9) second='0'+second;
-            $('#hour_show').html('<s id="h"></s>'+hour+'时');
-            $('#minute_show').html('<s></s>'+minute+'分');
-            $('#second_show').html('<s></s>'+second+'秒');
-            intDiff--;
-        },1000);
-    }
-    $(function(){
-        timer(intDiff);
-    });
 </script>
 <script type="text/javascript" src="/status/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
