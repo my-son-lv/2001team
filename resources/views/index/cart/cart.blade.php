@@ -93,7 +93,7 @@
                                     </li>
                                     <li class="yui3-u-11-24">
                                         <div class="good-item">
-                                            <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
+                                            <div class="item-img"><a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></a></div>
                                             <div class="item-msg">{{$v['goods_name']}}
                                                 <br>
                                                 @if(isset($v['specs']))
@@ -104,8 +104,6 @@
                                             </div>
                                         </div>
                                     </li>
-            
-
                                     <li class="yui3-u-1-8"><span class="price">￥{{$v['goods_price']}}</span></li>
                                     <li class="yui3-u-1-8">
                                         <a href="javascript:void(0)" class="increment mins" cart_id="{{$v['cart_id']}}">-</a>
@@ -287,8 +285,13 @@
 //                console.log(res);return;
                     if(res.code=='0000'){
                         $("input[cart_id='"+cart_id+"']").val(res.buy_number);
-//                        $(".sum").text(res.total.total);
                         $("span[cart_id='"+cart_id+"']").text(res.total.total);
+                    }else{
+                        alert(res.msg);
+                        $("input[cart_id='"+cart_id+"']").val(res.data);
+                        $("span[cart_id='"+cart_id+"']").text(res.total.total);
+
+
                     }
             }
         })

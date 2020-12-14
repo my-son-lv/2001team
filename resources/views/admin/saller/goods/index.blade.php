@@ -49,56 +49,46 @@
 									      <th class="sorting">商品价格</th>
 									      <th class="sorting">商品库存</th>
 									      <th class="sorting">是否上下架</th>
-									      <th class="sorting">商品图片</th>
-									      <th class="sorting">商品相册</th>
 									      <th class="sorting">状态</th>									     						
 					                      <th class="text-center">操作</th>
 			                          </tr>
 			                      </thead>
 			                      <tbody>
 								  @foreach($goods_info as $v)
-			                          <tr>
+			                          <tr goods_id="{{$v->goods_id}}">
 			                              <td><input  type="checkbox" name="checkbox" class="checkbox" value="{{$v->goods_id}}"></td>
 				                          <td>{{$v->goods_id}}</td>
 									      <td>{{$v->goods_name}}</td>
 									      <td>{{$v->goods_price}}</td>
 									      <td>{{$v->goods_number}}</td>
-									      <td>@if($v->is_shelf==1) 是 @else 否 @endif</td>
-									      <td><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}" alt="" width="120px" height="80px"></td>
-									      <td>
-											  @foreach($v->goods_imgs as $vv)
-												  <img src="{{env('JUSTME_URL')}}{{$vv->goods_imgs}}" alt="" title="{{$vv->goods_title}}" width="120px" height="80px">
-											  @endforeach
-										  </td>
+									      <td class="is_shelf">@if($v->is_shelf==1) √ @else × @endif</td>
 		                                  <td>
 		                                  	<span>
 												@if($v->goods_status==0) 未审核 @elseif($v->goods_status==1) 已通过 @elseif($v->goods_status==2) 驳回 @endif
 		                                  	</span>
 
-		                                  </td>		                                  
-		                                  <td class="text-center">                                          
+		                                  </td>
+		                                  <td class="text-center">
 		                                 	  <button type="button" class="btn bg-olive btn-xs"><a href="{{url('/saller/goods/update?goods_id='.$v->goods_id)}}">修改</a></button>
 		                                  </td>
 			                          </tr>
 								  @endforeach
 			                      </tbody>
-
 			                  </table>
 			                  <!--数据列表/-->
 							{{$goods_info->links()}}
-
                         </div>
                         <!-- 数据表格 /-->
-                        
-                        
                      </div>
                     <!-- /.box-body -->
 </div>
 <script>
 	$(function(){
+		//点击新建
 		$(document).on('click','.create',function(){
 			window.location.href = "{{url('/saller/goods/create')}}";
 		});
+		//全选
 		$('input[name="checkall"]').on("click",function(){
 			if($(this).is(':checked')){
 				$('input[name="checkbox"]').each(function(){
@@ -111,6 +101,7 @@
 			}
 
 		});
+		//批量删除
 		$(document).on('click','.del',function(){
 			var goods_id = "";
 			$("input[name='checkbox']:checked").each(function(){
@@ -132,11 +123,38 @@
 			})
 
 		});
+		//搜索
 		$(document).on('click','.where',function(){
 			var goods_status = $("#goods_status").val();
 			var goods_name = $("input[name='goods_name']").val();
 			window.location.href="{{url('/saller/goods?goods_status=')}}"+goods_status+'&goods_name='+goods_name;
-		})
+		});
+		//点击是否上下架
+		$(document).on('click','.is_shelf',function(){
+			var tis = $(this);
+			var is_shelf =tis.text();
+			var goods_id = tis.parent('tr').attr('goods_id');
+			if(is_shelf=='√'){
+				is_shelf=1
+			}else{
+				is_shelf=2;
+			}
+			$.ajax({
+				url:'/saller/goods/is_shelf',
+				data:{goods_id:goods_id,is_shelf:is_shelf},
+				type:'post',
+				dataType:'json',
+				success:function(res){
+					if(res.success){
+						if(res.data.is_shelf==1){
+							tis.text('√');
+						}else{
+							tis.text('×');
+						}
+					}
+				}
+			})
+		});
 	});
 </script>
 @include('admin.saller.public.foot')

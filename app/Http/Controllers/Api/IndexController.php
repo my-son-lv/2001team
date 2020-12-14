@@ -14,6 +14,7 @@ use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
 use App\Models\CartModel;
 use App\Models\AddressModel;
+use App\Models\OrderGoodsModel;
 class IndexController extends Controller
 {
     //商品详情
@@ -71,8 +72,6 @@ class IndexController extends Controller
             foreach($data as $k=>$v){
             $newdata[$v['specs_id']]['specs_name'] = $v['specs_name'];
             $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
-
-
             }
         }
         $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
@@ -84,9 +83,10 @@ class IndexController extends Controller
     {
         // $uid=1;
         $goods_id = request()->goods_id;
-        dd($goods_id);
+//        dd($goods_id);
         $goods_number = request()->goods_number;
         $goods_attr_id = request()->goods_attr_id;
+//        $uid=1;
         $uid = request()->uid;
         if (!$goods_id || !$goods_number) {
             return json_encode(['code' => '0001', 'msg' => "缺少参数"]);
@@ -127,10 +127,10 @@ class IndexController extends Controller
                 } else {
                     $goods_number = $goods_number + $cart['buy_number'];
                 }
-//                dd($goods_number);
+//                dd($goods_number); 
             } else {
                 //商品
-                if ($goods_number + $goods->goods_number > $specs['goods_number']) {
+                if ($goods_number + $goods->goods_number > $goods['goods_number']) {
                     $goods_number = $goods->goods_number;
 //                dd($goods->goods_number);
                     if ($goods_number + $cart['buy_number'] > $goods->goods_number) {
@@ -164,6 +164,7 @@ class IndexController extends Controller
 
     //购物车列表
     public  function  cart(){
+//        $uid=1;
         $uid=request()->user_id;
         // print_r($uid);
         $cart=CartModel::select('cart.*','goods.goods_img')
@@ -198,6 +199,7 @@ class IndexController extends Controller
     #结算
     public  function  settl(){
         $uid=request()->user_id;
+//        $uid=1;
         $cart_id=request()->cart_id;
         $cart_id = explode(',',$cart_id);
         $address=AddressModel::where('user_id',$uid)->get();
@@ -205,7 +207,7 @@ class IndexController extends Controller
                 ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
                 ->whereIn('cart_id',$cart_id)
                 ->get();
-//        dd($cartinfo);
+    //    dd($address);
         $total=0;
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
@@ -228,17 +230,18 @@ class IndexController extends Controller
             $total+=$v['buy_number']*$v['goods_price'];
         }
         return json_encode(['code'=>'0001','msg'=>"成功",'data'=>['address'=>$address,'cartinfo'=>$cartinfo,'total'=>$total]]);
-
     }
     //地址
     public  function  getorder(){
         $data=request()->all();
+        $uid=1;
         $data['is_moren']=1;
+        $uid = $data['user_id'];
 //        dd($data);
         if($data['is_moren']==1){
             $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         }
-        $uid=$data['user_id'];
+//        $uid=$data['user_id'];
         $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
         $address=AddressModel::insert($data);
         if($address){
@@ -268,7 +271,7 @@ class IndexController extends Controller
     public function home(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(4)->get()->toArray();
+        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(6)->get()->toArray();
         $info = $this->GetIndo($cate_cate);
         $data = ["cate"=>$cate,"data"=>$data,"info"=>$info];
         return $data;
@@ -344,5 +347,17 @@ class IndexController extends Controller
         // echo $callback.'('.$goods.')';die;
         echo $callback.'('.$arr.')';exit;
 
+    }
+    //取消订单
+    public function nopay(){
+        $callback=request()->callback;
+        $order_goods_id=request()->order_goods_id;
+        $res = OrderGoodsModel::where('order_goods_id',$order_goods_id)->update(['is_del'=>'2']);
+        if($res===false){
+            $arr = json_encode(['code'=>'0000','msg'=>'取消失败']);
+        }else{
+            $arr = json_encode(['code'=>'0000','msg'=>'取消成功']);
+        }
+        echo $callback.'('.$arr.')';exit;
     }
 }

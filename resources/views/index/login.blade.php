@@ -47,11 +47,7 @@
                                 <input id="prependedInput"  name="user_pwd" type="password" placeholder="请输入密码" class="span2 input-xfat">
                             </div>
                             <div class="setting">
-                                <label class="checkbox inline">
-                                    <input type="checkbox" value="2" checked="">
-                                    自动登录
-                                </label>
-                                <span class="forget">忘记密码？</span>
+                                
                             </div>
                             <div class="logined">
                                 <button class="sui-btn btn-block btn-xlarge btn-danger butt" type="button">登&nbsp;&nbsp;录</button>
