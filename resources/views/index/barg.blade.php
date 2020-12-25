@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-    <title>品优购秒杀-正品秒杀！</title>
+    <title>品优购砍价！</title>
     <link rel="icon" href="/assets//status/img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/status/css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="/status/css/widget-jquery.autocomplete.css" />

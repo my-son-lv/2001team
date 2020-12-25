@@ -37,5 +37,6 @@ Route::domain('www.2001api.com')->group(function(){
     Route::any('/cut','Api\IndexController@cut');
     Route::any('/cut_show','Api\IndexController@cut_show');
     Route::any('/cartnav','Api\IndexController@cartnav');//购物车头部搜索
+    Route::any('/pay/nopay','Api\IndexController@nopay');//取消订单
 });
 

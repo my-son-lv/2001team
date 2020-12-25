@@ -11,7 +11,6 @@ class CatrController extends Controller
     public  function  create(Request $request){
         $cateinfo=CateModel::get();
         $cateinfo=$this->createTree($cateinfo);
-
         return view("/admin/cate/create",['cateinfo'=>$cateinfo]);
     }
 
@@ -21,7 +20,6 @@ class CatrController extends Controller
             return;
         }
         static $newArray=[];
-
         foreach($data as $v){
             if($v->pid==$parent_id){
                 $v->level=$level;
@@ -31,9 +29,7 @@ class CatrController extends Controller
             }
         }
         return $newArray;
-
     }
-
 
     public  function  store(){
         $CateModel = new CateModel();

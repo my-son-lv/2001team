@@ -93,7 +93,7 @@
                                     </li>
                                     <li class="yui3-u-11-24">
                                         <div class="good-item">
-                                            <div class="item-img"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></div>
+                                            <div class="item-img"><a href="{{url('/index/index_show?goods_id='.$v['goods_id'])}}"><img src="{{env('JUSTME_URL')}}{{$v['goods_img']}}" /></a></div>
                                             <div class="item-msg">{{$v['goods_name']}}
                                                 <br>
                                                 @if(isset($v['specs']))

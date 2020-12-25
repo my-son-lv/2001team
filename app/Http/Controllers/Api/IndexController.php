@@ -14,6 +14,7 @@ use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
 use App\Models\CartModel;
 use App\Models\AddressModel;
+use App\Models\OrderGoodsModel;
 class IndexController extends Controller
 {
     //商品详情
@@ -126,7 +127,7 @@ class IndexController extends Controller
                 } else {
                     $goods_number = $goods_number + $cart['buy_number'];
                 }
-//                dd($goods_number);
+//                dd($goods_number); 
             } else {
                 //商品
                 if ($goods_number + $goods->goods_number > $goods['goods_number']) {
@@ -206,7 +207,7 @@ class IndexController extends Controller
                 ->leftjoin('goods','goods.goods_id','=','cart.goods_id')
                 ->whereIn('cart_id',$cart_id)
                 ->get();
-//        dd($cartinfo);
+    //    dd($address);
         $total=0;
         $specs_name_model=new Specsname_Model();
         $specs_val_model=new Specsval_Model();
@@ -235,6 +236,7 @@ class IndexController extends Controller
         $data=request()->all();
         $uid=1;
         $data['is_moren']=1;
+        $uid = $data['user_id'];
 //        dd($data);
         if($data['is_moren']==1){
             $res=AddressModel::where('user_id',$uid)->update(['is_moren'=>2]);
@@ -269,7 +271,7 @@ class IndexController extends Controller
     public function home(){
         $cate_cate = CateModel::get();
         $cate = CateModel::where(["pid"=>0])->limit(6)->get();
-        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(4)->get()->toArray();
+        $data = GoodsModel::where(["goods_status"=>1,"is_del"=>1,"is_shelf"=>1])->limit(6)->get()->toArray();
         $info = $this->GetIndo($cate_cate);
         $data = ["cate"=>$cate,"data"=>$data,"info"=>$info];
         return $data;
@@ -345,5 +347,17 @@ class IndexController extends Controller
         // echo $callback.'('.$goods.')';die;
         echo $callback.'('.$arr.')';exit;
 
+    }
+    //取消订单
+    public function nopay(){
+        $callback=request()->callback;
+        $order_goods_id=request()->order_goods_id;
+        $res = OrderGoodsModel::where('order_goods_id',$order_goods_id)->update(['is_del'=>'2']);
+        if($res===false){
+            $arr = json_encode(['code'=>'0000','msg'=>'取消失败']);
+        }else{
+            $arr = json_encode(['code'=>'0000','msg'=>'取消成功']);
+        }
+        echo $callback.'('.$arr.')';exit;
     }
 }

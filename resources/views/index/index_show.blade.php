@@ -57,7 +57,7 @@
                                     <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" bimg="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}"  width="100px" height="100px"  onmousemove="preview(this)" />
                                 </li>
                                 @endforeach
-                                    @endif
+                                @endif
                             </ul>
                         </div>
                         <a class="next">&gt;</a>
@@ -68,7 +68,7 @@
                 <div class="sku-name">
                     <h4>{{$cate['goods']['goods_name']}}</h4>
                 </div>
-                <div class="news"><span>推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</span></div>
+                <div class="news"><span></span></div>
                 <div class="summary">
                     <div class="summary-wrap">
                         <div class="fl title">
@@ -89,8 +89,7 @@
                         </div>
                         <div class="fl fix-width">
                             <i class="red-bg">加价购</i>
-                            <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换
-                                购热销商品</em>
+                            <em class="t-gray">暂无优惠</em>
                         </div>
                     </div>
                 </div>
@@ -108,7 +107,7 @@
                             <i>配 送 至</i>
                         </div>
                         <div class="fl fix-width">
-                            <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
+                            <em class="t-gray"></em>
                         </div>
                     </div>
                 </div>
@@ -235,7 +234,7 @@
                             </ul>
                             <div class="intro-detail">
                             @foreach($cate['goodsimg'] as $v)
-                                <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" />
+                                <img src="{{env('JUSTME_URL')}}{{$v['goods_imgs']}}" width="500px" />
                             @endforeach
                             </div>
                         </div>

@@ -49,7 +49,7 @@
 
                 <div class="control-group">
                     <label class="control-label">手机号：</label>
-                    <div class="controls">
+                    <div class="controls box">
                         <input type="text" name="user_tel" placeholder="请输入你的手机号" class="input-xfat input-xlarge">
                         <button type="button" class="btn btn-primary" id="code">获取验证码</button>
                         <span id="user_tel_span" style="color:red;"></span>
@@ -105,8 +105,8 @@
 </body>
 
 </html>
-<script>
-//验证
+<script>    
+    //验证
     $(function(){
         $("input[name='user_name']").blur(function(){
             var user_name = $("input[name='user_name']").val();
@@ -131,44 +131,54 @@
                 $("#user_pwds_span").text('密码与确认密码不一致');
             }
         });
-       
-   
     })
     //ajax提交
-$(document).on('click','#but',function(){
-    var data = $("form").serialize();
-    var url = "http://www.2001api.com/api/regstore?callback=?";
+    $(document).on('click','#but',function(){
+        var data = $("form").serialize();
+        var url = "http://www.2001api.com/api/regstore?callback=?";
 
-    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    $.getJSON(url,data,function(res){
-        // alert(res.msg);
-            if(res.code=='0000'){
-                alert(res.msg+',请登录');
-                location.href='/login';
-            }else{
-                alert(res.msg);
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        $.getJSON(url,data,function(res){
+            // alert(res.msg);
+                if(res.code=='0000'){
+                    alert(res.msg+',请登录');
+                    location.href='/login';
+                }else{
+                    alert(res.msg);
+                }
+            })
+
+    })
+    //倒计时
+    $(document).on('click','#code',function(){
+        var timer = null;
+        var count = 60;
+        $('.box>button').click(function() {
+            var codeText = $('.code').text();
+            if (codeText == '获取验证码') {
+                timer = setInterval(function(){
+                    count--;
+                    $('.code').text(count+'后获取验证码');
+                    if (count <=0) {
+                        clearInterval(timer);
+                        $('.code').text('获取验证码');
+                    }
+                },1000);
             }
-        })
-
-})
-
-//获取短信验证码
-$(document).on('click','#code',function(){
-    var user_tel = $("input[name='user_tel']").val();
-    // alert(user_tel);
-    // alert(user_url);return;
-    var url = "http://www.2001api.com/api/sendcode?callback=?";
-    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    $.getJSON(url,{user_tel:user_tel},function(res){
-            console.log(res);
-            // if(res.code=='0000'){
-            //     alert(res.msg);
-            //     location.href="/";
-            // }else if(res.code=='0002'){
-            //     alert('该用户已存在')
-            // }else{
-            //     alert('注册失败')
-            // }
         });
-})
+    })
+    //获取短信验证码
+    // $(document).on('click','#code',function(){
+    //     var user_tel = $("input[name='user_tel']").val();
+    //     // alert(user_tel);
+    //     // alert(user_url);return;
+    //     var url = "http://www.2001api.com/api/sendcode?callback=?";
+    //     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+    //     $.getJSON(url,{user_tel:user_tel},function(res){
+    //             console.log(res);
+    //             if(res.code=='0000'){
+                    
+    //             }
+    //         });
+    // })
 </script>
