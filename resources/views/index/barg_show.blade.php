@@ -259,7 +259,7 @@
                         alert(res.message);
                         var url=window.location.href;
                         var user_id = url.substr(url.length-1);//优化
-                        if(res.user_id!=user_id){//登录用户的id和浏览器上的id对比如果有那就不显示砍价没有显示帮砍
+                        if(res.user_id==user_id){//登录用户的id和浏览器上的id对比如果有那就不显示砍价没有显示帮砍
 //                            if($("#hidden").hasClass("hidden")){
                                 $("#cut").addClass("hidden");
                                 $(".time-item").removeClass("hidden");
