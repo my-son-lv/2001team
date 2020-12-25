@@ -35,7 +35,7 @@
                 <!--工具栏/-->
                 <!--数据列表-->
                 <form>
-                    <td><input type="text" name="brand_name" value="{{$brand_info->brand_name??''}}"></td>
+                    <td><input type="text" name="brand_name" value=""></td>
                     <td><input type="submit" value="搜索"></td>
                 </form>
                 <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
@@ -70,6 +70,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <td>{{$brand_info->links()}}</td>
                 <!--数据列表/-->
             </div>
             <!-- 数据表格 /-->

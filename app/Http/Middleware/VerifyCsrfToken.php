@@ -88,6 +88,8 @@ class VerifyCsrfToken extends Middleware
         "/admin/brand/dels",
         "/kaoshi_do",
         "/index/brag_do",
-        "/user_brag_do"
+        "/user_brag_do",
+        "/admin/cate/update_do",
+        "/index/cart_del"
     ];
 }

@@ -129,7 +129,7 @@ class IndexController extends Controller
 //                dd($goods_number);
             } else {
                 //商品
-                if ($goods_number + $goods->goods_number > $specs['goods_number']) {
+                if ($goods_number + $goods->goods_number > $goods['goods_number']) {
                     $goods_number = $goods->goods_number;
 //                dd($goods->goods_number);
                     if ($goods_number + $cart['buy_number'] > $goods->goods_number) {

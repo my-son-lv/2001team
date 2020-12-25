@@ -32,8 +32,8 @@ class CartController extends Controller
     }
 
     public function  addcart(){
-//        $uid=1;
-        $uid=$this->uid();
+        $uid=1;
+//        $uid=$this->uid();
 //        dd($uid);
         if(strpos($uid,'{')!==false){
             return json_encode(['code'=>'0003','msg'=>"请登录"]);
@@ -49,8 +49,8 @@ class CartController extends Controller
 
     //购物车列表
     public function cart(){
-//        $uid=1;
-        $uid=$this->uid();
+        $uid=1;
+//        $uid=$this->uid();
         // dd($uid);
         $url=env('API_URL')."api/index/cart";
         // dd($url);
@@ -77,8 +77,8 @@ class CartController extends Controller
     }
     //结算页
     public function settl(){
-        $uid=$this->uid();
-//        $uid=1;
+//        $uid=$this->uid();
+        $uid=1;
         $cart_id=request()->cart_id;
 //        $area=Area::where('pid','0')->get();
         $url=env('API_URL')."api/index/settl";
@@ -88,8 +88,8 @@ class CartController extends Controller
     }
         //收货地址添加
     public  function  getorder(){
-//        $uid=1;
-        $uid=$this->uid();
+        $uid=1;
+//        $uid=$this->uid();
         $data=request()->all();
 
         $data['user_id']=$uid;
@@ -122,34 +122,30 @@ class CartController extends Controller
 //        dd($res);
 //    }
 
-
-
-
     #+
     public  function  getTypePrice(){
         $type=request()->type;
         $cart_id=request()->cart_id;
         $buy_number=request()->buy_number;
+
         $cart=CartModel::select('specs_id','buy_number','goods_id')->where('cart_id',$cart_id)->first();
         if($type=='+'){
             if($cart->specs_id){
                 $specs_number=SpecsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id'],'specs'=>$cart['specs_id']])->first();
                 if($buy_number>=$specs_number['goods_number']){
-//                    dd(123);
                     $buy_number=$specs_number['goods_number'];
-                    return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已购买最大库存量']);
+                    return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已购买最大库存量!!!']);
                 }else{
 //                    dd(456);
-
                     $buy_number=$buy_number+1;
                 }
                 return $this->getNumberPrice($cart_id,$buy_number);
             }else{
-                $goods_number=GoodsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id']])->first();
-                if($buy_number>=$goods_number['goods_number']){
-//                    dd(789);
-                    $buy_number=$goods_number['goods_number'];
+                $goods_number=GoodsModel::where('goods_id',$cart['goods_id'])->value('goods_number');
+                if($buy_number>=$goods_number){
+                    $buy_number=$goods_number;
                     return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已购买最大库存量']);
+
                 }else{
 //                    dd(111);
                     $buy_number=$goods_number+1;
@@ -187,6 +183,22 @@ class CartController extends Controller
     public  function  getInputPrice(){
         $buy_number=request()->buy_number;
         $cart_id=request()->cart_id;
+        $cart=CartModel::select('specs_id','buy_number','goods_id')->where('cart_id',$cart_id)->first();
+        if($cart->specs_id){
+            //规格
+            $specs_number=SpecsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id'],'specs'=>$cart['specs_id']])->first();
+            if($buy_number>=$specs_number['goods_number']){
+                $buy_number=$specs_number['goods_number'];
+                return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已超出库存量!!!']);
+            }
+        }else{
+            $goods_number=GoodsModel::select('goods_number')->where(['goods_id'=>$cart['goods_id']])->first();
+            if($buy_number>$goods_number['goods_number']){
+                $buy_number=$goods_number['goods_number'];
+                return json_encode(['code'=>'0001','data'=>$buy_number,'msg'=>'已超出库存量']);
+
+            }
+        }
         if(!preg_match("/^[1-9][0-9]*$/",$buy_number)){
             return json_encode(['code'=>'0001','msg'=>"参数错误"]);
         }
@@ -203,6 +215,17 @@ class CartController extends Controller
         $cart=CartModel::where("cart_id",$cart_id)->delete();
         if($cart){
             return json_encode(['code'=>'0000',"msg"=>"删除成功"]);
+        }
+    }
+
+    public  function  cart_del(){
+        $cart_id=request()->cart_id;
+        $cart=CartModel::whereIn("cart_id",$cart_id)->delete();
+        if($cart){
+            return json_encode(['code'=>'0000','msg'=>"删除成功"]);
+        }else{
+            return json_encode(['code'=>'0001','msg'=>"删除失败"]);
+
         }
     }
 
@@ -348,6 +371,7 @@ class CartController extends Controller
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
         $result = curl_exec($ch);
+//        echo $result;exit;
         curl_close($ch);
 //        if(is_null(json_decode($result,true))){
 //            return $result;

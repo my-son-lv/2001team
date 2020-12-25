@@ -69,6 +69,25 @@ class CatrController extends Controller
             return json_encode(['code'=>0001,'msg'=>"删除失败"]);
         }
     }
+    public  function  upd(){
+        $cate_id=request()->cate_id;
+        $cateinfo=CateModel::get();
+        $cateinfo=$this->createTree($cateinfo);
+        $cate=CateModel::where("cate_id",$cate_id)->first();
+        return  view('/admin/cate/upd',['cate'=>$cate,'cateinfo'=>$cateinfo]);
+    }
+
+    public  function update_do(){
+        $data=request()->all();
+        $info=CateModel::where(['cate_id'=>$data['cate_id']])->update($data);
+        if($info){
+            return json_encode(['code'=>'0000','msg'=>"修改成功",'url'=>"/admin/cate/create"]);
+        }else{
+            return json_encode(['code'=>'0001','msg'=>"修改失败",'url'=>"/admin/cate/create"]);
+
+        }
+
+    }
 
 
 }

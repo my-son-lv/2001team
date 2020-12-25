@@ -148,6 +148,8 @@ Route::prefix("admin")->group(function(){
     Route::any('/cate/store', 'Cate\CatrController@store')->middleware("login");#分类添加
     Route::post('/cate/check_cateshows', 'Cate\CatrController@check_cateshows')->middleware("login");#√ x
     Route::get('/cate/del','Cate\CatrController@del')->middleware("login");#删除
+    Route::get('/cate/upd','Cate\CatrController@upd')->middleware("login");#修改
+    Route::post('/cate/update_do','Cate\CatrController@update_do')->middleware("login");#修改执行
 });
 
 /**
@@ -167,6 +169,7 @@ Route::prefix("admin")->group(function(){
     Route::any('/index/getTypePrices','Index\CartController@getTypePrices');//购物车 -
     Route::any('/index/getInputPrice','Index\CartController@getInputPrice');//购物车 文本框
     Route::any('/index/del','Index\CartController@del');//购物车 单删
+    Route::any('/index/cart_del','Index\CartController@cart_del');//购物车 单删
     Route::any('/index/manydel','Index\CartController@manydel');//购物车 复选框
     Route::any('/user_colle','Index\IndexController@user_colle');//用户点击列表收藏
     Route::any('/index/cart','Index\CartController@cart');//购物车
