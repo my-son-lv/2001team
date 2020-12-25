@@ -25,7 +25,7 @@ class BargController extends Controller
                 }
             }
         }
-        dd($arr);
+        // dd($arr);
         if(!isset($_COOKIE["token"])){
             return redirect("/login");
         }eLse{
