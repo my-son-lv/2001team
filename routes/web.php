@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('www.2001team.com')->group(function(){ //域名分组
+Route::domain('api.xiachanggen.top')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -24,7 +24,11 @@ Route::domain('www.2001team.com')->group(function(){ //域名分组
     Route::any('/kaoshi_do','KaoShi\KaoShiController@kaoshi_do');
     Route::any('/aaaa','KaoShi\KaoShiController@aaaa');
 
-
+////////////////////////////////////////////////////////////////////////////////////////
+    Route::any('/getGoods','Index\IndexController@getGoods');
+    Route::any('/show','Index\IndexController@show');
+    Route::any('/cart_list','Index\IndexController@cart_list');
+    ////////////////////////////////////////////////////////////////////////////////////////
 
 Route::any('/admin','Admin\AdminController@home')->middleware("login");
 Route::any('/admin_login','Admin\AdminController@admin_login');

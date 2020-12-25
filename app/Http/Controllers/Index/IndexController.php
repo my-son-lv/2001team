@@ -13,6 +13,17 @@ use App\Models\Butti;
 use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
+    public function getGoods(){
+        $goods = GoodsModel::paginate(10);
+        return response()->json($goods);
+    }
+
+    public function show(){
+        $goods_id = request()->goods_id;
+        dd($goods_id);
+        return response()->json(GoodsModel::where(["goods_id"=>$goods_id])->first());
+    }
+
     public function index(){
         $url = "http://www.2001api.com/api/home";
         $cate = $this->postcurl($url);
@@ -147,6 +158,7 @@ class IndexController extends Controller
         }
         return json_decode($result,true);
     }
+
     public function user_colle(){
         if(isset($_COOKIE["token"])){
             $Colle_Model = new ColleModel();

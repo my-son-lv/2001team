@@ -230,6 +230,7 @@ class LoginController extends Controller
             return $e->getErrorMessage() . PHP_EOL;
         }
     }
+
     public function loginout(){
         $res=setcookie("token","",time()-1);
         if($res){
