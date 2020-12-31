@@ -28,7 +28,12 @@
 
                             <!--表单内容-->
                             <div class="tab-pane active" id="home">
-                                <div class="row data-type">                                  
+
+                                <div class="row data-type">
+									<div class="col-md-2 title">商品名称</div>
+									<div class="col-md-10 data">
+										<input type="text" class="form-control" name="goods_name"   placeholder="商品名称" value="">
+									</div>
 								   <div class="col-md-2 title">商品分类</div>
 		                          
 		                           	  <div class="col-md-10 data">
@@ -36,7 +41,7 @@
 		                           	  		<tr>
 		                           	  			<td>
 		                           	  				<select class="form-control cate_id" name="cate_id">
-														<option value="0">父级分类</option>
+														<option value="0">---请选择所属分类---</option>
 														@foreach($cateinfo as $v)
 															<option value="{{$v->cate_id}}">{{str_repeat('|——',$v->level)}}{{$v->cate_name}}</option>
 														@endforeach
@@ -45,14 +50,7 @@
 		                           	  		</tr>
 		                           	  	</table>
 		                              	
-		                              </div>	                              
-		                          	  
-									
-		                           <div class="col-md-2 title">商品名称</div>
-		                           <div class="col-md-10 data">
-		                               <input type="text" class="form-control" name="goods_name"   placeholder="商品名称" value="">
-		                           </div>
-		                           
+		                              </div>
 		                           <div class="col-md-2 title">品牌</div>
 		                           <div class="col-md-10 data">
 		                              <select class="form-control brand_id" name="brand_id">

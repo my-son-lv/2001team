@@ -17,7 +17,7 @@ class GoodsController extends Controller
      * 后台商品添加
      */
     public function create(){
-        $brand_info= Brand_Model::where('is_del',1)->get();
+        $brand_info= Brand_Model::where('is_del',2)->get();
         $specs_name_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
         $specs_name_info = $specs_name_model->specs_name_info();

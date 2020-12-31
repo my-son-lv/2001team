@@ -374,8 +374,6 @@
 		//点击确认 把数据保存
 		$(document).on('click','.but',function(){
 			var sku = $(this).parent().prev().prev().prev().attr('sku');
-			alert(num);
-			alert(price);
 			if(num==="" || price===""){
 				alert('操作有误');
 				return false;

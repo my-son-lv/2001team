@@ -200,6 +200,8 @@ Route::prefix("admin")->group(function(){
     Route::any('/saller/reg', 'Saller\LoginController@reg');//商家入驻
     Route::any('/saller/regdo', 'Saller\LoginController@regdo');//商家入驻方法
     Route::any('/saller/logindo', 'Saller\LoginController@logindo');//商家登录
+    Route::any('/saller/shipment', 'Saller\OrderController@shipment');//商家模块 确认发货
+    Route::any('/saller/goods/is_shelf', 'Saller\GoodsController@is_shelf');//商家模块 批量删除
     Route::prefix("saller")->middleware('CheckSallerLogin')->group(function() {
         Route::any('/', 'Saller\SallerController@index');//商家模块首页
         Route::any('/saller', 'Saller\SallerController@saller');//商家模块商家信息
@@ -214,9 +216,7 @@ Route::prefix("admin")->group(function(){
         Route::any('/goods/store', 'Saller\GoodsController@store');//商家模块 商品添加方法
         Route::any('/goods/update', 'Saller\GoodsController@update');//商家模块 修改
         Route::any('/goods/del', 'Saller\GoodsController@del');//商家模块 批量删除
-        Route::any('/goods/is_shelf', 'Saller\GoodsController@is_shelf');//商家模块 批量删除
         Route::any('/order', 'Saller\OrderController@order');//商家模块 订单管理
-        Route::any('/shipment', 'Saller\OrderController@shipment');//商家模块 确认发货
         Route::any('/order/content', 'Saller\OrderController@content');//商家模块 订单详情
     });
 

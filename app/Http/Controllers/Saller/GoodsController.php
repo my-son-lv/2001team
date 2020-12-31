@@ -24,7 +24,7 @@ class GoodsController extends Controller
         if($saller_status!==1){
             return redirect('/saller');
         }
-        $brand_info= Brand_Model::where('is_del',1)->get();
+        $brand_info= Brand_Model::where('is_del',2)->get();
         $specs_name_model = new Specsname_Model();
         $specs_val_model = new Specsval_Model();
         $specs_name_info = $specs_name_model->specs_name_info();
@@ -45,9 +45,9 @@ class GoodsController extends Controller
      */
     public function store(){
         $data = request()->all();
-        if($data['content']==""||$data['goods_name']==""||$data['goods_price']==""||$data['goods_number']==""||$data['goods_points']==""||$data['goods_img']==""||$data['goods_imgs']==""||$data['img_name']==""||$data['brand_id']==""){
-            return json_encode(['success'=>false,'msg'=>'参数不齐','data'=>[]],true);
-        }
+        // if($data['content']==""||$data['goods_name']==""||$data['goods_price']==""||$data['goods_number']==""||$data['goods_points']==""||$data['goods_img']==""||$data['goods_imgs']==""||$data['img_name']==""||$data['brand_id']==""){
+        //     return json_encode(['success'=>false,'msg'=>'参数不齐','data'=>[]],true);
+        // }
         $data['saller_id']=session('saller_info')->saller_id;
         $sku = $data['sku'];
         $goods_model = new GoodsModel();
