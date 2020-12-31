@@ -35,13 +35,11 @@ class LoginController extends Controller
 //             dd(123);
             $url="http://www.2001api.com/api/logstore";
             $res=$this->postcurl($url,$data);
-            // dd($res);
+//             dd($res);
             if($res['code']=='0000'){
                 Redis::Hset('token',$res['token'],$res['user_id']);
                 setcookie('token',$res['token']); //存cookie
                 setcookie('user_name',$data['user_name']);
-                // Cookie::make('token', $res['token']);
-                // dd($_COOKIE['token']);//取cookie
                 return json_encode($res);
             }else{
                 return json_encode($res);
@@ -143,6 +141,7 @@ class LoginController extends Controller
         curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
+//        echo $output;exit;
         curl_close($curl);
         return json_decode($output,true);
     }
@@ -231,6 +230,7 @@ class LoginController extends Controller
             return $e->getErrorMessage() . PHP_EOL;
         }
     }
+
     public function loginout(){
         $res=setcookie("token","",time()-1);
         if($res){

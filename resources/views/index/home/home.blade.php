@@ -68,13 +68,13 @@
                                 <label data-toggle="checkbox" class="checkbox-pretty ">
                                     <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
                                 </label>
-                                <a class="sui-btn btn-info share-btn">分享</a>
+                                <a class="sui-btn btn-info share-btn" href="{{url('/index/index_show?goods_id='.$v->goods_id)}}">详情</a>
                             </div>
                             <table class="sui-table table-bordered order-datatable">
                                 <tbody>
                                 <tr>
                                     <td width="35%">
-                                        <div class="typographic"><img src="/status/img/goods.png" />
+                                        <div class="typographic"><img src="{{env('JUSTME_URL')}}{{$v->goods_img}}" />
                                             <a href="#" class="block-text">{{$v->goods_name}}</a>
                                         </div>
                                     </td>
@@ -120,14 +120,17 @@
                                             </li>
                                         </ul>
                                     </td>
-                                    <td width="10%" class="center">
-                                        @if($v->pay_status==1)
+                                    <td width="10%" class="center"  order_goods_id="{{$v->order_goods_id}}">
+                                        
+                                        @if($v->is_del==2)
+                                            <a href="javascript:;" class="sui-btn btn-info">已取消</a>
+                                        @elseif($v->pay_status==1)
                                         <ul class="unstyled">
-                                            <li><a href="#" class="sui-btn btn-info">立即付款</a></li>
-                                            <li>取消订单</li>
+                                            <li><a href="{{url('/index/pay?order_id='.$v->order_id)}}" class="sui-btn btn-info">立即付款</a></li>
+                                            <li class="nopay">取消订单</li>
                                         </ul>
-                                            @else
-                                            <a href="#" class="sui-btn btn-info">取消订单</a>
+                                        @else
+                                            <a href="javascript:;" class="sui-btn btn-info nopay">取消订单</a>
                                         @endif
                                     </td>
                                 </tr>
@@ -176,3 +179,16 @@
 @include("frag.index.index_foot")
 <!--页面底部END-->
 </html>
+<script>
+    $(document).on('click','.nopay',function(){
+        var order_goods_id = $(this).parents('td').attr('order_goods_id');
+        var url = "http://www.2001api.com/api/pay/nopay?callback=?";
+        // alert(order_goods_id);
+        $.getJSON(url,{order_goods_id:order_goods_id},function(res){
+                if(res.code=='0000'){
+                    alert(res.msg);
+                    location.href='';
+                }
+            })
+    })
+</script>

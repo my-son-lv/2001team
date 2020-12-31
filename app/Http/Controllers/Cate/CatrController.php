@@ -11,7 +11,6 @@ class CatrController extends Controller
     public  function  create(Request $request){
         $cateinfo=CateModel::get();
         $cateinfo=$this->createTree($cateinfo);
-
         return view("/admin/cate/create",['cateinfo'=>$cateinfo]);
     }
 
@@ -21,7 +20,6 @@ class CatrController extends Controller
             return;
         }
         static $newArray=[];
-
         foreach($data as $v){
             if($v->pid==$parent_id){
                 $v->level=$level;
@@ -31,9 +29,7 @@ class CatrController extends Controller
             }
         }
         return $newArray;
-
     }
-
 
     public  function  store(){
         $CateModel = new CateModel();
@@ -68,6 +64,25 @@ class CatrController extends Controller
         }else{
             return json_encode(['code'=>0001,'msg'=>"删除失败"]);
         }
+    }
+    public  function  upd(){
+        $cate_id=request()->cate_id;
+        $cateinfo=CateModel::get();
+        $cateinfo=$this->createTree($cateinfo);
+        $cate=CateModel::where("cate_id",$cate_id)->first();
+        return  view('/admin/cate/upd',['cate'=>$cate,'cateinfo'=>$cateinfo]);
+    }
+
+    public  function update_do(){
+        $data=request()->all();
+        $info=CateModel::where(['cate_id'=>$data['cate_id']])->update($data);
+        if($info){
+            return json_encode(['code'=>'0000','msg'=>"修改成功",'url'=>"/admin/cate/create"]);
+        }else{
+            return json_encode(['code'=>'0001','msg'=>"修改失败",'url'=>"/admin/cate/create"]);
+
+        }
+
     }
 
 
