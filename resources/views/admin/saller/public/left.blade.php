@@ -76,15 +76,26 @@
                             <i class="fa fa-circle-o"></i> 订单
                         </a>
                     </li>
-                    {{--<li id="admin-login">--}}
-                        {{--<a href="/saller/goods" target="iframe">--}}
-                            {{--<i class="fa fa-circle-o"></i> 商品管理--}}
-                        {{--</a>--}}
-                    {{--</li>--}}
                 </ul>
             </li>
             <!-- 菜单 /-->
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i>
+                    <span>统计数据</span>
+				            <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                </a>
+                <ul class="treeview-menu">
 
+                    <li id="admin-login">
+                        <a href="/saller/statistics" target="iframe">
+                            <i class="fa fa-circle-o"></i>统计
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

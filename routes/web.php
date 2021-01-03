@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::domain('api.xiachanggen.top')->group(function(){ //域名分组
+Route::domain('2001team.com')->group(function(){ //域名分组
 
     /**
         后台首页
@@ -225,6 +225,8 @@ Route::prefix("admin")->group(function(){
         Route::any('/goods/del', 'Saller\GoodsController@del');//商家模块 批量删除
         Route::any('/order', 'Saller\OrderController@order');//商家模块 订单管理
         Route::any('/order/content', 'Saller\OrderController@content');//商家模块 订单详情
+        Route::any('/statistics', 'Saller\OrderController@statistics');//商家模块 统计
+
     });
 
 });

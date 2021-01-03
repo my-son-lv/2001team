@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\KillModel;
 use App\Models\SallerInfoModel;
 use App\Models\SpecsModel;
+use App\Models\Statistics;
 use Illuminate\Http\Request;
 use App\Models\CateModel;
 use App\Models\GoodsModel;
@@ -74,9 +75,26 @@ class IndexController extends Controller
             $newdata[$v['specs_id']]['specs'][$v['specs_val_id']] = $v['specs_val'];
             }
         }
-        $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
-//        dd($cate);
-        return $cate;
+//        dd($goods);
+        $statistics_model = new Statistics();
+        $stat_info = $statistics_model->where('goods_id',$goods_id)->first();
+        if($stat_info){
+            $stat_number = $stat_info['add_number']+1;
+            $str = $statistics_model->where('stat_id',$stat_info['stat_id'])->update(['add_number'=>$stat_number,'add_time'=>time()]);
+        }else{
+            $data = [
+                'saller_id'=>$goods['saller_id'],
+                'add_time'=>time(),
+                'add_number'=>1,
+                'goods_id'=>$goods_id
+            ];
+            $str = $statistics_model->insert($data);
+        }
+        if($str!==false){
+            $cate = ['cate'=>$cate,'goods'=>$goods,'cate_cate'=>$cate_cate,'goodsimg'=>$goodsimg,'newdata'=>$newdata,'cateinfo'=>$cateinfo,'hot'=>$hot];
+            return $cate;
+        }
+
     }
 //加入购物车
     public  function  addcart()

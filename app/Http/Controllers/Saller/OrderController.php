@@ -7,6 +7,7 @@ use App\Models\OrderGoodsModel;
 use App\Models\OrderModel;
 use App\Models\Specsname_Model;
 use App\Models\Specsval_Model;
+use App\Models\Statistics;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -71,5 +72,20 @@ class OrderController extends Controller
         }
 //        dd($order_goods_info);
         return view('admin.saller.content',['order_goods_info'=>$order_goods_info,'order_info'=>$order_info]);
+    }
+    /**
+     * 商家模块 统计数据
+     */
+    public function statistics(){
+        $saller_id = session('saller_info')->saller_id;
+//        dd($saller_id);
+        $statistics_model = new Statistics();
+        $stat_info = $statistics_model->leftjoin('goods','statistics.goods_id','=','goods.goods_id')
+                                    ->select('statistics.*','goods.goods_name','goods.goods_img','goods.goods_price')
+                                    ->where('statistics.saller_id',$saller_id)
+                                    ->orderBy('statistics.add_number','desc')
+                                    ->paginate(5);
+//        dd($stat_info);
+        return view('admin.saller.statistics',['stat_info'=>$stat_info]);
     }
 }
