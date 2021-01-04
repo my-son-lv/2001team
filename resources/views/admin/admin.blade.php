@@ -24,7 +24,7 @@
     <div class="content-wrapper">
         {{--<iframe width="100%" id="iframe" name="iframe"	onload="SetIFrameHeight()" frameborder="0" src="home.html"></iframe>--}}
         <center>
-            <img src="/xcgsy/1fd69d587cb4493351c206b012fe937b.jpg" alt="">
+            <img src="/xcgsy/1607154815(1).jpg" alt="">
         </center>
         {{--<center>--}}
             {{--<video>--}}

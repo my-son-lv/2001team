@@ -77,7 +77,7 @@
                 if(res.code==0000){
                     alert(res.message)
                 }else{
-                    location.href="/admin"
+                    location.href="/admin/brand"
                 }
             }
         })
