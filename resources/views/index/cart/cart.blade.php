@@ -89,7 +89,7 @@
                             @if($v["saller_id"]==$v1['saller_id'])
                                 <ul class="goods-list yui3-g">
                                     <li class="yui3-u-1-24">
-                                        <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}" />
+                                        <input type="checkbox"  class="cart_id" value="{{$v['cart_id']}}"   name="cart_del" />
                                     </li>
                                     <li class="yui3-u-11-24">
                                         <div class="good-item">
@@ -125,9 +125,9 @@
         </div>
         <div class="cart-tool">
             <div class="option">
-                <a href="#none">删除选中的商品</a>
-                <a href="#none">移到我的关注</a>
-                <a href="#none">清除下柜商品</a>
+               <button class="cartid"><a href="javascript:;">删除选中的商品</a></button>
+                {{--<a href="#none">移到我的关注</a>--}}
+                {{--<a href="#none">清除下柜商品</a>--}}
             </div>
             <div class="toolbar">
                 <div class="chosed">已选择<span>0</span>件商品</div>
@@ -290,8 +290,6 @@
                         alert(res.msg);
                         $("input[cart_id='"+cart_id+"']").val(res.data);
                         $("span[cart_id='"+cart_id+"']").text(res.total.total);
-
-
                     }
             }
         })
@@ -332,8 +330,11 @@
                 if(res.code=='0000'){
                     $("input[cart_id='"+cart_id+"']").val(res.buy_number);
                     $("span[cart_id='"+cart_id+"']").text(res.total.total);
-
 //                    $(".sum").text(res.total.total);
+                }else{
+                    alert(res.msg);
+                    $("input[cart_id='"+cart_id+"']").val(res.data);
+                    $("span[cart_id='"+cart_id+"']").text(res.total.total);
                 }
             }
         })
@@ -355,6 +356,29 @@
         })
     })
 
+//批删
+    $(document).on('click','.cartid',function() {
+        var cart_id = new Array();
+        $('input[name="cart_del"]:checked').each(function (i, k) {
+            cart_id.push($(this).val());
+        });
+
+        if(confirm('确定要删除吗???')){
+        $.ajax({
+            url: "/index/cart_del",
+            data: {cart_id: cart_id},
+            type: "post",
+            dataType: "json",
+            success: function (res) {
+                if (res.code == '0000') {
+                    alert(res.msg);
+                    location = location;
+                }
+            }
+
+        })
+    }
+    })
 
 
 </script>

@@ -187,6 +187,7 @@
                                             @foreach($v['specs'] as $vv)
                                                 {{$vv['specs_name']}}:{{$vv['specs_val']}}
                                             @endforeach
+                                                @endif
                                             @endif
                                         </div>
                                     </li>

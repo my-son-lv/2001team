@@ -10,9 +10,8 @@ class BrandController extends Controller
 {
     public  function  brand(){
         $brand_name=request()->brand_name;
-//        dd($brand_name);
-        $brand_info= Brand_Model::get();
-        dd($brand_info);
+        $brand_info= Brand_Model::paginate(4);
+//        dd($brand_info);
         return view("admin.brand.admin_brand",['brand_info'=>$brand_info]);
     }
 

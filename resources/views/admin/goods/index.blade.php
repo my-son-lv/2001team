@@ -59,7 +59,7 @@
 									      <td>{{$v->goods_name}}</td>
 									      <td>{{$v->goods_price}}</td>
 									      <td>{{$v->goods_number}}</td>
-									      <td>@if($v->is_shelf==1) √ @else × @endif</td>{{-- 是否上下架--}}
+									      <td class="is_shelf">@if($v->is_shelf==1) √ @else × @endif</td>{{-- 是否上下架--}}
 		                                  <td>
 		                                  	<span>
 												@if($v->goods_status==0) 未审核 @elseif($v->goods_status==1) 已通过 @elseif($v->goods_status==2) 驳回 @endif
@@ -126,6 +126,32 @@
 			var goods_name = $("input[name='goods_name']").val();
 			window.location.href="{{url('/admin/goods?goods_status=')}}"+goods_status+'&goods_name='+goods_name;
 		})
+		//点击是否上下架
+		$(document).on('click','.is_shelf',function(){
+			var tis = $(this);
+			var is_shelf =tis.text();
+			var goods_id = tis.parent('tr').attr('goods_id');
+			if(is_shelf=='√'){
+				is_shelf=1
+			}else{
+				is_shelf=2;
+			}
+			$.ajax({
+				url:'/saller/goods/is_shelf',
+				data:{goods_id:goods_id,is_shelf:is_shelf},
+				type:'post',
+				dataType:'json',
+				success:function(res){
+					if(res.success){
+						if(res.data.is_shelf==1){
+							tis.text('√');
+						}else{
+							tis.text('×');
+						}
+					}
+				}
+			})
+		});
 	});
 </script>
 @include("frag.admin.admin_foot")

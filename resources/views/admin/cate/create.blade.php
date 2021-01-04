@@ -24,7 +24,6 @@
                 <div class="form-group form-inline">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
-                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                     </div>
                 </div>
@@ -37,9 +36,7 @@
             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                 <thead>
                 <tr>
-                    <th class="" style="padding-right:0px">
-                        <input id="selall" type="checkbox" class="icheckbox_square-blue">
-                    </th>
+
                     <th class="sorting_asc">分类id</th>
                     <th class="sorting">分类名称</th>
                     <th class="sorting">是否展示</th>
@@ -54,13 +51,13 @@
                             <a href="javascript:;" class='showHide' style="color:red;">+</a>
                             {{$v->cate_id}}
                         </td>
-                        <td></td>
                         <td>{{str_repeat('|——',$v->level)}}{{$v->cate_name}}</td>
                         <td class="changeValue" field="cate_show" value="{{$v->cate_show}}"> @if($v->cate_show == 1) √ @else × @endif</td>
                         <td class="changeValue" field="cate_nav_show" value="{{$v->cate_nav_show}}">@if($v->cate_nav_show == 1) √ @else × @endif</td>
                         <td class="text-center">
                             <a href="javascript:void(0)" onclick="DeleteGetId({{$v->cate_id}},this)">
                             <button type="button" class="btn bg-olive btn-xs del" data-target="#editModal">删除</button>
+                                <a href="{{url('admin/cate/upd/?cate_id='.$v->cate_id)}}"><button type="button" class="btn bg-olive btn-xs del" data-target="#editModal">修改</button></a>
                             </a>
                         </td>
                     </tr>
